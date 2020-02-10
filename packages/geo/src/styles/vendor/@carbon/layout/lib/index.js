@@ -1,0 +1,138 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * Copyright IBM Corp. 2018, 2018
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+// Convert
+// Default, Use with em() and rem() functions
+var baseFontSize = 16;
+/**
+ * Convert a given px unit to a rem unit
+ * @param {number} px
+ * @returns {string}
+ */
+
+function rem(px) {
+  return "".concat(px / baseFontSize, "rem");
+}
+/**
+ * Convert a given px unit to a em unit
+ * @param {number} px
+ * @returns {string}
+ */
+
+function em(px) {
+  return "".concat(px / baseFontSize, "em");
+}
+/**
+ * Convert a given px unit to its string representation
+ * @param {number} value - number of pixels
+ * @returns {string}
+ */
+
+function px(value) {
+  return "".concat(value, "px");
+} // Breakpoint
+// Initial map of our breakpoints and their values
+
+var breakpoints = {
+  sm: {
+    width: rem(320),
+    columns: 4,
+    margin: '0'
+  },
+  md: {
+    width: rem(672),
+    columns: 8,
+    margin: rem(16)
+  },
+  lg: {
+    width: rem(1056),
+    columns: 16,
+    margin: rem(16)
+  },
+  xlg: {
+    width: rem(1312),
+    columns: 16,
+    margin: rem(16)
+  },
+  max: {
+    width: rem(1584),
+    columns: 16,
+    margin: rem(24)
+  }
+};
+function breakpointUp(name) {
+  return "@media (min-width: ".concat(breakpoints[name].width, ")");
+}
+function breakpointDown(name) {
+  return "@media (max-width: ".concat(breakpoints[name].width, ")");
+}
+function breakpoint() {
+  return breakpointUp.apply(void 0, arguments);
+} // Mini-unit
+
+var miniUnit = 8;
+function miniUnits(count) {
+  return rem(miniUnit * count);
+} // Spacing
+
+var spacing01 = miniUnits(0.25);
+var spacing02 = miniUnits(0.5);
+var spacing03 = miniUnits(1);
+var spacing04 = miniUnits(1.5);
+var spacing05 = miniUnits(2);
+var spacing06 = miniUnits(3);
+var spacing07 = miniUnits(4);
+var spacing08 = miniUnits(5);
+var spacing09 = miniUnits(6);
+var spacing10 = miniUnits(8);
+var spacing11 = miniUnits(10);
+var spacing12 = miniUnits(12);
+var spacing = [spacing01, spacing02, spacing03, spacing04, spacing05, spacing06, spacing07, spacing08, spacing09, spacing10, spacing11, spacing12]; // Layout
+
+var layout01 = miniUnits(2);
+var layout02 = miniUnits(3);
+var layout03 = miniUnits(4);
+var layout04 = miniUnits(6);
+var layout05 = miniUnits(8);
+var layout06 = miniUnits(12);
+var layout07 = miniUnits(20);
+var layout = [layout01, layout02, layout03, layout04, layout05, layout06, layout07];
+
+exports.baseFontSize = baseFontSize;
+exports.rem = rem;
+exports.em = em;
+exports.px = px;
+exports.breakpoints = breakpoints;
+exports.breakpointUp = breakpointUp;
+exports.breakpointDown = breakpointDown;
+exports.breakpoint = breakpoint;
+exports.miniUnit = miniUnit;
+exports.miniUnits = miniUnits;
+exports.spacing01 = spacing01;
+exports.spacing02 = spacing02;
+exports.spacing03 = spacing03;
+exports.spacing04 = spacing04;
+exports.spacing05 = spacing05;
+exports.spacing06 = spacing06;
+exports.spacing07 = spacing07;
+exports.spacing08 = spacing08;
+exports.spacing09 = spacing09;
+exports.spacing10 = spacing10;
+exports.spacing11 = spacing11;
+exports.spacing12 = spacing12;
+exports.spacing = spacing;
+exports.layout01 = layout01;
+exports.layout02 = layout02;
+exports.layout03 = layout03;
+exports.layout04 = layout04;
+exports.layout05 = layout05;
+exports.layout06 = layout06;
+exports.layout07 = layout07;
+exports.layout = layout;

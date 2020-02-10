@@ -8,6 +8,9 @@ import {
 	DonutChart,
 } from "./charts/index";
 
+import { Component } from "./components";
+import { Chart } from "./chart";
+
 // Configs & interfaces
 import * as configurations from "./configuration";
 import * as interfaces from "./interfaces";
@@ -21,6 +24,8 @@ export {
 	configurations,
 	defaultColors,
 	colorPalettes,
+	Chart,
+	Component,
 	SimpleBarChart,
 	GroupedBarChart,
 	StackedBarChart,

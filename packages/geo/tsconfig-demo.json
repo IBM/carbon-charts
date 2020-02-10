@@ -1,0 +1,37 @@
+{
+	"compilerOptions": {
+		"baseUrl": "",
+		"declaration": true,
+		"lib": [
+			"es2015",
+			"dom"
+		],
+		"sourceMap": true,
+		"mapRoot": "./",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"outDir": "./demo/dist",
+		"rootDirs": ["./demo", "./src"],
+		"target": "es5",
+		"inlineSources": true,
+		"types": [
+			"node",
+			"jasmine"
+		],
+		"typeRoots": [
+			"./node_modules/@types",
+			"./custom.d.ts"
+		]
+	},
+	"include": [
+		"./src/**/*",
+		"./demo/**/*",
+		"../core/**/*"
+	],
+	"exclude": [
+		"./src/**/*.spec.ts",
+		"./src/tests/",
+		"./demo/dist"
+	]
+}

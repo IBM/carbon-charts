@@ -1,0 +1,248 @@
+$default_transition: all 0.1s ease-out;
+@import "~@carbon/themes/scss/themes";
+@import "~@carbon/colors/scss/colors";
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background-color: #f3f3f3;
+	font-family: "IBM Plex Sans", Arial, sans-serif;
+}
+
+header.m-demo-header {
+	margin-bottom: 20px;
+	padding: 50px 0;
+	text-align: center;
+
+	div {
+		&.logo {
+			border-radius: 20px;
+			border: 1px solid #cad3e0;
+			width: 100px;
+			height: 100px;
+			margin: auto;
+			margin-bottom: 15px;
+
+			img {
+				width: 75px;
+				height: 75px;
+				margin-top: 12.5px;
+			}
+		}
+
+		&.content {
+			width: 80%;
+			max-width: 800px;
+			margin: auto;
+
+			div.links {
+				display: table;
+				margin: auto;
+
+				.bx--btn {
+					float: left;
+					margin-right: 5px;
+					max-height: 30px;
+					padding-right: 15px;
+
+					&.last {
+						margin-right: 0;
+					}
+
+					svg {
+						margin-right: 5px;
+
+						&.angular {
+							width: 22px;
+							height: 22px;
+						}
+
+						&.react {
+							width: 25px;
+							height: 25px;
+							margin-left: -5px;
+						}
+
+						&.vue {
+							width: 18px;
+							height: 18px;
+						}
+					}
+				}
+			}
+		}
+
+		h1 {
+			font-size: 2.25rem;
+			font-weight: 600;
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		h3 {
+			font-size: 1.25rem;
+			font-weight: 300;
+			margin-bottom: 45px;
+		}
+
+		span.geo {
+			border-radius: 10px;
+			padding: 5px 8px;
+			font-size: 15px;
+			vertical-align: middle;
+			background-color: #a7f0ba;
+			color: #0e6027;
+		}
+	}
+}
+
+.chart-type-selection {
+	display: inline;
+	line-height: 50px;
+
+	li {
+		color: white;
+		cursor: pointer;
+		background-color: #009bef;
+		display: inline;
+		padding: 5px 10px;
+		margin: 5px;
+		min-width: 50px;
+	}
+	.active {
+		background-color: #ffb000;
+	}
+	.disabled {
+		background-color: #959595;
+		cursor: not-allowed;
+	}
+}
+
+.demo-chart-holder {
+	margin: 0 auto 60px auto;
+	display: block;
+	height: 500px;
+	min-width: 300px;
+	min-height: 300px;
+	max-width: 800px;
+	// padding: 30px;
+	overflow: hidden;
+	resize: both;
+	font-weight: 400;
+
+	svg {
+		display: none;
+	}
+
+	h3 {
+		border-bottom: 1px solid lightgray;
+		margin: 0;
+	}
+
+	&:last-child {
+		margin-bottom: 30px;
+	}
+
+	&.has-actions {
+		margin: auto;
+	}
+}
+
+.chart-demo-actions {
+	display: table;
+	width: 100%;
+	min-width: 300px;
+	max-width: 800px;
+	margin: auto;
+	margin-top: -1px;
+	margin-bottom: 45px;
+	overflow: hidden;
+
+	button {
+		float: left;
+	}
+}
+
+div.options {
+	display: table;
+	width: 100%;
+	max-width: 800px;
+	margin: auto;
+	margin-bottom: 30px;
+	padding: 30px;
+	background-color: #fff;
+}
+
+//**********************************************
+// Themes
+//***********************************************
+
+
+//**********************************************
+// g100
+//***********************************************
+body.carbon--dark-g100 {
+	@include carbon--theme($carbon--theme--g100) {
+		background-color: #020202;
+
+		.bx--dropdown__wrapper {
+			$css--reset: false;
+			@import "~carbon-components/scss/components/dropdown/_dropdown";
+		}
+
+		div.content {
+			color: $carbon--gray-10;
+		}
+
+		div.options {
+			background: $ui-background;
+		}
+	}
+}
+
+//**********************************************
+// g90
+//***********************************************
+body.carbon--dark-g90 {
+	@include carbon--theme($carbon--theme--g90) {
+		background-color: $carbon--gray-100;
+
+		.bx--dropdown__wrapper {
+			$css--reset: false;
+			@import "~carbon-components/scss/components/dropdown/_dropdown";
+		}
+
+		div.content {
+			color: $carbon--gray-10;
+		}
+
+		div.options {
+			background: $carbon--gray-90;
+		}
+	}
+}
+
+//**********************************************
+// g10
+//***********************************************
+body.carbon--dark-g10 {
+	@include carbon--theme($carbon--theme--g10) {
+		background-color: $carbon--white-0;
+
+		.bx--dropdown__wrapper {
+			$css--reset: false;
+			@import "~carbon-components/scss/components/dropdown/_dropdown";
+		}
+
+		div.content {
+			color: $carbon--gray-100;
+		}
+
+		div.options {
+			background: $carbon--gray-10;
+		}
+	}
+}

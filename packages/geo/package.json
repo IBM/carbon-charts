@@ -1,0 +1,127 @@
+{
+  "name": "@carbon/charts-geo",
+  "version": "0.28.0",
+  "description": "Carbon geomapping components",
+  "main": "./bundle.js",
+  "module": "./index.js",
+  "scripts": {
+    "demo:server": "webpack-dev-server --config webpack.config.js --watch",
+    "demo:build": "webpack --config webpack.config.js && yarn run docs:build",
+    "docs:build": "typedoc --out ./demo/bundle/documentation ./src/index.ts",
+    "build": "bash build.sh",
+    "postinstall": "bash build-vendor.sh",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "karma start --single-run",
+    "test:watch": "karma start --no-single-run",
+    "clean": "rm -rf dist demo/bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:IBM/carbon-charts.git"
+  },
+  "keywords": [
+    "carbon",
+    "charts",
+    "dataviz",
+    "data-visualization",
+    "visualizations",
+    "d3",
+    "svg",
+    "component",
+    "components",
+    "css",
+    "html",
+    "ibm",
+    "typescript",
+    "javascript",
+    "js",
+    "library",
+    "pattern",
+    "patterns",
+    "sass",
+    "scss"
+  ],
+  "author": "IBM",
+  "license": "Apache-2.0",
+  "dependencies": {
+	"@carbon/charts": "^0.29.0",
+    "@carbon/utils-position": "1.1.1",
+    "babel-polyfill": "6.26.0",
+    "carbon-components": "10.5.0",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
+    "lodash-es": "4.17.15",
+    "mapbox-gl": "^1.6.1",
+    "mapbox-gl-leaflet": "^0.0.11",
+    "resize-observer-polyfill": "1.5.0"
+  },
+  "peerDependencies": {
+    "d3": ">=5.0.0 <=5.14.2"
+  },
+  "devDependencies": {
+    "@carbon/colors": "10.4.0",
+    "@carbon/import-once": "10.3.0",
+    "@carbon/layout": "10.5.0",
+    "@carbon/motion": "10.4.0",
+    "@carbon/themes": "10.4.0",
+    "@carbon/type": "10.5.1",
+    "@rollup/plugin-typescript": "^3.0.0",
+    "@types/d3": "4.11.0",
+    "@types/jasmine": "2.8.7",
+    "@types/karma": "3.0.2",
+    "@types/node": "12.11.7",
+    "babel-polyfill": "6.26.0",
+    "copy-webpack-plugin": "4.5.2",
+    "css-loader": "0.28.7",
+    "d3": "5.14.2",
+    "extract-text-webpack-plugin": "3.0.2",
+    "file-loader": "1.1.5",
+    "html-loader": "0.5.1",
+    "html-webpack-exclude-assets-plugin": "0.0.7",
+    "html-webpack-plugin": "3.2.0",
+    "jasmine-core": "3.4.0",
+    "karma": "4.0.1",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-firefox-launcher": "1.1.0",
+    "karma-jasmine": "2.0.1",
+    "karma-safari-launcher": "1.0.0",
+    "karma-webpack": "3.0.5",
+    "lerna": "3.13.4",
+    "mini-css-extract-plugin": "0.9.0",
+    "raw-loader": "0.5.1",
+    "rollup": "1.27.10",
+    "rollup-plugin-commonjs": "10.1.0",
+    "rollup-plugin-node-resolve": "5.2.0",
+    "rollup-plugin-terser": "5.1.2",
+    "rollup-plugin-typescript2": "0.25.3",
+    "sass": "1.25.0",
+    "sass-loader": "8.0.0",
+    "style-loader": "0.19.0",
+    "ts-loader": "5.1.0",
+    "tslint": "5.20.1",
+    "tslint-loader": "3.5.3",
+    "typedoc": "0.11.1",
+    "typescript": "3.2.2",
+    "url-loader": "0.6.2",
+    "webpack": "4.41.0",
+    "webpack-cli": "3.3.9",
+    "webpack-dev-server": "3.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "maintainers": [
+    {
+      "name": "Eliad Moosavi",
+      "email": "iliadm@ca.ibm.com",
+      "url": "https://github.com/theiliad"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Eliad Moosavi",
+      "email": "iliadm@ca.ibm.com",
+      "url": "https://github.com/theiliad"
+    }
+  ]
+}

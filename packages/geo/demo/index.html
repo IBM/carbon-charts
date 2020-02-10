@@ -1,0 +1,129 @@
+<html lang="en">
+
+<head>
+	<title>Carbon Charts</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:title" content="Carbon Charts">
+	<meta property="og:description" content="Reusable charts implemented using D3 & typescript">
+	<meta property="og:image" content="https://carbon-design-system.github.io/carbon-charts/thumbnail.jpg">
+	<meta property="og:url" content="https://carbon-design-system.github.io/carbon-charts/">
+
+	<meta name="twitter:title" content="Carbon Charts">
+	<meta name="twitter:description" content="Reusable charts implemented using D3 & typescript">
+	<meta name="twitter:image" content="https://carbon-design-system.github.io/carbon-charts/thumbnail.jpg">
+	<meta name="twitter:card" content="summary_large_image">
+
+	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+	<link rel="shortcut icon" href="favicon.ico" />
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500,600,700|IBM+Plex+Sans+Condensed:400" rel="stylesheet">
+
+	<link href="https://unpkg.com/carbon-components@10.1.0/css/carbon-components.css" rel="stylesheet">
+
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+
+</head>
+
+<body>
+	<header class="m-demo-header" id="header">
+		<div class="logo">
+			<img src="./assets/logo.png" alt="Carbon Charts" />
+		</div>
+
+		<div class="content">
+			<h1>Carbon Charts <span class="geo">GEO</span></h1>
+			<h3>A reusable framework-agnostic geo-mapping library.</h3>
+
+			<div class="links">
+				<a class="bx--btn bx--btn--primary" target="_blank" href="https://github.com/carbon-design-system/carbon-charts/">
+					Repository
+				</a>
+
+				<a class="bx--btn bx--btn--primary bx--btn--disabled" target="_blank">
+					Docs
+				</a>
+
+				<a class="bx--btn bx--btn--primary bx--btn--disabled" target="_blank">
+					<svg class="angular" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+						xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 250 250"
+						style="enable-background:new 0 0 250 250; fill: #fff;" xml:space="preserve">
+						<g>
+							<polygon points="108,135.4 125,135.4 125,135.4 125,135.4 142,135.4 125,94.5 	" />
+							<path d="M125,30L125,30L125,30L31.9,63.2l14.2,123.1L125,230l0,0l0,0l78.9-43.7l14.2-123.1L125,30z M183.1,182.6h-21.7h0
+								l-11.7-29.2H125h0h0h-24.7l-11.7,29.2h0H66.9h0L125,52.1l0,0l0,0l0,0l0,0L183.1,182.6L183.1,182.6z" />
+						</g>
+					</svg>
+
+					Angular
+				</a>
+
+				<a class="bx--btn bx--btn--primary bx--btn--disabled" target="_blank">
+					<svg class="react" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700.9 595.3" style="fill: #fff;">
+						<g>
+							<path
+								d="M666.3 296.5c0-32.5-40.7-63.3-103.1-82.4 14.4-63.6 8-114.2-20.2-130.4-6.5-3.8-14.1-5.6-22.4-5.6v22.3c4.6 0 8.3.9 11.4 2.6 13.6 7.8 19.5 37.5 14.9 75.7-1.1 9.4-2.9 19.3-5.1 29.4-19.6-4.8-41-8.5-63.5-10.9-13.5-18.5-27.5-35.3-41.6-50 32.6-30.3 63.2-46.9 84-46.9V78c-27.5 0-63.5 19.6-99.9 53.6-36.4-33.8-72.4-53.2-99.9-53.2v22.3c20.7 0 51.4 16.5 84 46.6-14 14.7-28 31.4-41.3 49.9-22.6 2.4-44 6.1-63.6 11-2.3-10-4-19.7-5.2-29-4.7-38.2 1.1-67.9 14.6-75.8 3-1.8 6.9-2.6 11.5-2.6V78.5c-8.4 0-16 1.8-22.6 5.6-28.1 16.2-34.4 66.7-19.9 130.1-62.2 19.2-102.7 49.9-102.7 82.3 0 32.5 40.7 63.3 103.1 82.4-14.4 63.6-8 114.2 20.2 130.4 6.5 3.8 14.1 5.6 22.5 5.6 27.5 0 63.5-19.6 99.9-53.6 36.4 33.8 72.4 53.2 99.9 53.2 8.4 0 16-1.8 22.6-5.6 28.1-16.2 34.4-66.7 19.9-130.1 62-19.1 102.5-49.9 102.5-82.3zm-130.2-66.7c-3.7 12.9-8.3 26.2-13.5 39.5-4.1-8-8.4-16-13.1-24-4.6-8-9.5-15.8-14.4-23.4 14.2 2.1 27.9 4.7 41 7.9zm-45.8 106.5c-7.8 13.5-15.8 26.3-24.1 38.2-14.9 1.3-30 2-45.2 2-15.1 0-30.2-.7-45-1.9-8.3-11.9-16.4-24.6-24.2-38-7.6-13.1-14.5-26.4-20.8-39.8 6.2-13.4 13.2-26.8 20.7-39.9 7.8-13.5 15.8-26.3 24.1-38.2 14.9-1.3 30-2 45.2-2 15.1 0 30.2.7 45 1.9 8.3 11.9 16.4 24.6 24.2 38 7.6 13.1 14.5 26.4 20.8 39.8-6.3 13.4-13.2 26.8-20.7 39.9zm32.3-13c5.4 13.4 10 26.8 13.8 39.8-13.1 3.2-26.9 5.9-41.2 8 4.9-7.7 9.8-15.6 14.4-23.7 4.6-8 8.9-16.1 13-24.1zM421.2 430c-9.3-9.6-18.6-20.3-27.8-32 9 .4 18.2.7 27.5.7 9.4 0 18.7-.2 27.8-.7-9 11.7-18.3 22.4-27.5 32zm-74.4-58.9c-14.2-2.1-27.9-4.7-41-7.9 3.7-12.9 8.3-26.2 13.5-39.5 4.1 8 8.4 16 13.1 24 4.7 8 9.5 15.8 14.4 23.4zM420.7 163c9.3 9.6 18.6 20.3 27.8 32-9-.4-18.2-.7-27.5-.7-9.4 0-18.7.2-27.8.7 9-11.7 18.3-22.4 27.5-32zm-74 58.9c-4.9 7.7-9.8 15.6-14.4 23.7-4.6 8-8.9 16-13 24-5.4-13.4-10-26.8-13.8-39.8 13.1-3.1 26.9-5.8 41.2-7.9zm-90.5 125.2c-35.4-15.1-58.3-34.9-58.3-50.6 0-15.7 22.9-35.6 58.3-50.6 8.6-3.7 18-7 27.7-10.1 5.7 19.6 13.2 40 22.5 60.9-9.2 20.8-16.6 41.1-22.2 60.6-9.9-3.1-19.3-6.5-28-10.2zM310 490c-13.6-7.8-19.5-37.5-14.9-75.7 1.1-9.4 2.9-19.3 5.1-29.4 19.6 4.8 41 8.5 63.5 10.9 13.5 18.5 27.5 35.3 41.6 50-32.6 30.3-63.2 46.9-84 46.9-4.5-.1-8.3-1-11.3-2.7zm237.2-76.2c4.7 38.2-1.1 67.9-14.6 75.8-3 1.8-6.9 2.6-11.5 2.6-20.7 0-51.4-16.5-84-46.6 14-14.7 28-31.4 41.3-49.9 22.6-2.4 44-6.1 63.6-11 2.3 10.1 4.1 19.8 5.2 29.1zm38.5-66.7c-8.6 3.7-18 7-27.7 10.1-5.7-19.6-13.2-40-22.5-60.9 9.2-20.8 16.6-41.1 22.2-60.6 9.9 3.1 19.3 6.5 28.1 10.2 35.4 15.1 58.3 34.9 58.3 50.6-.1 15.7-23 35.6-58.4 50.6zM320.8 78.4z" />
+							<circle cx="420.9" cy="296.5" r="45.7" />
+						</g>
+					</svg>
+
+					React
+				</a>
+
+				<a class="bx--btn bx--btn--primary bx--btn--disabled last" target="_blank">
+					<svg class="vue" viewBox="0 0 197 170" version="1.1" xmlns="http://www.w3.org/2000/svg"
+						xmlns:xlink="http://www.w3.org/1999/xlink">
+						<polygon fill="#ffffff"
+							points="157.06 0 98.16 102.01 39.23 0 0 0 98.16 170.02 196.32 0 120.83 0"></polygon>
+						<polygon fill="#ffffff" points="98.16 28.93 81.35 0 75.5 0 98.16 39.26 120.82 0 114.973219 0">
+						</polygon>
+					</svg>
+
+					Vue
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<div class="options">
+		<div class="bx--form-item theme-selector">
+			<div class="bx--dropdown__wrapper">
+				<label for="dropdown-id" class="bx--label">Theme</label>
+				<ul data-dropdown data-value id="dropdown-id" class="bx--dropdown " tabindex="0">
+					<li class="bx--dropdown-text">
+						Choose a theme </li>
+					<li class="bx--dropdown__arrow-container">
+						<svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;"
+							xmlns="http://www.w3.org/2000/svg" class="bx--dropdown__arrow" width="16" height="16"
+							viewBox="0 0 16 16" aria-hidden="true">
+							<path d="M8 11L3 6l.7-.7L8 9.6l4.3-4.3.7.7z"></path>
+						</svg>
+					</li>
+					<li>
+						<ul class="bx--dropdown-list">
+							<li data-option data-value="DEFAULT" class="bx--dropdown-item">
+								<a class="bx--dropdown-link" href="#" tabindex="-1">Default (Carbon White)</a>
+							</li>
+							<li data-option data-value="g10" class="bx--dropdown-item">
+								<a class="bx--dropdown-link" href="#" tabindex="-1">Carbon g10</a>
+							</li>
+							<li data-option data-value="g90" class="bx--dropdown-item">
+								<a class="bx--dropdown-link" href="#" tabindex="-1">Carbon g90</a>
+							</li>
+							<li data-option data-value="g100" class="bx--dropdown-item">
+								<a class="bx--dropdown-link" href="#" tabindex="-1">Carbon g100</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="https://unpkg.com/carbon-components@10.1.0/scripts/carbon-components.min.js"
+	type="text/javascript"></script>
+
+</html>
