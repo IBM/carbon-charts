@@ -1,0 +1,23 @@
+.#{$prefix}--#{$charts-prefix}--map path.country {
+  @if $carbon--theme == $carbon--theme--g90 {
+    fill: #171717;
+    stroke: $ui-04;
+  } @else if $carbon--theme == $carbon--theme--g100{
+    fill: #020202;
+    stroke: $ui-04;
+  } @else {
+    fill: $ui-01;
+    stroke: $ui-04;
+  }
+  stroke-width: 0.8;
+}
+
+.#{$prefix}--#{$charts-prefix}--map circle.country-circle {
+  @if $carbon--theme == $carbon--theme--g90 or $carbon--theme == $carbon--theme--g100 {
+    fill: #d095fa;
+    opacity: 0.7;
+  } @else {
+    fill: #6a0dad;
+    opacity: 0.7;
+  }
+}

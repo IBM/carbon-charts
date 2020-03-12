@@ -16,6 +16,7 @@ export * from "./graphs/line";
 export * from "./graphs/scatter";
 export * from "./graphs/pie";
 export * from "./graphs/donut";
+export * from "./graphs/map";
 
 // Layout
 export * from "./layout/spacer";

@@ -5,6 +5,7 @@ import * as lineDemos from "./line";
 import * as pieDemos from "./pie";
 import * as scatterDemos from "./scatter";
 import * as stepDemos from "./step";
+import * as mapDemos from "./map";
 
 export * from "./bar";
 export * from "./bubble";
@@ -13,6 +14,7 @@ export * from "./line";
 export * from "./pie";
 export * from "./scatter";
 export * from "./step";
+export * from "./map";
 
 import {
 	createChartSandbox,
@@ -61,6 +63,11 @@ export const chartTypes = {
 		vanilla: "DonutChart",
 		angular: "ibm-donut-chart",
 		vue: "ccv-donut-chart"
+	},
+	MapChart: {
+		vanilla: "MapChart",
+		angular: "ibm-map-chart",
+		vue: "ccv-map-chart"
 	}
 };
 
@@ -207,6 +214,16 @@ let allDemoGroups = [
 				options: stepDemos.stepTimeSeriesOptions,
 				data: stepDemos.stepTimeSeriesData,
 				chartType: chartTypes.LineChart
+			}
+		]
+	},
+	{
+		title: "Map",
+		demos: [
+			{
+				options: mapDemos.mapOptions,
+				data: mapDemos.mapData,
+				chartType: chartTypes.MapChart
 			}
 		]
 	}

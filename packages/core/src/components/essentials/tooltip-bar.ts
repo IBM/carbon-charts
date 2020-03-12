@@ -86,7 +86,9 @@ export class TooltipBar extends Tooltip {
 		const holderPosition = select(this.services.domUtils.getHolder()).node().getBoundingClientRect();
 		const barPosition = hoveredElement.getBoundingClientRect();
 
-		const { verticalOffset } = this.model.getOptions().tooltip.datapoint;
+		let { verticalOffset } = this.model.getOptions().tooltip.datapoint;
+		verticalOffset = verticalOffset ? verticalOffset : 0;
+
 		// if there is a negative value bar chart, need to place the tooltip below the bar
 		if (data.value <= 0) {
 			// negative bars

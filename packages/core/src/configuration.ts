@@ -253,6 +253,11 @@ const donutChart: DonutChartOptions = Tools.merge({}, pieChart, {
 	}
 } as DonutChartOptions);
 
+/**
+ * options specific to map charts
+ */
+const mapChart: BaseChartOptions = Tools.merge({}, chart);
+
 export const options = {
 	chart,
 	axisChart,
@@ -263,7 +268,8 @@ export const options = {
 	lineChart,
 	scatterChart,
 	pieChart,
-	donutChart
+	donutChart,
+	mapChart
 };
 
 /**
