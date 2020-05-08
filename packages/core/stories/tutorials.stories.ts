@@ -172,3 +172,139 @@ const simpleBarOptions = {
 
     return container;
 });
+
+// Loop through the demos for the group
+tutorialStories.add("Time axis", () => {
+	// container creation
+	const container = document.createElement("div");
+	container.setAttribute("class", "container tutorial");
+
+    container.innerHTML = marked(`
+# Time axis
+​
+**This is a WIP tutorial written by Ilaria Venturini**
+
+The behavior of the time axes can be managed by user changing the \`timeScale\` option values.
+​
+
+**What the user can set is:**
+​
+- how much to extend the domain using \`addSpaceOnEdges\`
+- the language in which to show ticks changhing the \`localeObject\` object imported by \`date-fns\`
+- whether to show the days of the month as day of month or day of week (\`showDayName\`)
+- tick formatters (\`timeIntervalFormats\`)
+​
+
+**Default values are:**
+​
+
+\`\`\`js
+options = {
+	timeScale: {
+		addSpaceOnEdges: 1,
+		showDayName: false,
+		localeObject: enUSLocaleObject,
+		timeIntervalFormats: {
+			"15seconds": { primary: "MMM d, pp", secondary: "pp" },
+			"minute": { primary: "MMM d, p", secondary: "p" },
+			"30minutes": { primary: "MMM d, p", secondary: "p" },
+			"hourly": { primary: "MMM d, hh a", secondary: "hh a" },
+			"daily": { primary: "MMM d", secondary: "d" },
+			"weekly": { primary: "eee, MMM d", secondary: "eee" },
+			"monthly": { primary: "MMM yyyy", secondary: "MMM" },
+			"quarterly": { primary: "QQQ ''yy", secondary: "QQQ" },
+			"yearly": { primary: "yyyy", secondary: "yyyy" }
+		}
+	}
+}
+\`\`\`
+​
+## \`addSpaceOnEdges\`
+
+It represents how much space should be added to the current domain. The \`addSpacingToTimeDomain()\` function takes the current domain (\`[startDate, endDate]\`) and expands it if necessary:
+
+
+- if \`addSpaceOnEdges = 0\`, the new domain will be the current one
+- if \`addSpaceOnEdges = N\` (with \`N > 0\`):
+	- if \`domain spans at least 2 years\` -> \`[startDate - N years, endDate + N years]\`
+	- if \`domain spans at least 2 months\` -> \`[startDate - N months, endDate + N months]\`
+	- ...
+	- if \`domain spans at least 2 seconds\` -> \`[startDate - N seconds, endDate + N seconds]\`
+	- else -> \`[startDate, endDate]\`.
+​
+
+## Time formats
+​
+In \`axis.ts\` we calculate the \`timeInterval\` which best represents ticks.
+
+**The values ​​that \`timeInterval\` can assume are:**
+​
+\`\`\`js
+const TIME_INTERVALS = [
+	["15seconds", 15 * 1000],
+	["minute", 60 * 1000],
+	["30minutes", 30 * 60 * 1000],
+	["hourly", 60 * 60 * 1000],
+	["daily", 24 * 60 * 60 * 1000],
+	["monthly", 30 * 24 * 60 * 60 * 1000],
+	["quarterly", 3 * 30 * 24 * 60 * 60 * 1000],
+	["yearly", 12 * 30 * 24 * 60 * 60 * 1000]
+];
+\`\`\`
+​
+Then the ticks are formatted using the formatter associated with the computed \`timeInterval\`.
+
+For more information on formatters see the [date-fns](https://date-fns.org/v2.8.1/docs/format).
+​
+### \`showDayName\`
+​
+Among the \`TIME_INTERVALS\`, \`weekly\` is missing because it is not a real \`timeInterval\`, it's just a different way of showing days.
+
+
+So if the data has \`timeInterval = daily\` the user can choose whether to show the data using day of month (1, 2, 3, ..., 31) or day of week (Monday, Tuesday, ..., Sunday):
+​
+[daily](https://user-images.githubusercontent.com/44204353/74938402-397c7100-53ee-11ea-8189-8dad6048b829.png)
+[weekly](https://user-images.githubusercontent.com/44204353/74938406-3bdecb00-53ee-11ea-9dc8-1911994b3400.png)
+
+​
+By default \`showDayName = false\` so days are shown as days of month.
+​
+### \`timeIntervalFormats\`
+​
+The \`timeIntervalFormats\` object contains two formatters for each type of \`timeInterval\`:
+- \`primary\`: is the formatter that formats the first tick and all of those ticks that represent a change from the previous tick
+- \`secondary\`: is the formatter that formats the remaining ticks.
+​
+
+For more info see \`time-series.ts/isTickPrimary(...)\`.
+​
+
+What the user can do is modify all the formatters of all the \`timeInterval\`: if, for example, he prefers to use the h24 format and not the default h12 format, he can use these options:
+​
+
+\`\`\`js
+"timeScale": {
+	"timeIntervalFormats": {
+		"hourly": {
+			"primary": "MMM d, HH:mm",
+			"secondary": "HH:mm"
+		}
+	}
+}
+\`\`\`
+​
+These leaves all the other formats (\`daily\`, \`monthly\`, \`hourly\`, ...) as default.
+​
+### \`localeObject\`
+​
+The \`localeObject\` object allow the user to change the language of the labels.
+
+[Here](https://github.com/date-fns/date-fns/tree/master/src/locale) a list of available local codes.
+    `);
+
+    container.querySelectorAll("pre code").forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+
+    return container;
+});

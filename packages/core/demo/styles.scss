@@ -299,12 +299,17 @@ div.container {
 	&.tutorial {
 		@import "~highlight.js/styles/sunburst.css";
 
-		h1, h5, p, pre {
-			margin-bottom: 15px;
+		p {
+			margin: 1em 0;
 		}
 
-		h5 {
-			margin-top: 30px;
+		h1, h2, h3, h4, h5, h6, p, pre {
+			margin-bottom: 0.25em;
+			// margin-top: 2em;
+		}
+
+		h2, h3, h4, h5, h6 {
+			margin-top: 1em;
 		}
 
 		code {
@@ -321,11 +326,21 @@ div.container {
 			-moz-tab-size: 4;
 			tab-size: 4;
 			font-size: 14px;
+			margin-top: 1.5em;
 
 			code {
 				background-color: unset;
 				color: white;
 				padding: 0;
+			}
+		}
+
+		ul {
+			margin-bottom: 1em;
+			padding-left: 1em;
+
+			li {
+				list-style: disc;
 			}
 		}
 	}
