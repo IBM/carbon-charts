@@ -8,6 +8,7 @@ import DonutChart from "./donut-chart";
 import LineChart from "./line-chart";
 import PieChart from "./pie-chart";
 import ScatterChart from "./scatter-chart";
+import HistogramChart from "./histogram-chart";
 import RadarChart from "./radar-chart";
 
 export {
@@ -21,5 +22,6 @@ export {
 	LineChart,
 	PieChart,
 	ScatterChart,
+	HistogramChart,
 	RadarChart
 };

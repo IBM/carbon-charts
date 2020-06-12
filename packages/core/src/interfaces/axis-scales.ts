@@ -1,4 +1,4 @@
-import { ScaleTypes } from "./enums";
+import { ScaleTypes, AggregationTypes } from "./enums";
 import { AxisDomain } from "d3";
 import { Locale } from "date-fns";
 import { ThresholdOptions } from "./components";
@@ -69,6 +69,18 @@ export interface AxisOptions {
 		 */
 		formatter?: Function;
 	};
+	/**
+	 * Bins to display (Histogram)
+	 * bins: 20
+	 * bins: [0, 20, 40, 60]
+	 * bins: [new Date(...), new Date(...), ...]
+	 */
+	bins?: number | any[];
+	/**
+	 * Aggregation types on bins
+	 * aggregation: "count" (default) | "sum" | "avg"
+	 */
+	aggregation?: AggregationTypes;
 }
 
 /**

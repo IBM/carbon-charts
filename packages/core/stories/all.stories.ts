@@ -121,7 +121,7 @@ ${storyUtils.generateThemePickerHTML()}
 				container.querySelector("div#chart-demo"),
 				{
 					data: object("Data", demo.data),
-					options: object("Options", demo.options),
+					options: object("Options", demo.options)
 				}
 			);
 
@@ -180,7 +180,7 @@ if (process.env.NODE_ENV !== "production") {
 				column.setAttribute("id", demo.title);
 				const chart = new ClassToInitialize(column, {
 					data: demo.data,
-					options: demo.options,
+					options: demo.options
 				});
 
 				row.appendChild(column);

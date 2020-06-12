@@ -9,7 +9,7 @@ import {
 	reactTutorial,
 	angularTutorial,
 	vanillaTutorial,
-	vueTutorial,
+	vueTutorial
 } from "./tutorials/index";
 
 // Syntax highlighting

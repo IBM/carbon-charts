@@ -12,7 +12,7 @@ import {
 	Line,
 	StackedScatter,
 	Ruler,
-	TooltipScatter,
+	TooltipScatter
 } from "../components/index";
 
 export class StackedAreaChart extends AxisChart {
@@ -43,8 +43,8 @@ export class StackedAreaChart extends AxisChart {
 			new StackedScatter(this.model, this.services, {
 				fadeInOnChartHolderMouseover: true,
 				handleThresholds: true,
-				stacked: true,
-			}),
+				stacked: true
+			})
 		];
 
 		const components: any[] = this.getAxisChartComponents(

@@ -13,7 +13,7 @@ module.exports = function (config) {
 			"karma-webpack",
 			"karma-chrome-launcher",
 			"karma-firefox-launcher",
-			"karma-safari-launcher",
+			"karma-safari-launcher"
 		],
 		// list of files / patterns to load in the browser
 		files: ["**/*.spec.ts"],
@@ -22,7 +22,7 @@ module.exports = function (config) {
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			"**/*.ts": ["webpack"],
+			"**/*.ts": ["webpack"]
 		},
 		// webpack config
 		webpack: {
@@ -33,12 +33,12 @@ module.exports = function (config) {
 						test: /\.ts$/,
 						loader: "ts-loader",
 						options: {
-							transpileOnly: true,
-						},
+							transpileOnly: true
+						}
 					},
 					{
 						test: /\.html?$/,
-						loader: "html-loader",
+						loader: "html-loader"
 					},
 					{
 						test: /\.scss$/,
@@ -46,18 +46,18 @@ module.exports = function (config) {
 							"style-loader",
 							"css-loader",
 							"postcss-loader",
-							"sass-loader",
-						],
+							"sass-loader"
+						]
 					},
 					{
 						test: /\.svg?$/,
-						loader: "raw-loader",
-					},
-				],
+						loader: "raw-loader"
+					}
+				]
 			},
 			resolve: {
-				extensions: [".ts", ".js"],
-			},
+				extensions: [".ts", ".js"]
+			}
 		},
 		// test results reporter to use
 		// possible values: "dots", "progress"
@@ -77,23 +77,23 @@ module.exports = function (config) {
 		browsers,
 		browserConsoleLogOptions: {
 			terminal: true,
-			level: "warn",
+			level: "warn"
 		},
 		customLaunchers: {
 			FirefoxHeadless: {
 				base: "Firefox",
-				flags: ["-headless"],
+				flags: ["-headless"]
 			},
 			ChromeNoSandbox: {
 				base: "ChromeHeadless",
-				flags: ["--no-sandbox"],
-			},
+				flags: ["--no-sandbox"]
+			}
 		},
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
 		singleRun: !!process.env.CI,
 		// Concurrency level
 		// how many browser should be started simultaneous
-		concurrency: Infinity,
+		concurrency: Infinity
 	});
 };

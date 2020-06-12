@@ -15,7 +15,7 @@ import {
 	Legend,
 	LayoutComponent,
 	TooltipBar,
-	Skeleton,
+	Skeleton
 } from "../components/index";
 
 export class StackedBarChart extends AxisChart {
@@ -45,8 +45,8 @@ export class StackedBarChart extends AxisChart {
 			new Grid(this.model, this.services),
 			new StackedBar(this.model, this.services),
 			new Skeleton(this.model, this.services, {
-				skeleton: Skeletons.VERT_OR_HORIZ,
-			}),
+				skeleton: Skeletons.VERT_OR_HORIZ
+			})
 		];
 
 		const components: any[] = this.getAxisChartComponents(

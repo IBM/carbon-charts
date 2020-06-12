@@ -51,7 +51,7 @@ export class Scatter extends Component {
 		let scatterData;
 		if (stacked) {
 			scatterData = this.model.getStackedData({
-				percentage: options.percentage,
+				percentage: options.percentage
 			});
 		} else {
 			scatterData = this.model
@@ -102,7 +102,7 @@ export class Scatter extends Component {
 		// Get highest domain and range thresholds
 		const [
 			xThreshold,
-			yThreshold,
+			yThreshold
 		] = Tools.flipDomainAndRangeBasedOnOrientation(
 			this.services.cartesianScales.getHighestDomainThreshold(),
 			this.services.cartesianScales.getHighestRangeThreshold(),
@@ -111,7 +111,7 @@ export class Scatter extends Component {
 
 		const [
 			getXValue,
-			getYValue,
+			getYValue
 		] = Tools.flipDomainAndRangeBasedOnOrientation(
 			(d, i) => cartesianScales.getDomainValue(d, i),
 			(d, i) => cartesianScales.getRangeValue(d, i),
@@ -154,7 +154,7 @@ export class Scatter extends Component {
 		const getRangeValue = (d, i) => cartesianScales.getRangeValue(d, i);
 		const [
 			getXValue,
-			getYValue,
+			getYValue
 		] = Tools.flipDomainAndRangeBasedOnOrientation(
 			getDomainValue,
 			getRangeValue,
@@ -302,13 +302,13 @@ export class Scatter extends Component {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(eventNameToDispatch, {
 					element: hoveredElement,
-					datum,
+					datum
 				});
 
 				// Show tooltip
 				self.services.events.dispatchEvent(Events.Tooltip.SHOW, {
 					hoveredElement,
-					type: TooltipTypes.DATAPOINT,
+					type: TooltipTypes.DATAPOINT
 				});
 			})
 			.on("click", function (datum) {
@@ -317,7 +317,7 @@ export class Scatter extends Component {
 					Events.Scatter.SCATTER_CLICK,
 					{
 						element: select(this),
-						datum,
+						datum
 					}
 				);
 			})
@@ -334,13 +334,13 @@ export class Scatter extends Component {
 					Events.Scatter.SCATTER_MOUSEOUT,
 					{
 						element: hoveredElement,
-						datum,
+						datum
 					}
 				);
 
 				// Hide tooltip
 				self.services.events.dispatchEvent(Events.Tooltip.HIDE, {
-					hoveredElement,
+					hoveredElement
 				});
 			});
 	}

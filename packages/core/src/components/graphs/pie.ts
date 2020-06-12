@@ -6,7 +6,7 @@ import {
 	CalloutDirections,
 	Roles,
 	TooltipTypes,
-	Events,
+	Events
 } from "../../interfaces";
 
 // D3 Imports
@@ -269,13 +269,13 @@ export class Pie extends Component {
 			if (direction === CalloutDirections.RIGHT) {
 				d.startPos = {
 					x: xPosition,
-					y: yPosition + d.textOffsetY,
+					y: yPosition + d.textOffsetY
 				};
 
 				// end position for the callout line
 				d.endPos = {
 					x: xPosition + options.pie.callout.offsetX,
-					y: yPosition - options.pie.callout.offsetY + d.textOffsetY,
+					y: yPosition - options.pie.callout.offsetY + d.textOffsetY
 				};
 
 				// the intersection point of the vertical and horizontal line
@@ -285,13 +285,13 @@ export class Pie extends Component {
 				// start position for the callout line
 				d.startPos = {
 					x: xPosition,
-					y: yPosition + d.textOffsetY,
+					y: yPosition + d.textOffsetY
 				};
 
 				// end position for the callout line should be bottom aligned to the title
 				d.endPos = {
 					x: xPosition - options.pie.callout.offsetX,
-					y: yPosition - options.pie.callout.offsetY + d.textOffsetY,
+					y: yPosition - options.pie.callout.offsetY + d.textOffsetY
 				};
 
 				// the intersection point of the vertical and horizontal line
@@ -369,7 +369,7 @@ export class Pie extends Component {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Pie.SLICE_MOUSEOVER, {
 					element: select(this),
-					datum,
+					datum
 				});
 			})
 			.on("mousemove", function (datum) {
@@ -387,20 +387,20 @@ export class Pie extends Component {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Pie.SLICE_MOUSEMOVE, {
 					element: hoveredElement,
-					datum,
+					datum
 				});
 
 				// Show tooltip
 				self.services.events.dispatchEvent(Events.Tooltip.SHOW, {
 					hoveredElement,
-					type: TooltipTypes.DATAPOINT,
+					type: TooltipTypes.DATAPOINT
 				});
 			})
 			.on("click", function (datum) {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Pie.SLICE_CLICK, {
 					element: select(this),
-					datum,
+					datum
 				});
 			})
 			.on("mouseout", function (datum) {
@@ -417,12 +417,12 @@ export class Pie extends Component {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Pie.SLICE_MOUSEOUT, {
 					element: hoveredElement,
-					datum,
+					datum
 				});
 
 				// Hide tooltip
 				self.services.events.dispatchEvent(Events.Tooltip.HIDE, {
-					hoveredElement,
+					hoveredElement
 				});
 			});
 	}
@@ -432,7 +432,7 @@ export class Pie extends Component {
 		const options = this.model.getOptions();
 
 		const { width, height } = DOMUtils.getSVGElementSize(this.parent, {
-			useAttrs: true,
+			useAttrs: true
 		});
 		const radius: number = Math.min(width, height) / 2;
 

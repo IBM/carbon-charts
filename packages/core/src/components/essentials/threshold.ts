@@ -6,7 +6,7 @@ import {
 	AxisPositions,
 	Events,
 	ScaleTypes,
-	CartesianOrientations,
+	CartesianOrientations
 } from "../../interfaces";
 import { select, mouse } from "d3-selection";
 
@@ -17,7 +17,7 @@ import Position, { PLACEMENTS } from "@carbon/utils-position";
 import settings from "carbon-components/es/globals/js/settings";
 import {
 	formatTick,
-	computeTimeIntervalName,
+	computeTimeIntervalName
 } from "../../services/time-series";
 
 export class Threshold extends Component {
@@ -83,7 +83,7 @@ export class Threshold extends Component {
 		const getRangeValue = (d) => cartesianScales.getRangeValue(d);
 		const [
 			getXValue,
-			getYValue,
+			getYValue
 		] = Tools.flipDomainAndRangeBasedOnOrientation(
 			getDomainValue,
 			getRangeValue,
@@ -157,7 +157,7 @@ export class Threshold extends Component {
 		if (scaleType === ScaleTypes.TIME) {
 			const isVertical = [
 				AxisPositions.LEFT,
-				AxisPositions.RIGHT,
+				AxisPositions.RIGHT
 			].includes(axisPosition);
 			const mainXScale = this.services.cartesianScales.getMainXScale();
 			const mainYScale = this.services.cartesianScales.getMainYScale();
@@ -176,7 +176,7 @@ export class Threshold extends Component {
 			value,
 			valueFormatter,
 			fillColor,
-			label = "Threshold",
+			label = "Threshold"
 		} = this.configs;
 		const holder = select(this.services.domUtils.getHolder());
 		// Format the threshold value using valueFormatter if defined in user-provided options
@@ -203,18 +203,18 @@ export class Threshold extends Component {
 		const bestPlacementOption = this.positionService.findBestPlacementAt(
 			{
 				left: mouseRelativePos[0],
-				top: mouseRelativePos[1],
+				top: mouseRelativePos[1]
 			},
 			target,
 			[
 				PLACEMENTS.RIGHT,
 				PLACEMENTS.LEFT,
 				PLACEMENTS.TOP,
-				PLACEMENTS.BOTTOM,
+				PLACEMENTS.BOTTOM
 			],
 			() => ({
 				width: holder.offsetWidth,
-				height: holder.offsetHeight,
+				height: holder.offsetHeight
 			})
 		);
 
@@ -222,7 +222,7 @@ export class Threshold extends Component {
 		const pos = this.positionService.findPositionAt(
 			{
 				left: mouseRelativePos[0],
-				top: mouseRelativePos[1],
+				top: mouseRelativePos[1]
 			},
 			target,
 			bestPlacementOption
@@ -239,13 +239,13 @@ export class Threshold extends Component {
 			.on("mouseover mousemove", function () {
 				self.threshold.classed("active", true);
 				self.services.events.dispatchEvent(Events.Threshold.SHOW, {
-					hoveredElement: select(self.threshold),
+					hoveredElement: select(self.threshold)
 				});
 			})
 			.on("mouseout", function () {
 				self.threshold.classed("active", false);
 				self.services.events.dispatchEvent(Events.Threshold.HIDE, {
-					hoveredElement: select(self.threshold),
+					hoveredElement: select(self.threshold)
 				});
 			});
 	}

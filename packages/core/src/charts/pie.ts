@@ -13,7 +13,7 @@ import {
 	TooltipPie,
 	Legend,
 	LayoutComponent,
-	Skeleton,
+	Skeleton
 } from "../components/index";
 
 export class PieChart extends Chart {
@@ -50,8 +50,8 @@ export class PieChart extends Chart {
 		const graphFrameComponents = [
 			new Pie(this.model, this.services),
 			new Skeleton(this.model, this.services, {
-				skeleton: Skeletons.PIE,
-			}),
+				skeleton: Skeletons.PIE
+			})
 		];
 
 		// get the base chart components and export with tooltip

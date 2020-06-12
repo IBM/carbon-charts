@@ -9,19 +9,19 @@ export const radarData = [
 	{ product: "Product 2", feature: "Usability", score: 63 },
 	{ product: "Product 2", feature: "Availability", score: 78 },
 	{ product: "Product 2", feature: "Performance", score: 50 },
-	{ product: "Product 2", feature: "Quality", score: 30 },
+	{ product: "Product 2", feature: "Quality", score: 30 }
 ];
 export const radarOptions = {
 	title: "Radar",
 	radar: {
 		axes: {
 			angle: "feature",
-			value: "score",
-		},
+			value: "score"
+		}
 	},
 	data: {
-		groupMapsTo: "product",
-	},
+		groupMapsTo: "product"
+	}
 };
 
 // radar with missing data
@@ -39,10 +39,10 @@ export const radarWithMissingDataData = [
 	{ group: "Oil", key: "New York", value: 18 },
 	{ group: "Water", key: "New York", value: 8 },
 	{ group: "Sugar", key: "Sydney", value: 12 },
-	{ group: "Oil", key: "Sydney", value: 16 },
+	{ group: "Oil", key: "Sydney", value: 16 }
 ];
 export const radarWithMissingDataOptions = {
-	title: "Radar - Missing datapoints",
+	title: "Radar - Missing datapoints"
 };
 
 // radar dense
@@ -86,17 +86,17 @@ export const radarDenseData = [
 	{ month: "May", activity: "Walking", hoursAvg: 8 },
 	{ month: "May", activity: "Running", hoursAvg: 2 },
 	{ month: "May", activity: "Cycling", hoursAvg: 3 },
-	{ month: "May", activity: "Swimming", hoursAvg: 1 },
+	{ month: "May", activity: "Swimming", hoursAvg: 1 }
 ];
 export const radarDenseOptions = {
 	title: "Radar - Dense",
 	radar: {
 		axes: {
 			angle: "activity",
-			value: "hoursAvg",
-		},
+			value: "hoursAvg"
+		}
 	},
 	data: {
-		groupMapsTo: "month",
-	},
+		groupMapsTo: "month"
+	}
 };

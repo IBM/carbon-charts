@@ -55,12 +55,12 @@ export class Title extends Component {
 				.on("mouseenter", function () {
 					self.services.events.dispatchEvent(Events.Tooltip.SHOW, {
 						hoveredElement: title,
-						type: TooltipTypes.TITLE,
+						type: TooltipTypes.TITLE
 					});
 				})
 				.on("mouseout", function () {
 					self.services.events.dispatchEvent(Events.Tooltip.HIDE, {
-						hoveredElement: title,
+						hoveredElement: title
 					});
 				});
 		}

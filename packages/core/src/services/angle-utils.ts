@@ -18,43 +18,43 @@ export function radialLabelPlacement(angleRadians: Angle): LabelAlignment {
 	if (isInRange(angle, [0, 10]) || isInRange(angle, [350, 0])) {
 		return {
 			textAnchor: TextAnchor.START,
-			dominantBaseline: DominantBaseline.MIDDLE,
+			dominantBaseline: DominantBaseline.MIDDLE
 		};
 	} else if (isInRange(angle, [10, 80])) {
 		return {
 			textAnchor: TextAnchor.START,
-			dominantBaseline: DominantBaseline.HANGING,
+			dominantBaseline: DominantBaseline.HANGING
 		};
 	} else if (isInRange(angle, [80, 100])) {
 		return {
 			textAnchor: TextAnchor.MIDDLE,
-			dominantBaseline: DominantBaseline.HANGING,
+			dominantBaseline: DominantBaseline.HANGING
 		};
 	} else if (isInRange(angle, [100, 170])) {
 		return {
 			textAnchor: TextAnchor.END,
-			dominantBaseline: DominantBaseline.HANGING,
+			dominantBaseline: DominantBaseline.HANGING
 		};
 	} else if (isInRange(angle, [170, 190])) {
 		return {
 			textAnchor: TextAnchor.END,
-			dominantBaseline: DominantBaseline.MIDDLE,
+			dominantBaseline: DominantBaseline.MIDDLE
 		};
 	} else if (isInRange(angle, [190, 260])) {
 		return {
 			textAnchor: TextAnchor.END,
-			dominantBaseline: DominantBaseline.BASELINE,
+			dominantBaseline: DominantBaseline.BASELINE
 		};
 	} else if (isInRange(angle, [260, 280])) {
 		return {
 			textAnchor: TextAnchor.MIDDLE,
-			dominantBaseline: DominantBaseline.BASELINE,
+			dominantBaseline: DominantBaseline.BASELINE
 		};
 	} else {
 		// 280 - 350
 		return {
 			textAnchor: TextAnchor.START,
-			dominantBaseline: DominantBaseline.BASELINE,
+			dominantBaseline: DominantBaseline.BASELINE
 		};
 	}
 }

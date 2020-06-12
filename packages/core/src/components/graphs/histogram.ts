@@ -9,12 +9,14 @@ import {
 } from "../../interfaces";
 
 // D3 Imports
-import { select } from "d3-selection";
+import { select, selectAll } from "d3-selection";
 import { color } from "d3-color";
 import { map } from "d3-collection";
+import { Component } from "../component";
+import { DOMUtils } from "../../services/essentials/dom-utils";
 
-export class StackedBar extends Bar {
-	type = "stacked-bar";
+export class Histogram extends Component {
+	type = "histogram";
 
 	init() {
 		const eventsFragment = this.services.events;
@@ -39,6 +41,7 @@ export class StackedBar extends Bar {
 		// Chart options mixed with the internal configurations
 		const displayData = this.model.getDisplayData();
 		const options = this.model.getOptions();
+		const { groupIdentifier } = options;
 		const { groupMapsTo } = options.data;
 
 		const domainIdentifier = this.services.cartesianScales.getDomainIdentifier();
@@ -50,13 +53,21 @@ export class StackedBar extends Bar {
 		).keys();
 		const stackData = this.model.getStackedData();
 
+		const x = this.services.cartesianScales.getMainXScale();
+		const bins = this.model.getHistogramBins();
+
+		if (!bins) {
+			return;
+		}
+
+		const binsMap = bins.reduce((mapped, bin) => {
+			mapped[bin.x0] = bin;
+			return mapped;
+		}, {});
+
 		// Update data on all bar groups
 		const barGroups = svg.selectAll("g.bars").data(stackData, (d) => d.key);
 
-		// Remove elements that need to be exited
-		// We need exit at the top here to make sure that
-		// Data filters are processed before entering new elements
-		// Or updating existing ones
 		barGroups.exit().attr("opacity", 0).remove();
 
 		// Add bar groups that need to be introduced
@@ -79,6 +90,7 @@ export class StackedBar extends Bar {
 			.append("path")
 			.merge(bars)
 			.classed("bar", true)
+			.attr(groupIdentifier, (d, i) => i)
 			.transition(
 				this.services.transitions.getTransition(
 					"bar-update-enter",
@@ -88,6 +100,10 @@ export class StackedBar extends Bar {
 			.attr("fill", (d) => this.model.getFillColor(d[groupMapsTo]))
 			.attr("d", (d, i) => {
 				const key = stackKeys[i];
+				const bin = binsMap[key];
+				if (!bin) {
+					return;
+				}
 
 				/*
 				 * Orientation support for horizontal/vertical bar charts
@@ -95,11 +111,13 @@ export class StackedBar extends Bar {
 				 * to draw the bars needed, and pass those coordinates down to
 				 * generateSVGPathString() to decide whether it needs to flip them
 				 */
-				const barWidth = this.getBarWidth();
-				const x0 =
-					this.services.cartesianScales.getDomainValue(key, i) -
-					barWidth / 2;
+				const barWidth = x(bin.x1) - x(bin.x0) - 1;
+				const x0 = this.services.cartesianScales.getDomainValue(
+					bin.x0,
+					i
+				);
 				const x1 = x0 + barWidth;
+
 				const y0 = this.services.cartesianScales.getRangeValue(d[0], i);
 				let y1 = this.services.cartesianScales.getRangeValue(d[1], i);
 
@@ -130,7 +148,7 @@ export class StackedBar extends Bar {
 			.attr("aria-label", (d) => d.value);
 
 		// Add event listeners for the above elements
-		this.addEventListeners();
+		this.addEventListeners(binsMap);
 	}
 
 	// Highlight elements that match the hovered legend item
@@ -157,8 +175,9 @@ export class StackedBar extends Bar {
 			.attr("opacity", 1);
 	};
 
-	addEventListeners() {
+	addEventListeners(binsMap) {
 		const options = this.model.getOptions();
+		const { groupIdentifier } = options;
 		const { groupMapsTo } = options.data;
 
 		const self = this;
@@ -166,14 +185,16 @@ export class StackedBar extends Bar {
 			.selectAll("path.bar")
 			.on("mouseover", function (datum) {
 				const hoveredElement = select(this);
+				const groupId = hoveredElement.attr(groupIdentifier);
 
-				hoveredElement
+				// Select all same group elements
+				selectAll(`[${groupIdentifier}="${groupId}"]`)
 					.transition(
 						self.services.transitions.getTransition(
-							"graph_element_mouseover_fill_update"
+							"graph_element_mouseout_fill_update"
 						)
 					)
-					.attr("fill", (d: any) =>
+					.attr("fill", (d) =>
 						color(self.model.getFillColor(d[groupMapsTo]))
 							.darker(0.7)
 							.toString()
@@ -182,38 +203,36 @@ export class StackedBar extends Bar {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Bar.BAR_MOUSEOVER, {
 					element: hoveredElement,
-					datum
+					datum,
+					[groupIdentifier]: groupId
 				});
 			})
 			.on("mousemove", function (datum) {
-				const displayData = self.model.getDisplayData();
 				const hoveredElement = select(this);
-
-				const domainIdentifier = self.services.cartesianScales.getDomainIdentifier();
+				const groupId = hoveredElement.attr(groupIdentifier);
 				const rangeIdentifier = self.services.cartesianScales.getRangeIdentifier();
-				const { groupMapsTo } = self.model.getOptions().data;
 
-				let matchingDataPoint = displayData.find((d) => {
-					return (
-						d[rangeIdentifier] === datum.data[datum.group] &&
-						d[domainIdentifier].toString() ===
-							datum.data.sharedStackKey &&
-						d[groupMapsTo] === datum.group
-					);
-				});
-
-				if (matchingDataPoint === undefined) {
-					matchingDataPoint = {
-						[domainIdentifier]: datum.data.sharedStackKey,
-						[rangeIdentifier]: datum.data[datum.group],
-						[groupMapsTo]: datum.group
-					};
-				}
+				const multidata = [];
+				const groupElements = selectAll(
+					`[${groupIdentifier}="${hoveredElement.attr(
+						groupIdentifier
+					)}"]`
+				);
+				groupElements.each((d) =>
+					multidata.push({
+						[groupMapsTo]: d[groupMapsTo],
+						[rangeIdentifier]: d["data"][d[groupMapsTo]]
+					})
+				);
 
 				// Show tooltip
 				self.services.events.dispatchEvent(Events.Tooltip.SHOW, {
 					hoveredElement,
-					data: matchingDataPoint,
+					data: {
+						bin: binsMap[datum.data["sharedStackKey"]],
+						multidata,
+						[groupIdentifier]: groupId
+					},
 					type: TooltipTypes.DATAPOINT
 				});
 			})
@@ -228,13 +247,18 @@ export class StackedBar extends Bar {
 				const hoveredElement = select(this);
 				hoveredElement.classed("hovered", false);
 
-				hoveredElement
+				// Select all same group elements
+				selectAll(
+					`[${groupIdentifier}="${hoveredElement.attr(
+						groupIdentifier
+					)}"]`
+				)
 					.transition(
 						self.services.transitions.getTransition(
 							"graph_element_mouseout_fill_update"
 						)
 					)
-					.attr("fill", (d: any) =>
+					.attr("fill", (d) =>
 						self.model.getFillColor(d[groupMapsTo])
 					);
 

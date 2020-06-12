@@ -177,7 +177,7 @@ export class Grid extends Component {
 			// threshold for when to display a gridline tooltip
 			const bounds = {
 				min: Number(translations.tx) - threshold,
-				max: Number(translations.tx) + threshold,
+				max: Number(translations.tx) + threshold
 			};
 
 			return bounds.min <= position[0] && position[0] <= bounds.max;

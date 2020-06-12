@@ -28,7 +28,7 @@ export class Events extends Service {
 		let newEvent;
 		if (eventDetail) {
 			newEvent = new CustomEvent(eventType, {
-				detail: eventDetail,
+				detail: eventDetail
 			});
 		} else {
 			newEvent = document.createEvent("Event");

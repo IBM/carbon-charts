@@ -9,7 +9,7 @@ import { groupedBarData, groupedBarOptions } from "../../demo/data";
 
 export const data = groupedBarData as ChartData;
 export const options = Object.assign(groupedBarOptions, {
-	title: "My chart",
+	title: "My chart"
 }) as any;
 
 export class TestEnvironment {
@@ -22,7 +22,7 @@ export class TestEnvironment {
 
 		this.chart = new Charts.ScatterChart(holder, {
 			data: this.chartData,
-			options: this.chartOptions,
+			options: this.chartOptions
 		});
 	}
 

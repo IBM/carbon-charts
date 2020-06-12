@@ -20,8 +20,8 @@ export default {
 			"d3-axis": "d3Axis",
 			"d3-array": "d3Array",
 			"d3-hierarchy": "d3Hierarchy",
-			"d3-time-format": "d3TimeFormat",
-		},
+			"d3-time-format": "d3TimeFormat"
+		}
 	},
 	plugins: [
 		resolve(),
@@ -29,9 +29,9 @@ export default {
 		json(),
 		typescript({
 			typescript: require("typescript"),
-			tsconfig: "./src/tsconfig.json",
+			tsconfig: "./src/tsconfig.json"
 		}),
-		terser(),
+		terser()
 	],
 	onwarn(warning, next) {
 		// logs the circular dependencies inside the d3 codebase
@@ -47,5 +47,5 @@ export default {
 		}
 
 		next(warning);
-	},
+	}
 };

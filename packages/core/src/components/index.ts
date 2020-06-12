@@ -8,6 +8,7 @@ export * from "./essentials/tooltip";
 export * from "./essentials/tooltip-bar";
 export * from "./essentials/tooltip-pie";
 export * from "./essentials/tooltip-scatter";
+export * from "./essentials/tooltip-histogram";
 export * from "./essentials/tooltip-radar";
 
 // GRAPHS
@@ -22,6 +23,7 @@ export * from "./graphs/scatter";
 export * from "./graphs/scatter-stacked";
 export * from "./graphs/pie";
 export * from "./graphs/donut";
+export * from "./graphs/histogram";
 export * from "./graphs/skeleton";
 
 // Layout

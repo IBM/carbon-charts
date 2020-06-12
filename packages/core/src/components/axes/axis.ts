@@ -8,7 +8,7 @@ import * as Configuration from "../../configuration";
 import {
 	computeTimeIntervalName,
 	formatTick,
-	isTickPrimary,
+	isTickPrimary
 } from "../../services/time-series";
 
 // D3 Imports
@@ -50,7 +50,7 @@ export class Axis extends Component {
 
 		const svg = this.getContainerSVG();
 		const { width, height } = DOMUtils.getSVGElementSize(this.parent, {
-			useAttrs: true,
+			useAttrs: true
 		});
 
 		let startPosition, endPosition;
@@ -125,7 +125,7 @@ export class Axis extends Component {
 			"0"
 		);
 		const tickHeight = DOMUtils.getSVGElementSize(fakeTickText.node(), {
-			useBBox: true,
+			useBBox: true
 		}).height;
 		fakeTick.remove();
 
@@ -287,7 +287,7 @@ export class Axis extends Component {
 					const { height: titleHeight } = DOMUtils.getSVGElementSize(
 						axisTitleRef,
 						{
-							useBBox: true,
+							useBBox: true
 						}
 					);
 					axisTitleRef
@@ -435,7 +435,7 @@ export class Axis extends Component {
 					Events.Axis.LABEL_MOUSEOVER,
 					{
 						element: select(this),
-						datum,
+						datum
 					}
 				);
 			})
@@ -445,7 +445,7 @@ export class Axis extends Component {
 					Events.Axis.LABEL_MOUSEMOVE,
 					{
 						element: select(this),
-						datum,
+						datum
 					}
 				);
 			})
@@ -453,14 +453,14 @@ export class Axis extends Component {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Axis.LABEL_CLICK, {
 					element: select(this),
-					datum,
+					datum
 				});
 			})
 			.on("mouseout", function (datum) {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Axis.LABEL_MOUSEOUT, {
 					element: select(this),
-					datum,
+					datum
 				});
 			});
 	}

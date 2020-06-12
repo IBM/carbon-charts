@@ -8,7 +8,7 @@ setOptions({
 	sortStoriesByKind: true,
 	panelPosition: "bottom",
 	showDownPanel: true,
-	theme,
+	theme
 });
 
 const req = require.context("../stories", true, /.stories.ts$/);

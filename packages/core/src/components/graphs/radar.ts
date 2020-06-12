@@ -9,7 +9,7 @@ import {
 	radialLabelPlacement,
 	radToDeg,
 	polarToCartesianCoords,
-	distanceBetweenPointOnCircAndVerticalDiameter,
+	distanceBetweenPointOnCircAndVerticalDiameter
 } from "../../services/angle-utils";
 
 // D3 Imports
@@ -47,7 +47,7 @@ export class Radar extends Component {
 	render(animate = true) {
 		this.svg = this.getContainerSVG();
 		const { width, height } = DOMUtils.getSVGElementSize(this.parent, {
-			useAttrs: true,
+			useAttrs: true
 		});
 
 		const data = this.model.getData();
@@ -62,7 +62,7 @@ export class Radar extends Component {
 			yTicksNumber,
 			minRange,
 			xAxisRectHeight,
-			opacity,
+			opacity
 		} = Tools.getProperty(options, "radar");
 
 		this.uniqueKeys = Array.from(new Set(data.map((d) => d[angle])));
@@ -93,9 +93,7 @@ export class Radar extends Component {
 		const yScale = scaleLinear()
 			.domain([
 				0,
-				max(
-					this.displayDataNormalized.map((d) => d[value]) as number[]
-				),
+				max(this.displayDataNormalized.map((d) => d[value]) as number[])
 			])
 			.range([minRange, radius])
 			.nice(yTicksNumber);
@@ -135,7 +133,7 @@ export class Radar extends Component {
 		// center coordinates
 		const c: Point = {
 			x: leftPadding + xLabelPadding,
-			y: height / 2,
+			y: height / 2
 		};
 
 		/////////////////////////////
@@ -682,7 +680,7 @@ export class Radar extends Component {
 				return this.uniqueGroups.map((group) => ({
 					[angle]: key,
 					[groupMapsTo]: group,
-					[value]: null,
+					[value]: null
 				}));
 			})
 		);
@@ -699,7 +697,7 @@ export class Radar extends Component {
 			const completeBlankData = this.uniqueKeys.map((k) => ({
 				[groupMapsTo]: name,
 				[angle]: k,
-				[value]: null,
+				[value]: null
 			}));
 			return { name, data: Tools.merge(completeBlankData, data) };
 		});
@@ -762,7 +760,7 @@ export class Radar extends Component {
 		const self = this;
 		const {
 			axes: { angle },
-			dotsRadius,
+			dotsRadius
 		} = Tools.getProperty(this.model.getOptions(), "radar");
 
 		// events on x axes rects
@@ -774,7 +772,7 @@ export class Radar extends Component {
 					Events.Radar.X_AXIS_MOUSEOVER,
 					{
 						element: select(this),
-						datum,
+						datum
 					}
 				);
 			})
@@ -800,7 +798,7 @@ export class Radar extends Component {
 					Events.Radar.X_AXIS_MOUSEMOVE,
 					{
 						element: hoveredElement,
-						datum,
+						datum
 					}
 				);
 
@@ -813,14 +811,14 @@ export class Radar extends Component {
 				self.services.events.dispatchEvent(Events.Tooltip.SHOW, {
 					hoveredElement,
 					multidata: itemsToHighlight,
-					type: TooltipTypes.GRIDLINE,
+					type: TooltipTypes.GRIDLINE
 				});
 			})
 			.on("click", function (datum) {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Radar.X_AXIS_CLICK, {
 					element: select(this),
-					datum,
+					datum
 				});
 			})
 			.on("mouseout", function (datum) {
@@ -843,16 +841,16 @@ export class Radar extends Component {
 					Events.Radar.X_AXIS_MOUSEOUT,
 					{
 						element: hoveredElement,
-						datum,
+						datum
 					}
 				);
 
 				// Hide tooltip
 				self.services.events.dispatchEvent("hide-tooltip", {
-					hoveredElement,
+					hoveredElement
 				});
 				self.services.events.dispatchEvent(Events.Tooltip.HIDE, {
-					hoveredElement,
+					hoveredElement
 				});
 			});
 	}

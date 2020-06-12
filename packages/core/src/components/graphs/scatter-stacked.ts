@@ -20,7 +20,7 @@ export class StackedScatter extends Scatter {
 		const rangeIdentifier = this.services.cartesianScales.getRangeIdentifier();
 
 		const stackedData = this.model.getStackedData({
-			percentage: options.percentage,
+			percentage: options.percentage
 		});
 
 		// Update data on dot groups
@@ -61,7 +61,7 @@ export class StackedScatter extends Scatter {
 			return {
 				[groupMapsTo]: group,
 				[domainIdentifier]: d["data"]["sharedStackKey"],
-				[rangeIdentifier]: d[1],
+				[rangeIdentifier]: d[1]
 			};
 		});
 		this.styleCircles(circlesToStyle, animate);

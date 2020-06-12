@@ -9,7 +9,7 @@ import {
 	// the imports below are needed because of typescript bug (error TS4029)
 	Legend,
 	LayoutComponent,
-	TooltipRadar,
+	TooltipRadar
 } from "../components/index";
 import { Radar } from "../components/graphs/radar";
 

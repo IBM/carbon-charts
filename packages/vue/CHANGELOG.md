@@ -7,20 +7,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @carbon/charts-vue
 
-
-
-
-
 ## [0.32.4](https://github.com/carbon-design-system/carbon-charts/compare/v0.32.3...v0.32.4) (2020-06-10)
-
 
 ### Bug Fixes
 
-* update tslint and prettier options ([#661](https://github.com/carbon-design-system/carbon-charts/issues/661)) ([ebc53d9](https://github.com/carbon-design-system/carbon-charts/commit/ebc53d9f4caea047f656ae98075b9c8ca307b280))
-
-
-
-
+-   update tslint and prettier options ([#661](https://github.com/carbon-design-system/carbon-charts/issues/661)) ([ebc53d9](https://github.com/carbon-design-system/carbon-charts/commit/ebc53d9f4caea047f656ae98075b9c8ca307b280))
 
 ## [0.32.3](https://github.com/carbon-design-system/carbon-charts/compare/v0.32.2...v0.32.3) (2020-06-08)
 

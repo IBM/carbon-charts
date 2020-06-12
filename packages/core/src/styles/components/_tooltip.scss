@@ -32,7 +32,8 @@
 		}
 
 		.datapoint-tooltip,
-		.total-val {
+		.total-val,
+		.title-val {
 			display: flex;
 			padding: 4px;
 			flex-flow: row nowrap;
@@ -63,7 +64,8 @@
 			}
 		}
 
-		.total-val {
+		.total-val,
+		.title-val {
 			font-weight: carbon--font-weight("semibold");
 			.label {
 				margin-left: 4px;

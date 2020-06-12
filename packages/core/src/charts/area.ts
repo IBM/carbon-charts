@@ -16,7 +16,7 @@ import {
 	Tooltip,
 	Legend,
 	LayoutComponent,
-	TooltipScatter,
+	TooltipScatter
 } from "../components/index";
 
 export class AreaChart extends AxisChart {
@@ -46,8 +46,8 @@ export class AreaChart extends AxisChart {
 			new Area(this.model, this.services),
 			new Scatter(this.model, this.services, {
 				fadeInOnChartHolderMouseover: true,
-				handleThresholds: true,
-			}),
+				handleThresholds: true
+			})
 		];
 
 		const components: any[] = this.getAxisChartComponents(

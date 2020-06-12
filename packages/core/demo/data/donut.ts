@@ -7,9 +7,9 @@ export const donutOptions = {
 	resizable: true,
 	donut: {
 		center: {
-			label: "Browsers",
-		},
-	},
+			label: "Browsers"
+		}
+	}
 };
 
 // donut - empty state
@@ -19,9 +19,9 @@ export const donutEmptyStateOptions = {
 	resizable: true,
 	donut: {
 		center: {
-			label: "Browsers",
-		},
-	},
+			label: "Browsers"
+		}
+	}
 };
 
 // donut - skeleton
@@ -31,10 +31,10 @@ export const donutSkeletonOptions = {
 	resizable: true,
 	donut: {
 		center: {
-			label: "Browsers",
-		},
+			label: "Browsers"
+		}
 	},
 	data: {
-		loading: true,
-	},
+		loading: true
+	}
 };

@@ -44,7 +44,7 @@ export class Ruler extends Component {
 			originalData: any;
 		}[] = displayData.map((d) => ({
 			domainValue: this.services.cartesianScales.getDomainValue(d),
-			originalData: d,
+			originalData: d
 		}));
 
 		/**
@@ -129,7 +129,7 @@ export class Ruler extends Component {
 			this.services.events.dispatchEvent("show-tooltip", {
 				hoveredElement: rulerLine,
 				multidata: tooltipData,
-				type: TooltipTypes.GRIDLINE,
+				type: TooltipTypes.GRIDLINE
 			});
 
 			ruler.attr("opacity", 1);

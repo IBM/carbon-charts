@@ -54,22 +54,22 @@ new ${chartComponent}(chartHolder, {
 	const packageJson = {
 		scripts: {
 			start: "parcel index.html --open",
-			build: "parcel build index.html",
+			build: "parcel build index.html"
 		},
 		dependencies: {
 			"@carbon/charts": libraryVersion,
 			"carbon-components": carbonComponentsVersion,
-			d3: "5.9.2",
+			d3: "5.9.2"
 		},
 		devDependencies: {
-			"parcel-bundler": "^1.6.1",
-		},
+			"parcel-bundler": "^1.6.1"
+		}
 	};
 
 	return {
 		"index.html": indexHtml,
 		"src/index.js": indexJs,
-		"package.json": packageJson,
+		"package.json": packageJson
 	};
 };
 
@@ -115,15 +115,15 @@ ReactDOM.render(<App />, document.getElementById("root"));
 			react: "16.12.0",
 			"react-dom": "16.12.0",
 			"react-scripts": "3.0.1",
-			"carbon-components": carbonComponentsVersion,
-		},
+			"carbon-components": carbonComponentsVersion
+		}
 	};
 
 	return {
 		"src/index.html": indexHtml,
 		"src/index.js": indexJs,
 		"src/ibm-plex-font.css": ibmPlexFontCSS,
-		"package.json": packageJson,
+		"package.json": packageJson
 	};
 };
 
@@ -216,8 +216,8 @@ platformBrowserDynamic()
 				"core-js": "3.6.0",
 				d3: "5.15.0",
 				rxjs: "6.5.3",
-				"zone.js": "0.10.2",
-			},
+				"zone.js": "0.10.2"
+			}
 		},
 		null,
 		"\t"
@@ -231,7 +231,7 @@ platformBrowserDynamic()
 		"src/app/ibm-plex-font.css": ibmPlexFontCSS,
 		"src/app/app.module.ts": appModule,
 		".angular-cli.json": angularCliJson,
-		"package.json": packageJson,
+		"package.json": packageJson
 	};
 };
 
@@ -297,8 +297,8 @@ new Vue({
 				"@vue/cli-plugin-babel": "4.1.1",
 				"carbon-components": carbonComponentsVersion,
 				d3: "5.15.0",
-				vue: "^2.6.11",
-			},
+				vue: "^2.6.11"
+			}
 		},
 		null,
 		"\t\t"
@@ -309,7 +309,7 @@ new Vue({
 		"src/ibm-plex-font.css": ibmPlexFontCSS,
 		"src/App.vue": appVue,
 		"src/main.js": mainJs,
-		"package.json": packageJson,
+		"package.json": packageJson
 	};
 };
 
@@ -358,7 +358,7 @@ export default app;
 			autobuild: "rollup -c -w",
 			dev: "run-p start:dev autobuild",
 			start: "sirv public",
-			"start:dev": "sirv public --dev",
+			"start:dev": "sirv public --dev"
 		},
 		devDependencies: {
 			"npm-run-all": "^4.1.5",
@@ -367,15 +367,15 @@ export default app;
 			"rollup-plugin-node-resolve": "^4.2.3",
 			"rollup-plugin-svelte": "^5.0.3",
 			"rollup-plugin-terser": "^4.0.4",
-			"sirv-cli": "^0.3.1",
+			"sirv-cli": "^0.3.1"
 		},
 		dependencies: {
 			"@carbon/charts": libraryVersion,
 			"@carbon/charts-svelte": libraryVersion,
 			"carbon-components": carbonComponentsVersion,
 			d3: "5.12.0",
-			svelte: "3.20.x",
-		},
+			svelte: "3.20.x"
+		}
 	};
 
 	const rollup = `import svelte from "rollup-plugin-svelte";
@@ -413,6 +413,6 @@ export default {
 		"App.svelte": App,
 		"index.js": indexJs,
 		"package.json": packageJson,
-		"rollup.config.js": rollup,
+		"rollup.config.js": rollup
 	};
 };

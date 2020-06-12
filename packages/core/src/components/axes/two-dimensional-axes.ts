@@ -17,7 +17,7 @@ export class TwoDimensionalAxes extends Component {
 		top: 0,
 		right: 0,
 		bottom: 0,
-		left: 0,
+		left: 0
 	};
 
 	render(animate = false) {
@@ -44,7 +44,7 @@ export class TwoDimensionalAxes extends Component {
 				const axisComponent = new Axis(this.model, this.services, {
 					position: axisPosition,
 					axes: this.configs.axes,
-					margins: this.margins,
+					margins: this.margins
 				});
 
 				// Set model, services & parent for the new axis component
@@ -75,7 +75,7 @@ export class TwoDimensionalAxes extends Component {
 			const invisibleAxisRef = child.getInvisibleAxisRef();
 			const {
 				width,
-				height,
+				height
 			} = DOMUtils.getSVGElementSize(invisibleAxisRef, { useBBox: true });
 
 			let offset;
@@ -83,7 +83,7 @@ export class TwoDimensionalAxes extends Component {
 				offset = 0;
 			} else {
 				offset = DOMUtils.getSVGElementSize(child.getTitleRef(), {
-					useBBox: true,
+					useBBox: true
 				}).height;
 			}
 

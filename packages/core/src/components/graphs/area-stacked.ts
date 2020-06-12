@@ -47,7 +47,7 @@ export class StackedArea extends Component {
 		}
 
 		const stackedData = this.model.getStackedData({
-			percentage: options.percentage,
+			percentage: options.percentage
 		});
 
 		const areas = svg

@@ -12,7 +12,7 @@ import {
 	Legend,
 	LayoutComponent,
 	Skeleton,
-	TooltipPie,
+	TooltipPie
 } from "../components/index";
 
 export class DonutChart extends PieChart {
@@ -37,8 +37,8 @@ export class DonutChart extends PieChart {
 		const graphFrameComponents = [
 			new Donut(this.model, this.services),
 			new Skeleton(this.model, this.services, {
-				skeleton: Skeletons.DONUT,
-			}),
+				skeleton: Skeletons.DONUT
+			})
 		];
 
 		const components: any[] = this.getChartComponents(graphFrameComponents);

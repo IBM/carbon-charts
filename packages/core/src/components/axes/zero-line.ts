@@ -9,7 +9,7 @@ export class ZeroLine extends Component {
 	render(animate: boolean) {
 		const [
 			minDomainValue,
-			maxDomainValue,
+			maxDomainValue
 		] = this.services.cartesianScales.getRangeScale().domain();
 		const drawZeroLine =
 			(minDomainValue > 0 && maxDomainValue < 0) ||
@@ -43,7 +43,7 @@ export class ZeroLine extends Component {
 				x0,
 				x1,
 				y0: yPosition,
-				y1: yPosition,
+				y1: yPosition
 			},
 			this.services.cartesianScales.getOrientation()
 		);

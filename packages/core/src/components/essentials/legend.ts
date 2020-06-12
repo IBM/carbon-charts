@@ -231,7 +231,7 @@ export class Legend extends Component {
 		svg.selectAll("g.legend-item")
 			.on("mouseover", function () {
 				self.services.events.dispatchEvent(Events.Legend.ITEM_HOVER, {
-					hoveredElement: select(this),
+					hoveredElement: select(this)
 				});
 
 				// Configs
@@ -261,7 +261,7 @@ export class Legend extends Component {
 			})
 			.on("click", function () {
 				self.services.events.dispatchEvent(Events.Legend.ITEM_CLICK, {
-					clickedElement: select(this),
+					clickedElement: select(this)
 				});
 
 				const clickedItem = select(this);
@@ -276,7 +276,7 @@ export class Legend extends Component {
 				self.services.events.dispatchEvent(
 					Events.Legend.ITEM_MOUSEOUT,
 					{
-						hoveredElement: hoveredItem,
+						hoveredElement: hoveredItem
 					}
 				);
 			});

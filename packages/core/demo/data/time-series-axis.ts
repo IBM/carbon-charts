@@ -13,10 +13,10 @@ export const lineTimeSeriesData15seconds = {
 				{ date: new Date(2020, 11, 11, 0, 0, 0), value: 10 },
 				{ date: new Date(2020, 11, 11, 0, 0, 15), value: 10 },
 				{ date: new Date(2020, 11, 11, 0, 0, 30), value: 10 },
-				{ date: new Date(2020, 11, 11, 0, 0, 45), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 11, 11, 0, 0, 45), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeries15secondsOptions = {
@@ -24,9 +24,9 @@ export const lineTimeSeries15secondsOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // minute
@@ -42,10 +42,10 @@ export const lineTimeSeriesDataMinute = {
 				{ date: new Date(2020, 4, 22, 0, 0), value: 10 },
 				{ date: new Date(2020, 4, 22, 0, 5), value: 10 },
 				{ date: new Date(2020, 4, 22, 0, 7), value: 10 },
-				{ date: new Date(2020, 4, 22, 0, 10), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 4, 22, 0, 10), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesMinuteOptions = {
@@ -53,9 +53,9 @@ export const lineTimeSeriesMinuteOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // 30minutes
@@ -70,10 +70,10 @@ export const lineTimeSeriesData30minutes = {
 				{ date: new Date(2020, 11, 11, 0, 0), value: 10 },
 				{ date: new Date(2020, 11, 11, 0, 30), value: 10 },
 				{ date: new Date(2020, 11, 11, 1, 0), value: 10 },
-				{ date: new Date(2020, 11, 11, 1, 30), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 11, 11, 1, 30), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeries30minutesOptions = {
@@ -81,9 +81,9 @@ export const lineTimeSeries30minutesOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // hourly with default ticks formats
@@ -99,10 +99,10 @@ export const lineTimeSeriesDataHourlyDefaultTicksFormats = {
 				{ date: new Date(2020, 11, 11, 1, 0), value: 10 },
 				{ date: new Date(2020, 11, 11, 2, 0), value: 10 },
 				{ date: new Date(2020, 11, 11, 3, 0), value: 10 },
-				{ date: new Date(2020, 11, 11, 4, 0), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 11, 11, 4, 0), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesHourlyDefaultLocaleOptions = {
@@ -111,9 +111,9 @@ export const lineTimeSeriesHourlyDefaultLocaleOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // hourly with custom ticks formats
@@ -125,14 +125,14 @@ export const lineTimeSeriesHourlyCustomTicksFormatsOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
 		timeIntervalFormats: {
-			hourly: { primary: "MMM d, HH:mm", secondary: "HH:mm" },
-		},
-	},
+			hourly: { primary: "MMM d, HH:mm", secondary: "HH:mm" }
+		}
+	}
 };
 
 // daily
@@ -148,10 +148,10 @@ export const lineTimeSeriesDataDaily = {
 				{ date: new Date(2020, 0, 2), value: 10 },
 				{ date: new Date(2020, 0, 3), value: 10 },
 				{ date: new Date(2020, 0, 4), value: 10 },
-				{ date: new Date(2020, 0, 5), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 0, 5), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesDailyOptions = {
@@ -159,9 +159,9 @@ export const lineTimeSeriesDailyOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // weekly
@@ -177,10 +177,10 @@ export const lineTimeSeriesDataWeekly = {
 				{ date: new Date(2020, 0, 2), value: 10 },
 				{ date: new Date(2020, 0, 3), value: 10 },
 				{ date: new Date(2020, 0, 4), value: 10 },
-				{ date: new Date(2020, 0, 5), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 0, 5), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesWeeklyOptions = {
@@ -188,12 +188,12 @@ export const lineTimeSeriesWeeklyOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
-		showDayName: true,
-	},
+		showDayName: true
+	}
 };
 
 // monthly with default locale
@@ -209,10 +209,10 @@ export const lineTimeSeriesDataMonthlyDefaultLocale = {
 				{ date: new Date(2019, 0), value: 10 },
 				{ date: new Date(2019, 1), value: 10 },
 				{ date: new Date(2019, 2), value: 10 },
-				{ date: new Date(2019, 3), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2019, 3), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesMonthlyDefaultLocaleOptions = {
@@ -220,9 +220,9 @@ export const lineTimeSeriesMonthlyDefaultLocaleOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // monthly with custom locale
@@ -233,12 +233,12 @@ export const lineTimeSeriesMonthlyCustomLocaleOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
-		localeObject: frLocaleObject,
-	},
+		localeObject: frLocaleObject
+	}
 };
 
 // quarterly
@@ -254,10 +254,10 @@ export const lineTimeSeriesDataQuarterly = {
 				{ date: new Date(2018, 9), value: 10 },
 				{ date: new Date(2019, 0), value: 10 },
 				{ date: new Date(2019, 3), value: 10 },
-				{ date: new Date(2019, 6), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2019, 6), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesQuarterlyOptions = {
@@ -265,9 +265,9 @@ export const lineTimeSeriesQuarterlyOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // yearly
@@ -283,10 +283,10 @@ export const lineTimeSeriesDataYearly = {
 				{ date: new Date(1980, 0), value: 10 },
 				{ date: new Date(1981, 0), value: 10 },
 				{ date: new Date(1982, 0), value: 10 },
-				{ date: new Date(1983, 0), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(1983, 0), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesYearlyOptions = {
@@ -294,9 +294,9 @@ export const lineTimeSeriesYearlyOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // single datum
@@ -305,9 +305,9 @@ export const lineTimeSeriesDataSingleDatum = {
 	datasets: [
 		{
 			label: "Dataset 1",
-			data: [{ date: new Date("2020-01-06T19:43:16Z"), value: 10 }],
-		},
-	],
+			data: [{ date: new Date("2020-01-06T19:43:16Z"), value: 10 }]
+		}
+	]
 };
 
 export const lineTimeSeriesSingleDatumOptions = {
@@ -315,9 +315,9 @@ export const lineTimeSeriesSingleDatumOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
-	},
+			scaleType: "time"
+		}
+	}
 };
 
 // addSpaceOnEdges = 0
@@ -333,10 +333,10 @@ export const lineTimeSeriesNoExtendedDomainData = {
 				{ date: new Date(2020, 0, 2), value: 10 },
 				{ date: new Date(2020, 0, 3), value: 10 },
 				{ date: new Date(2020, 0, 4), value: 10 },
-				{ date: new Date(2020, 0, 5), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 0, 5), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesNoExtendedDomainOptions = {
@@ -344,12 +344,12 @@ export const lineTimeSeriesNoExtendedDomainOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
-		addSpaceOnEdges: 0,
-	},
+		addSpaceOnEdges: 0
+	}
 };
 
 // bug two identical labels
@@ -360,10 +360,10 @@ export const lineTimeSeriesDataTwoIdenticalLabels = {
 			label: "Dataset 1",
 			data: [
 				{ date: new Date(2020, 0, 23, 23, 0), value: 10 },
-				{ date: new Date(2020, 1, 9, 23, 0), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 1, 9, 23, 0), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesTwoIdenticalLabelsOptions = {
@@ -371,12 +371,12 @@ export const lineTimeSeriesTwoIdenticalLabelsOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
-		addSpaceOnEdges: 0,
-	},
+		addSpaceOnEdges: 0
+	}
 };
 
 export const lineTimeSeriesTwoIdenticalLabels2Options = {
@@ -384,12 +384,12 @@ export const lineTimeSeriesTwoIdenticalLabels2Options = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
-		addSpaceOnEdges: 0,
-	},
+		addSpaceOnEdges: 0
+	}
 };
 
 // bug all labels in primary format
@@ -400,10 +400,10 @@ export const lineTimeSeriesDataAllLabelsInPrimaryFormat = {
 			label: "Dataset 1",
 			data: [
 				{ date: new Date(2020, 0, 23, 1, 0), value: 10 },
-				{ date: new Date(2020, 0, 29, 1, 0), value: 10 },
-			],
-		},
-	],
+				{ date: new Date(2020, 0, 29, 1, 0), value: 10 }
+			]
+		}
+	]
 };
 
 export const lineTimeSeriesAllLabelsInPrimaryFormatOptions = {
@@ -411,10 +411,10 @@ export const lineTimeSeriesAllLabelsInPrimaryFormatOptions = {
 	axes: {
 		left: {},
 		bottom: {
-			scaleType: "time",
-		},
+			scaleType: "time"
+		}
 	},
 	timeScale: {
-		addSpaceOnEdges: 0,
-	},
+		addSpaceOnEdges: 0
+	}
 };

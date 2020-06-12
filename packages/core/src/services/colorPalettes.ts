@@ -17,7 +17,7 @@ export const WHITE = [
 	colors.teal(50),
 	colors.cyan(90),
 	"#8a3800", // Orange 70
-	colors.purple(50),
+	colors.purple(50)
 ];
 
 export const DARK = [
@@ -34,7 +34,7 @@ export const DARK = [
 	colors.teal(40),
 	colors.cyan(20),
 	"#ba4e00", // Orange 60
-	colors.purple(30),
+	colors.purple(30)
 ];
 
 export const G10 = WHITE;
