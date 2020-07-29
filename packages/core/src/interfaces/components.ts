@@ -1,8 +1,4 @@
-import {
-	LayoutGrowth,
-	LegendPositions,
-	Alignments
-} from "./enums";
+import { LayoutGrowth, LegendPositions, Alignments } from "./enums";
 import { Component } from "../components/component";
 import { TruncationOptions } from "./truncation";
 

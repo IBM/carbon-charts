@@ -24,7 +24,11 @@
 		}
 
 		path.innerFill {
-			@if $carbon--theme == $carbon--theme--g90 or $carbon--theme == $carbon--theme--g100 {
+			@if $carbon--theme ==
+				$carbon--theme--g90 or
+				$carbon--theme ==
+				$carbon--theme--g100
+			{
 				fill: $carbon--black-100;
 			} @else {
 				fill: $carbon--white-0;

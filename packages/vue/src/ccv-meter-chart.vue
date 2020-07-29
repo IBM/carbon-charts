@@ -12,8 +12,8 @@ export default {
 	mounted() {
 		this.coreChart = new MeterChart(this.$el, {
 			data: this.data,
-			options: this.options
+			options: this.options,
 		});
-	}
+	},
 };
 </script>

@@ -41,7 +41,7 @@ export const radarCenteredOptions = {
 	legend: {
 		alignment: "center"
 	}
-}
+};
 
 // radar with missing data
 export const radarWithMissingDataData = [

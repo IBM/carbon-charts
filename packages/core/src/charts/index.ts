@@ -11,3 +11,4 @@ export * from "./donut";
 export * from "./meter";
 export * from "./radar";
 export * from "./gauge";
+export * from "./heatmap";

@@ -26,7 +26,7 @@ export const donutCenteredOptions = {
 		},
 		alignment: "center"
 	}
-}
+};
 
 // donut - empty state
 export const donutEmptyStateData = [];

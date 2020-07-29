@@ -12,7 +12,11 @@
 			fill: $support-03;
 			stroke-width: 1px;
 			stroke: $carbon-dataviz-alert;
-			@if $carbon--theme == $carbon--theme--g90 or $carbon--theme == $carbon--theme--g100 {
+			@if $carbon--theme ==
+				$carbon--theme--g90 or
+				$carbon--theme ==
+				$carbon--theme--g100
+			{
 				stroke: none;
 			}
 		}

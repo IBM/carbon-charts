@@ -40,7 +40,6 @@ export const meterOptionsCustomColor = {
 	height: "100px"
 };
 
-
 export const meterOptionsNoStatus = {
 	title: "Meter Chart - no status",
 	meter: {

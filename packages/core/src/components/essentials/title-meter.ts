@@ -14,16 +14,18 @@ export class MeterTitle extends Title {
 		const { groupMapsTo } = options.data;
 
 		// the title for a meter, is the label for that dataset
-		const title = svg.selectAll("text.meter-title")
+		const title = svg
+			.selectAll("text.meter-title")
 			.data([dataset[groupMapsTo]]);
 
-		title.enter()
+		title
+			.enter()
 			.append("text")
 			.classed("meter-title", true)
 			.merge(title)
 			.attr("x", 0)
 			.attr("y", "1em")
-			.text(d => d);
+			.text((d) => d);
 
 		title.exit().remove();
 
@@ -37,7 +39,10 @@ export class MeterTitle extends Title {
 		const maxWidth = this.getMaxTitleWidth();
 		const titleElement = DOMUtils.appendOrSelect(svg, "text.meter-title");
 
-		if (maxWidth > 0 && titleElement.node().getComputedTextLength() > maxWidth) {
+		if (
+			maxWidth > 0 &&
+			titleElement.node().getComputedTextLength() > maxWidth
+		) {
 			this.truncateTitle(titleElement, maxWidth);
 		}
 	}
@@ -57,11 +62,14 @@ export class MeterTitle extends Title {
 
 		// need to check if the width is 0, and try to use the parent attribute
 		// this can happen if the chart is toggled on/off and the height is 0 for the parent, it wont validateDimensions
-		const containerWidth = containerBounds.width ? containerBounds.width : this.parent.node().getAttribute("width");
+		const containerWidth = containerBounds.width
+			? containerBounds.width
+			: this.parent.node().getAttribute("width");
 
 		// get the status from the model
 		const status = this.model.getStatus();
-		const radius = Tools.getProperty(options, "meter", "status", "indicatorSize") / 2;
+		const radius =
+			Tools.getProperty(options, "meter", "status", "indicatorSize") / 2;
 
 		// create a group for the icon/inner path
 		const statusGroup = DOMUtils.appendOrSelect(svg, `g.status-indicator`)
@@ -69,8 +77,7 @@ export class MeterTitle extends Title {
 			.attr("transform", `translate(${containerWidth - radius}, 0)`);
 
 		const data = status ? [status] : [];
-		const icon = statusGroup.selectAll("circle.status")
-			.data(data);
+		const icon = statusGroup.selectAll("circle.status").data(data);
 
 		icon.enter()
 			.append("circle")
@@ -80,10 +87,10 @@ export class MeterTitle extends Title {
 			.attr("cx", 0)
 			.attr("cy", `calc(1em / 2)`);
 
-		const innerIcon = statusGroup.selectAll("path.innerFill")
-			.data(data);
+		const innerIcon = statusGroup.selectAll("path.innerFill").data(data);
 
-		innerIcon.enter()
+		innerIcon
+			.enter()
 			.append("path")
 			.merge(innerIcon)
 			.attr("d", self.getStatusIconPathString(status))
@@ -105,22 +112,38 @@ export class MeterTitle extends Title {
 		const title = DOMUtils.appendOrSelect(svg, "text.meter-title");
 
 		// check if it is enabled
-		const data = Tools.getProperty(this.model.getOptions(), "meter", "statusBar", "percentageIndicator", "enabled") === true ?
-			[dataValue] : [];
+		const data =
+			Tools.getProperty(
+				this.model.getOptions(),
+				"meter",
+				"statusBar",
+				"percentageIndicator",
+				"enabled"
+			) === true
+				? [dataValue]
+				: [];
 
 		// append a percentage if it is enabled, update it
-		const percentage = svg.selectAll("text.percent-value")
-			.data(data);
+		const percentage = svg.selectAll("text.percent-value").data(data);
 
 		// the horizontal offset of the percentage value from the title
-		const offset = Tools.getProperty(this.model.getOptions(), "meter", "statusBar", "paddingRight");
+		const offset = Tools.getProperty(
+			this.model.getOptions(),
+			"meter",
+			"statusBar",
+			"paddingRight"
+		);
 
-		percentage.enter()
+		percentage
+			.enter()
 			.append("text")
 			.classed("percent-value", true)
 			.merge(percentage)
-			.text(d => `${d}%`)
-			.attr("x", +title.attr("x") + title.node().getComputedTextLength() + offset) // set the position to after the title
+			.text((d) => `${d}%`)
+			.attr(
+				"x",
+				+title.attr("x") + title.node().getComputedTextLength() + offset
+			) // set the position to after the title
 			.attr("y", title.attr("y"));
 
 		percentage.exit().remove();
@@ -137,11 +160,25 @@ export class MeterTitle extends Title {
 
 		// update the position on the percentage to be inline with the title
 		const tspan = DOMUtils.appendOrSelect(this.parent, "tspan");
-		const offset = Tools.getProperty(this.model.getOptions(), "meter", "statusBar", "paddingRight");
+		const offset = Tools.getProperty(
+			this.model.getOptions(),
+			"meter",
+			"statusBar",
+			"paddingRight"
+		);
 		const tspanLength = Math.ceil(tspan.node().getComputedTextLength());
 
-		const percentage = DOMUtils.appendOrSelect(this.parent, "text.percent-value");
-		percentage.attr("x", +title.attr("x") + title.node().getComputedTextLength() + tspanLength + offset);
+		const percentage = DOMUtils.appendOrSelect(
+			this.parent,
+			"text.percent-value"
+		);
+		percentage.attr(
+			"x",
+			+title.attr("x") +
+				title.node().getComputedTextLength() +
+				tspanLength +
+				offset
+		);
 	}
 
 	// computes the maximum space a title can take
@@ -153,15 +190,35 @@ export class MeterTitle extends Title {
 		);
 
 		// need to check if the width is 0, and try to use the parent attribute
-		const containerWidth = containerBounds.width ? containerBounds.width : this.parent.node().getAttribute("width");
+		const containerWidth = containerBounds.width
+			? containerBounds.width
+			: this.parent.node().getAttribute("width");
 
-		const percentage = DOMUtils.appendOrSelect(this.parent, "text.percent-value");
+		const percentage = DOMUtils.appendOrSelect(
+			this.parent,
+			"text.percent-value"
+		);
 		// the title needs to fit the width of the container without crowding the status, and percentage value
-		const offset = Tools.getProperty(this.model.getOptions(), "meter", "statusBar", "paddingRight");
+		const offset = Tools.getProperty(
+			this.model.getOptions(),
+			"meter",
+			"statusBar",
+			"paddingRight"
+		);
 		const percentageWidth = percentage.node().getComputedTextLength();
 
-		const statusGroup = DOMUtils.appendOrSelect(this.parent, "g.status-indicator").node();
-		const statusWidth = DOMUtils.getSVGElementSize(statusGroup, { useBBox: true }).width + Tools.getProperty(this.model.getOptions(), "meter", "status", "paddingLeft");
+		const statusGroup = DOMUtils.appendOrSelect(
+			this.parent,
+			"g.status-indicator"
+		).node();
+		const statusWidth =
+			DOMUtils.getSVGElementSize(statusGroup, { useBBox: true }).width +
+			Tools.getProperty(
+				this.model.getOptions(),
+				"meter",
+				"status",
+				"paddingLeft"
+			);
 
 		return containerWidth - percentageWidth - offset - statusWidth;
 	}

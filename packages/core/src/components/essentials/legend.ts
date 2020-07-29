@@ -115,9 +115,13 @@ export class Legend extends Component {
 			this.addEventListeners();
 		}
 
-		const alignment = Tools.getProperty(legendOptions,"alignment");
+		const alignment = Tools.getProperty(legendOptions, "alignment");
 
-		const alignmentOffset = DOMUtils.getAlignmentOffset(alignment, svg, this.getParent());
+		const alignmentOffset = DOMUtils.getAlignmentOffset(
+			alignment,
+			svg,
+			this.getParent()
+		);
 		svg.attr("transform", `translate(${alignmentOffset}, 0)`);
 	}
 

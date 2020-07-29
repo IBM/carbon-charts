@@ -10,6 +10,7 @@ import * as stepDemos from "./step";
 import * as meterDemos from "./meter";
 import * as timeSeriesAxisDemos from "./time-series-axis";
 import * as radarDemos from "./radar";
+import * as heatmapDemos from "./heatmap";
 
 export * from "./area";
 export * from "./bar";
@@ -22,6 +23,7 @@ export * from "./gauge";
 export * from "./scatter";
 export * from "./step";
 export * from "./radar";
+export * from "./heatmap";
 
 import {
 	createChartSandbox,
@@ -99,6 +101,11 @@ export const chartTypes = {
 		vanilla: "RadarChart",
 		angular: "ibm-radar-chart",
 		vue: "ccv-radar-chart"
+	},
+	HeatMapChart: {
+		vanilla: "HeatmapChart"
+		// angular: "ibm-radar-chart",
+		// vue: "ccv-radar-chart"
 	}
 };
 
@@ -753,6 +760,16 @@ let allDemoGroups = [
 				data: radarDemos.radarDenseData,
 				options: radarDemos.radarDenseOptions,
 				chartType: chartTypes.RadarChart
+			}
+		]
+	},
+	{
+		title: "Heatmap",
+		demos: [
+			{
+				data: heatmapDemos.heatmapData,
+				options: heatmapDemos.heatmapOptions,
+				chartType: chartTypes.HeatMapChart
 			}
 		]
 	}

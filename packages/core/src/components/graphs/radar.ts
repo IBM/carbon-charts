@@ -624,10 +624,10 @@ export class Radar extends Component {
 			.attr("fill", (d) => colorScale(d[groupMapsTo]));
 
 		// rectangles
-		const xAxesRect = DOMUtils.appendOrSelect(
-			svg,
-			"g.x-axes-rect"
-		).attr("role", Roles.GROUP);
+		const xAxesRect = DOMUtils.appendOrSelect(svg, "g.x-axes-rect").attr(
+			"role",
+			Roles.GROUP
+		);
 		const xAxisRectUpdate = xAxesRect
 			.selectAll("rect")
 			.data(this.uniqueKeys);
@@ -649,15 +649,15 @@ export class Radar extends Component {
 				(key) => `rotate(${radToDeg(xScale(key))}, ${c.x}, ${c.y})`
 			);
 
-		const alignment = Tools.getProperty(
-			options,
-			"radar",
-			"alignment"
-		);
+		const alignment = Tools.getProperty(options, "radar", "alignment");
 
-		const alignmentOffset = DOMUtils.getAlignmentOffset(alignment, svg, this.getParent());
+		const alignmentOffset = DOMUtils.getAlignmentOffset(
+			alignment,
+			svg,
+			this.getParent()
+		);
 		svg.attr("transform", `translate(${alignmentOffset}, 0)`);
-	
+
 		// Add event listeners
 		this.addEventListeners();
 
@@ -666,7 +666,10 @@ export class Radar extends Component {
 
 	// append temporarily the label to get the exact space that it occupies
 	getLabelDimensions = (label: string) => {
-		const tmpTick = DOMUtils.appendOrSelect(this.getContainerSVG(), `g.tmp-tick`);
+		const tmpTick = DOMUtils.appendOrSelect(
+			this.getContainerSVG(),
+			`g.tmp-tick`
+		);
 		const tmpTickText = DOMUtils.appendOrSelect(tmpTick, `text`).text(
 			label
 		);

@@ -131,7 +131,7 @@ export const simpleBarCenteredLegendOptions = {
 	legend: {
 		alignment: "center"
 	}
-}
+};
 
 // Simple bar with long labels
 export const simpleBarLongLabelData = [
@@ -225,7 +225,7 @@ export const simpleHorizontalBarCenteredLegendOptions = {
 	legend: {
 		alignment: "center"
 	}
-}
+};
 
 export const simpleHorizontalBarLongLabelOptions = {
 	title: "Simple horizontal bar (truncated labels)",

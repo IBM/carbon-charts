@@ -13,14 +13,12 @@ export class MeterChartModel extends ChartModel {
 		super(services);
 	}
 
-
 	generateDataLabels(newData) {
 		const dataLabels = {};
 		dataLabels[newData.label] = Configuration.legend.items.status.ACTIVE;
 
 		return dataLabels;
 	}
-
 
 	getDisplayData() {
 		if (!this.get("data")) {
@@ -55,9 +53,17 @@ export class MeterChartModel extends ChartModel {
 		const dataValue = this.getDisplayData().value;
 
 		// user needs to supply ranges
-		const allRanges = Tools.getProperty(options, "meter", "status", "ranges");
+		const allRanges = Tools.getProperty(
+			options,
+			"meter",
+			"status",
+			"ranges"
+		);
 		if (allRanges) {
-			const result = allRanges.filter(step => (step.range[0] <= dataValue && dataValue <= step.range[1]));
+			const result = allRanges.filter(
+				(step) =>
+					step.range[0] <= dataValue && dataValue <= step.range[1]
+			);
 			if (result.length > 0) {
 				return result[0].status;
 			}
@@ -66,5 +72,3 @@ export class MeterChartModel extends ChartModel {
 		return null;
 	}
 }
-
-

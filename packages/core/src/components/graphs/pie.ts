@@ -224,17 +224,14 @@ export class Pie extends Component {
 		// Render pie label callouts
 		this.renderCallouts(calloutData);
 
-		const optionName = Tools.getProperty(options, "donut") ? "donut" : "pie";
-		const alignment = Tools.getProperty(
-			options,
-			optionName,
-			"alignment"
-		);
+		const optionName = Tools.getProperty(options, "donut")
+			? "donut"
+			: "pie";
+		const alignment = Tools.getProperty(options, optionName, "alignment");
 
-		const { width } = DOMUtils.getSVGElementSize(
-			this.getParent(),
-			{ useAttr: true }
-		);
+		const { width } = DOMUtils.getSVGElementSize(this.getParent(), {
+			useAttr: true
+		});
 
 		// Position Pie
 		let pieTranslateX = radius + options.pie.xOffset;

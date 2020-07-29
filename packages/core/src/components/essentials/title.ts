@@ -9,7 +9,8 @@ export class Title extends Component {
 	render() {
 		const svg = this.getContainerSVG();
 
-		const text = svg.selectAll("text.title")
+		const text = svg
+			.selectAll("text.title")
 			.data([this.model.getOptions().title]);
 
 		text.enter()
@@ -18,14 +19,14 @@ export class Title extends Component {
 			.merge(text)
 			.attr("x", 0)
 			.attr("y", "1em")
-			.html(d => d);
+			.html((d) => d);
 
 		// check the max space the title has to render
 		const maxWidth = this.getMaxTitleWidth();
 		const title = DOMUtils.appendOrSelect(svg, "text.title");
 
 		// check if title needs truncation (and tooltip support)
-		if (title.node().getComputedTextLength() > maxWidth  &&  maxWidth > 0) {
+		if (title.node().getComputedTextLength() > maxWidth && maxWidth > 0) {
 			this.truncateTitle(title, maxWidth);
 		}
 		text.exit().remove();
@@ -65,9 +66,9 @@ export class Title extends Component {
 
 			// use the substring as the title
 			title
-			.html(titleString.substring(0, substringIndex - 1))
-			.append("tspan")
-			.text("...");
+				.html(titleString.substring(0, substringIndex - 1))
+				.append("tspan")
+				.text("...");
 
 			// add events for displaying the tooltip with the title
 			const self = this;
@@ -84,7 +85,7 @@ export class Title extends Component {
 				.on("mouseout", function () {
 					self.services.events.dispatchEvent(Events.Tooltip.HIDE);
 				});
-			}
+		}
 	}
 
 	// computes the maximum space a title can take

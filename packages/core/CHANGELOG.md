@@ -1,7 +1,7 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## [0.34.7](https://github.com/carbon-design-system/carbon-charts/compare/v0.34.6...v0.34.7) (2020-07-29)
 
@@ -21,14 +21,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.34.5](https://github.com/carbon-design-system/carbon-charts/compare/v0.34.4...v0.34.5) (2020-07-22)
 
-
 ### Bug Fixes
 
-* fix pie chart alignment ([#716](https://github.com/carbon-design-system/carbon-charts/issues/716)) ([638c331](https://github.com/carbon-design-system/carbon-charts/commit/638c331b7fa8fbc73cf557cf99a6b3af2435b492))
-
-
-
-
+-   fix pie chart alignment
+    ([#716](https://github.com/carbon-design-system/carbon-charts/issues/716))
+    ([638c331](https://github.com/carbon-design-system/carbon-charts/commit/638c331b7fa8fbc73cf557cf99a6b3af2435b492))
 
 # Change Log
 
@@ -39,17 +36,9 @@ All notable changes to this project will be documented in this file. See
 
 **Note:** Version bump only for package @carbon/charts
 
-
-
-
-
 ## [0.34.3](https://github.com/carbon-design-system/carbon-charts/compare/v0.34.2...v0.34.3) (2020-07-20)
 
 **Note:** Version bump only for package @carbon/charts
-
-
-
-
 
 ## [0.34.2](https://github.com/carbon-design-system/carbon-charts/compare/v0.34.1...v0.34.2) (2020-07-15)
 

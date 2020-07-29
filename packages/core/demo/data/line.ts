@@ -58,7 +58,7 @@ export const lineCenteredLegendOptions = {
 	legend: {
 		alignment: "center"
 	}
-}
+};
 
 export const lineLongLabelData = [
 	{ group: "Dataset 1", key: "Qty", value: 34200 },

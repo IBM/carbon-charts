@@ -22,6 +22,7 @@ export * from "./graphs/pie";
 export * from "./graphs/gauge";
 export * from "./graphs/donut";
 export * from "./graphs/skeleton";
+export * from "./graphs/heatmap";
 
 // Layout
 export * from "./layout/spacer";

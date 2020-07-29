@@ -23,7 +23,7 @@ export const pieCenteredOptions = {
 	pie: {
 		alignment: "center"
 	}
-}
+};
 
 // pie - empty state
 export const pieEmptyStateData = [];

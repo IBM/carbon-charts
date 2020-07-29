@@ -81,7 +81,7 @@ export interface AxisOptions {
 		/**
 		 * optional custom array of tick values that is within the domain of data
 		 */
-		values?: any[]
+		values?: any[];
 	};
 	truncation?: TruncationOptions;
 }
