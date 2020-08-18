@@ -90,6 +90,13 @@ export interface BaseChartOptions {
 		 */
 		loading?: boolean;
 		/**
+		 * a message to be rendered when data is unavailable for whatever reason
+		 */
+		error?: {
+			title: string;
+			subtitle: string;
+		};
+		/**
 		 * options related to pre-selected data groups
 		 * Remains empty if every legend item is active or dataset doesn't have the data groups.
 		 */

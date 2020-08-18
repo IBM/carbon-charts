@@ -298,7 +298,7 @@ export class Scatter extends Component {
 		const domainIdentifier = this.services.cartesianScales.getDomainIdentifier();
 
 		this.parent
-			.selectAll("circle")
+			.selectAll("circle.dot")
 			.on("mouseover", function (datum) {
 				const hoveredElement = select(this);
 

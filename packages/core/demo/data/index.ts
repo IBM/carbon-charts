@@ -200,6 +200,12 @@ let allDemoGroups = [
 				isDemoExample: false
 			},
 			{
+				options: barDemos.simpleBarErrorOptions,
+				data: barDemos.simpleBarErrorData,
+				chartType: chartTypes.SimpleBarChart,
+				isDemoExample: false
+			},
+			{
 				description:
 					"A grouped bar chart, also known as a clustered bar graph, multi-set bar chart, or grouped column chart, is a type of bar graph that is used to compare values across multiple categories.",
 				options: barDemos.groupedBarOptions,
@@ -390,6 +396,12 @@ let allDemoGroups = [
 				data: donutDemos.donutSkeletonData,
 				chartType: chartTypes.DonutChart,
 				isDemoExample: false
+			},
+			{
+				options: donutDemos.donutErrorOptions,
+				data: donutDemos.donutErrorData,
+				chartType: chartTypes.DonutChart,
+				isDemoExample: false
 			}
 		]
 	},
@@ -472,6 +484,12 @@ let allDemoGroups = [
 				data: lineDemos.lineSkeletonData,
 				chartType: chartTypes.LineChart,
 				isDemoExample: false
+			},
+			{
+				options: lineDemos.lineErrorOptions,
+				data: lineDemos.lineErrorData,
+				chartType: chartTypes.LineChart,
+				isDemoExample: false
 			}
 		]
 	},
@@ -512,6 +530,12 @@ let allDemoGroups = [
 			{
 				options: pieDemos.pieSkeletonOptions,
 				data: pieDemos.pieSkeletonData,
+				chartType: chartTypes.PieChart,
+				isDemoExample: false
+			},
+			{
+				options: pieDemos.pieErrorOptions,
+				data: pieDemos.pieErrorData,
 				chartType: chartTypes.PieChart,
 				isDemoExample: false
 			}

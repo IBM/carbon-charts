@@ -41,3 +41,17 @@ export const pieSkeletonOptions = {
 		loading: true
 	}
 };
+
+// pie - error
+export const pieErrorData = [];
+export const pieErrorOptions = {
+	title: "Pie (error)",
+	resizable: true,
+	data: {
+		loading: false,
+		error: {
+			title: "No usage available",
+			subtitle: "Spending summary is not available for trial accounts"
+		}
+	}
+};

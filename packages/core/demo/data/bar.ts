@@ -494,6 +494,25 @@ export const simpleBarSkeletonOptions = {
 	}
 };
 
+// simple bar - error
+export const simpleBarErrorData = [];
+export const simpleBarErrorOptions = {
+	title: "Simple bar (error)",
+	axes: {
+		left: {},
+		bottom: {
+			scaleType: "labels"
+		}
+	},
+	data: {
+		loading: false,
+		error: {
+			title: "No data available",
+			subtitle: "Lorem ipsum dolor sit."
+		}
+	}
+};
+
 // grouped bar - empty state
 export const groupedBarEmptyStateData = [];
 export const groupedBarEmptyStateOptions = {

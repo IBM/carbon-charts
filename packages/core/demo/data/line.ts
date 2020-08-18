@@ -422,3 +422,29 @@ export const lineSkeletonOptions = {
 		loading: true
 	}
 };
+
+// line - error
+export const lineErrorData = [];
+export const lineErrorOptions = {
+	title: "Line (error)",
+	axes: {
+		bottom: {
+			title: "2019 Annual Sales Figures",
+			mapsTo: "date",
+			scaleType: "time"
+		},
+		left: {
+			mapsTo: "value",
+			title: "Conversion rate",
+			scaleType: "linear"
+		}
+	},
+	curve: "curveMonotoneX",
+	data: {
+		loading: false,
+		error: {
+			title: "No usage available",
+			subtitle: "Spending summary is not available for trial accounts"
+		}
+	}
+};
