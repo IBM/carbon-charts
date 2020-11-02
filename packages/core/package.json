@@ -50,6 +50,7 @@
 	"dependencies": {
 		"@carbon/colors": "10.4.0",
 		"@carbon/utils-position": "1.1.1",
+		"d3-sankey": "0.12.3",
 		"date-fns": "2.8.1",
 		"lodash-es": "4.17.15",
 		"resize-observer-polyfill": "1.5.0"

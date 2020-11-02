@@ -9,6 +9,7 @@ export * from "./essentials/tooltip";
 export * from "./essentials/tooltip-axis";
 
 // GRAPHS
+export * from "./graphs/alluvial";
 export * from "./graphs/area";
 export * from "./graphs/area-stacked";
 export * from "./graphs/bar-simple";

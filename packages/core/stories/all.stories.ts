@@ -90,7 +90,7 @@ storybookDemoGroups.forEach((demoGroup) => {
 		groupStories.add(demo.title, () => {
 			// container creation
 			const container = document.createElement("div");
-			container.setAttribute("class", "container theme--g100");
+			container.setAttribute("class", "container");
 
 			container.innerHTML = `
 <h3>
