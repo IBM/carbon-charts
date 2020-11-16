@@ -5,21 +5,22 @@
   LICENSE file in the root directory of this source tree.
 -->
 
-<button class="bx--btn bx--btn--primary" type="button" data-modal-target="#modal-xyj1ldvt5pi">Show
+<button class="bx--btn bx--btn--primary" type="button" data-modal-target="#modal-5a9ctqnqxeq">Show
   modal</button>
 
-<div data-modal id="modal-xyj1ldvt5pi" class="bx--modal " role="dialog"
-  aria-modal="true" aria-labelledby="modal-xyj1ldvt5pi-label" aria-describedby="modal-xyj1ldvt5pi-heading" tabindex="-1">
+<div data-modal id="modal-5a9ctqnqxeq" class="bx--modal " role="dialog"
+  aria-modal="true" aria-labelledby="modal-5a9ctqnqxeq-label" aria-describedby="modal-5a9ctqnqxeq-heading" tabindex="-1">
   <div class="bx--modal-container">
     <div class="bx--modal-header">
-      <p class="bx--modal-header__label bx--type-delta" id="modal-xyj1ldvt5pi-label">Optional label</p>
-      <p class="bx--modal-header__heading bx--type-beta" id="modal-xyj1ldvt5pi-heading">Modal heading</p>
+      <p class="bx--modal-header__label bx--type-delta" id="modal-5a9ctqnqxeq-label">Optional label</p>
+      <p class="bx--modal-header__heading bx--type-beta" id="modal-5a9ctqnqxeq-heading">Modal heading</p>
       <button class="bx--modal-close" type="button" data-modal-close aria-label="close modal" >
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" class="bx--modal-close__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M12 4.7l-.7-.7L8 7.3 4.7 4l-.7.7L7.3 8 4 11.3l.7.7L8 8.7l3.3 3.3.7-.7L8.7 8z"></path></svg>
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bx--modal-close__icon" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"><path d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4z"></path></svg>
       </button>
     </div>
 
     <!-- Note: Modals with content that scrolls, at any viewport, requires `tabindex="0"` on the `bx--modal-content` element -->
+
     <div class="bx--modal-content" >
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id accumsan augue. Phasellus consequat augue
         vitae
@@ -27,9 +28,14 @@
         facilisi.
         Etiam venenatis molestie tellus. Quisque consectetur non risus eu rutrum. </p>
 
-    </div>
+          </div>
+    <div class="bx--modal-content--overflow-indicator"></div>
 
     <div class="bx--modal-footer">
       <button class="bx--btn bx--btn--secondary" type="button" data-modal-close>Secondary button</button>
-      <button class="bx--btn bx--btn--primary" type="button"   data-modal-primary-focus>Primary button</button> </div>  </div>
-        </div>
+      <button class="bx--btn bx--btn--primary" type="button"   data-modal-primary-focus>Primary button</button>
+    </div>
+  </div>
+  <!-- Note: focusable span allows for focus wrap feature within Modals -->
+  <span tabindex="0"></span>
+</div>

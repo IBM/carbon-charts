@@ -78,6 +78,44 @@ export class CartesianScales extends Service {
 		return this.getAxisOptions(rangeAxisPosition);
 	}
 
+	getDomainLabel() {
+		const domainAxisOptions = this.getDomainAxisOptions();
+
+		let domainLabel = domainAxisOptions.title;
+		if (!domainLabel) {
+			const domainAxisPosition = this.getDomainAxisPosition();
+			if (
+				domainAxisPosition === AxisPositions.BOTTOM ||
+				domainAxisPosition === AxisPositions.TOP
+			) {
+				domainLabel = "x-value";
+			} else {
+				domainLabel = "y-value";
+			}
+		}
+
+		return domainLabel;
+	}
+
+	getRangeLabel() {
+		const rangeAxisOptions = this.getRangeAxisOptions();
+
+		let rangeLabel = rangeAxisOptions.title;
+		if (!rangeLabel) {
+			const rangeAxisPosition = this.getRangeAxisPosition();
+			if (
+				rangeAxisPosition === AxisPositions.LEFT ||
+				rangeAxisPosition === AxisPositions.RIGHT
+			) {
+				rangeLabel = "y-value";
+			} else {
+				rangeLabel = "x-value";
+			}
+		}
+
+		return rangeLabel;
+	}
+
 	update(animate = true) {
 		this.findDomainAndRangeAxes();
 		this.determineOrientation();

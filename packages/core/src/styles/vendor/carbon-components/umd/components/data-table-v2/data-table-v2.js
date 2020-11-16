@@ -10,7 +10,7 @@
     factory(mod.exports, global.dataTable);
     global.dataTableV2 = mod.exports;
   }
-})(this, function (_exports, _dataTable) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _dataTable) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

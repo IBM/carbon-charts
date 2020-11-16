@@ -76,7 +76,7 @@
 		"babel-core": "6.26.0",
 		"babel-loader": "7.1.2",
 		"babel-polyfill": "6.26.0",
-		"carbon-components": "10.5.0",
+		"carbon-components": "10.23.2",
 		"codesandbox": "2.1.11",
 		"concurrently": "5.1.0",
 		"copy-webpack-plugin": "4.5.2",

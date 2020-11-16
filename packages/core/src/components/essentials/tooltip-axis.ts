@@ -20,28 +20,16 @@ export class AxisChartsTooltip extends Tooltip {
 		}
 
 		const options = this.model.getOptions();
+		const { groupMapsTo } = options.data;
+
 		const { cartesianScales } = this.services;
-		const domainAxisOptions = cartesianScales.getDomainAxisOptions();
 		const domainIdentifier = cartesianScales.getDomainIdentifier();
 		const domainAxisScaleType = cartesianScales.getDomainAxisScaleType();
-		const rangeAxisOptions = cartesianScales.getRangeAxisOptions();
 		const rangeIdentifier = cartesianScales.getRangeIdentifier();
-		const rangeAxisScaleType = cartesianScales.getRangeAxisScaleType();
 
-		// Generate default tooltip
-		const { groupMapsTo } = options.data;
-		let domainLabel = domainAxisOptions.title;
-		if (!domainLabel) {
-			const domainAxisPosition = cartesianScales.getDomainAxisPosition();
-			if (
-				domainAxisPosition === AxisPositions.BOTTOM ||
-				domainAxisPosition === AxisPositions.TOP
-			) {
-				domainLabel = "x-value";
-			} else {
-				domainLabel = "y-value";
-			}
-		}
+		// domain & range labels
+		const domainLabel = cartesianScales.getDomainLabel();
+		const rangeLabel = cartesianScales.getRangeLabel();
 
 		let domainValue = data[0][domainIdentifier];
 		if (domainAxisScaleType === ScaleTypes.TIME) {
@@ -56,19 +44,6 @@ export class AxisChartsTooltip extends Tooltip {
 		let items: any[];
 		if (data.length === 1) {
 			const datum = data[0];
-
-			let rangeLabel = rangeAxisOptions.title;
-			if (!rangeLabel) {
-				const rangeAxisPosition = cartesianScales.getRangeAxisPosition();
-				if (
-					rangeAxisPosition === AxisPositions.LEFT ||
-					rangeAxisPosition === AxisPositions.RIGHT
-				) {
-					rangeLabel = "y-value";
-				} else {
-					rangeLabel = "x-value";
-				}
-			}
 
 			items = [
 				{

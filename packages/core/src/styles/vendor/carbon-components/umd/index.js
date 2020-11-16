@@ -10,7 +10,7 @@
     factory(mod.exports, global.components, global.settings);
     global.index = mod.exports;
   }
-})(this, function (_exports, _components, _settings) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _components, _settings) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

@@ -186,7 +186,9 @@ export enum TickRotations {
  * enum of supported toolbar control types
  */
 export enum ToolbarControlTypes {
-	ZOOM_IN = "Zoom in",
-	ZOOM_OUT = "Zoom out",
-	RESET_ZOOM = "Reset zoom"
+	ZOOM_IN = "zoom-in",
+	ZOOM_OUT = "zoom-out",
+	RESET_ZOOM = "zoom-reset",
+	MAKE_FULLSCREEN = "make-fullscreen",
+	SHOW_AS_DATATABLE = "show-as-datatable"
 }

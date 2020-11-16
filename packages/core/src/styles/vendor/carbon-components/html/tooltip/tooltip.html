@@ -5,63 +5,66 @@
   LICENSE file in the root directory of this source tree.
 -->
 
-<div id="example-dpj84x678bm-label" class="bx--tooltip__label">
+<!-- Using the trigger label as the tooltip label (can be repetitive for screen reader users) -->
+<div id="example-wn7w1wy8wp-label" class="bx--tooltip__label">
   Tooltip label
-  <div tabindex="0" aria-labelledby="example-dpj84x678bm-label" data-tooltip-trigger data-tooltip-target="#example-dpj84x678bm"
-    role="button" class="bx--tooltip__trigger" aria-controls="example-dpj84x678bm" aria-haspopup="true">
-    <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.5 11V6.5h-2v1h1V11H6v1h4v-1zM8 3.5c-.4 0-.8.3-.8.8s.4.7.8.7.8-.3.8-.8-.4-.7-.8-.7z"></path><path d="M8 15c-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7-3.1 7-7 7zM8 2C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"></path></svg>
-  </div>
+  <button aria-expanded="false" aria-labelledby="example-wn7w1wy8wp-label" data-tooltip-trigger data-tooltip-target="#example-wn7w1wy8wp"
+    class="bx--tooltip__trigger" aria-controls="example-wn7w1wy8wp">
+    <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.5 11L8.5 6.5 6.5 6.5 6.5 7.5 7.5 7.5 7.5 11 6 11 6 12 10 12 10 11zM8 3.5c-.4 0-.8.3-.8.8S7.6 5 8 5c.4 0 .8-.3.8-.8S8.4 3.5 8 3.5z"></path><path d="M8,15c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S11.9,15,8,15z M8,2C4.7,2,2,4.7,2,8s2.7,6,6,6s6-2.7,6-6S11.3,2,8,2z"></path></svg>
+  </button>
 </div>
-<div id="example-dpj84x678bm" data-floating-menu-direction="bottom" class="bx--tooltip"
-  data-avoid-focus-on-open role="dialog" aria-describedby="example-dpj84x678bm-body" aria-labelledby="example-dpj84x678bm-label">
+<div id="example-wn7w1wy8wp" aria-hidden="true" data-floating-menu-direction="bottom" class="bx--tooltip">
   <span class="bx--tooltip__caret"></span>
-  <p id="example-dpj84x678bm-body" >This is some tooltip text. This box shows the maximum amount of text that should appear inside. If more room is
-    needed
-    please use a modal instead.</p>
-  <div class="bx--tooltip__footer">
-    <a href="#" class="bx--link">Learn More</a>
-    <button class="bx--btn bx--btn--primary bx--btn--sm"
-      type="button">Create</button>
+  <div class="bx--tooltip__content" tabindex="-1" role="dialog" aria-describedby="example-wn7w1wy8wp-body" aria-labelledby="example-wn7w1wy8wp-label">
+    <p id="example-wn7w1wy8wp-body" >This is some tooltip text. This box shows the maximum amount of text that should appear inside. If more room is
+      needed please use a modal instead.</p>
+    <div class="bx--tooltip__footer">
+      <a href="#" class="bx--link">Learn More</a>
+      <button class="bx--btn bx--btn--primary bx--btn--sm"
+        type="button">Create</button>
+    </div>
   </div>
+  <!-- Note: focusable span allows for focus wrap feature within Tooltips -->
+  <span tabindex="0"></span>
 </div>
 
-<div id="example-eowjleqeeb-label" class="bx--tooltip__label">
+<!-- Tooltip with Rich Text (heading and body content) but no interactive elements -->
+<div id="example-cjj9b0amuvp-label" class="bx--tooltip__label">
   Tooltip label
-  <div tabindex="0" aria-labelledby="example-eowjleqeeb-label" data-tooltip-trigger data-tooltip-target="#example-eowjleqeeb"
-    role="button" class="bx--tooltip__trigger" aria-controls="example-eowjleqeeb" aria-haspopup="true">
-    <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.5 11V6.5h-2v1h1V11H6v1h4v-1zM8 3.5c-.4 0-.8.3-.8.8s.4.7.8.7.8-.3.8-.8-.4-.7-.8-.7z"></path><path d="M8 15c-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7-3.1 7-7 7zM8 2C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"></path></svg>
-  </div>
+  <button aria-expanded="false" aria-labelledby="example-cjj9b0amuvp-label" data-tooltip-trigger data-tooltip-target="#example-cjj9b0amuvp"
+    class="bx--tooltip__trigger" aria-controls="example-cjj9b0amuvp">
+    <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.5 11L8.5 6.5 6.5 6.5 6.5 7.5 7.5 7.5 7.5 11 6 11 6 12 10 12 10 11zM8 3.5c-.4 0-.8.3-.8.8S7.6 5 8 5c.4 0 .8-.3.8-.8S8.4 3.5 8 3.5z"></path><path d="M8,15c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S11.9,15,8,15z M8,2C4.7,2,2,4.7,2,8s2.7,6,6,6s6-2.7,6-6S11.3,2,8,2z"></path></svg>
+  </button>
 </div>
-<div id="example-eowjleqeeb" data-floating-menu-direction="bottom" class="bx--tooltip"
-  data-avoid-focus-on-open role="dialog" aria-describedby="example-eowjleqeeb-body" aria-labelledby="example-eowjleqeeb-heading">
+<div id="example-cjj9b0amuvp" aria-hidden="true" data-floating-menu-direction="bottom" class="bx--tooltip">
   <span class="bx--tooltip__caret"></span>
-  <h4 id="example-eowjleqeeb-heading">Heading within a Tooltip</h4>
-  <p id="example-eowjleqeeb-body" >This is some tooltip text. This box shows the maximum amount of text that should appear inside. If more room is
-    needed
-    please use a modal instead.</p>
-  <div class="bx--tooltip__footer">
-    <a href="#" class="bx--link">Learn More</a>
-    <button class="bx--btn bx--btn--primary bx--btn--sm"
-      type="button">Create</button>
+  <div class="bx--tooltip__content" tabindex="-1" role="dialog" aria-labelledby="example-cjj9b0amuvp-heading" aria-describedby="example-cjj9b0amuvp-body">
+    <h4 id="example-cjj9b0amuvp-heading" class="bx--tooltip__heading">Heading within a Tooltip</h4>
+    <p id="example-cjj9b0amuvp-body" >This is some tooltip text. This box shows the maximum amount of text that should appear inside. If more room is
+      needed please use a modal instead.</p>
   </div>
+  <span tabindex="0"></span>
 </div>
 
-<div id="example-w1qgpr6yxyr-label" class="bx--tooltip__label">
+<!-- Tooltip without visible label (not recommended for WCAG 2.1) -->
+<div id="example-zx5bw4r7js-label" class="bx--tooltip__label">
   Tooltip label
-  <div tabindex="0" aria-labelledby="example-w1qgpr6yxyr-label" data-tooltip-trigger data-tooltip-target="#example-w1qgpr6yxyr"
-    role="button" class="bx--tooltip__trigger" aria-controls="example-w1qgpr6yxyr" aria-haspopup="true">
-    <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.5 11V6.5h-2v1h1V11H6v1h4v-1zM8 3.5c-.4 0-.8.3-.8.8s.4.7.8.7.8-.3.8-.8-.4-.7-.8-.7z"></path><path d="M8 15c-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7-3.1 7-7 7zM8 2C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"></path></svg>
+  <div tabindex="0" aria-expanded="false" aria-labelledby="example-zx5bw4r7js-label" data-tooltip-trigger data-tooltip-target="#example-zx5bw4r7js"
+    role="button" class="bx--tooltip__trigger" aria-controls="example-zx5bw4r7js">
+    <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.5 11L8.5 6.5 6.5 6.5 6.5 7.5 7.5 7.5 7.5 11 6 11 6 12 10 12 10 11zM8 3.5c-.4 0-.8.3-.8.8S7.6 5 8 5c.4 0 .8-.3.8-.8S8.4 3.5 8 3.5z"></path><path d="M8,15c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S11.9,15,8,15z M8,2C4.7,2,2,4.7,2,8s2.7,6,6,6s6-2.7,6-6S11.3,2,8,2z"></path></svg>
   </div>
 </div>
-<div id="example-w1qgpr6yxyr" data-floating-menu-direction="bottom" class="bx--tooltip"
-  data-avoid-focus-on-open role="dialog" aria-describedby="example-w1qgpr6yxyr-body" aria-label="Tooltip label">
+<div id="example-zx5bw4r7js" aria-hidden="true" data-floating-menu-direction="bottom" class="bx--tooltip">
   <span class="bx--tooltip__caret"></span>
-  <p id="example-w1qgpr6yxyr-body" >This is some tooltip text. This box shows the maximum amount of text that should appear inside. If more room is
-    needed
-    please use a modal instead.</p>
-  <div class="bx--tooltip__footer">
-    <a href="#" class="bx--link">Learn More</a>
-    <button class="bx--btn bx--btn--primary bx--btn--sm"
-      type="button">Create</button>
+  <div class="bx--tooltip__content" tabindex="-1" role="dialog" aria-describedby="example-zx5bw4r7js-body" aria-label="Tooltip label">
+    <p id="example-zx5bw4r7js-body" >This is some tooltip text. This box shows the maximum amount of text that should appear inside. If more room is
+      needed
+      please use a modal instead.</p>
+    <div class="bx--tooltip__footer">
+      <a href="#" class="bx--link">Learn More</a>
+      <button class="bx--btn bx--btn--primary bx--btn--sm"
+        type="button">Create</button>
+    </div>
   </div>
+  <span tabindex="0"></span>
 </div>

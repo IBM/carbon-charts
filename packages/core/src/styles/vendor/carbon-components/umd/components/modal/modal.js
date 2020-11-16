@@ -10,7 +10,7 @@
     factory(mod.exports, global.warning, global.settings, global.mixin, global.createComponent, global.initComponentByLauncher, global.eventedShowHideState, global.handles, global.eventMatches, global.on);
     global.modal = mod.exports;
   }
-})(this, function (_exports, _warning, _settings, _mixin2, _createComponent, _initComponentByLauncher, _eventedShowHideState, _handles, _eventMatches, _on) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _warning, _settings, _mixin2, _createComponent, _initComponentByLauncher, _eventedShowHideState, _handles, _eventMatches, _on) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -34,6 +34,8 @@
   }
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function _typeof(obj) {
         return typeof obj;
@@ -69,29 +71,6 @@
     return Constructor;
   }
 
-  function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-      return call;
-    }
-
-    return _assertThisInitialized(self);
-  }
-
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return self;
-  }
-
-  function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-      return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-  }
-
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function");
@@ -116,10 +95,65 @@
     return _setPrototypeOf(o, p);
   }
 
-  var Modal =
-  /*#__PURE__*/
-  function (_mixin) {
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+      return call;
+    }
+
+    return _assertThisInitialized(self);
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
+  var Modal = /*#__PURE__*/function (_mixin) {
     _inherits(Modal, _mixin);
+
+    var _super = _createSuper(Modal);
     /**
      * Modal dialog.
      * @extends CreateComponent
@@ -150,12 +184,14 @@
 
       _classCallCheck(this, Modal);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Modal).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this._handleFocusinListener = void 0;
       _this._handleKeydownListener = void 0;
 
       _this._handleFocusin = function (evt) {
-        if (_this.element.classList.contains(_this.options.classVisible) && !_this.element.contains(evt.target) && _this.options.selectorsFloatingMenus.every(function (selector) {
+        var focusWrapNode = _this.element.querySelector(_this.options.selectorModalContainer) || _this.element;
+
+        if (_this.element.classList.contains(_this.options.classVisible) && !focusWrapNode.contains(evt.target) && _this.options.selectorsFloatingMenus.every(function (selector) {
           return !(0, _eventMatches.default)(evt, selector);
         })) {
           _this.element.querySelector(_settings.default.selectorTabbable).focus();
@@ -239,7 +275,7 @@
         }
 
         if (state === 'shown') {
-          var hasFocusin = 'onfocusin' in this.element.ownerDocument.defaultView;
+          var hasFocusin = ('onfocusin' in this.element.ownerDocument.defaultView);
           var focusinEventName = hasFocusin ? 'focusin' : 'focus';
           this._handleFocusinListener = this.manage((0, _on.default)(this.element.ownerDocument, focusinEventName, this._handleFocusin, !hasFocusin));
         }
@@ -308,6 +344,7 @@
        * @property {string} [selectorPrimaryFocus] The CSS selector to determine the element to put focus when modal gets open.
        * @property {string} [selectorFocusOnClose] The CSS selector to determine the element to put focus when modal closes.
        *   If undefined, focus returns to the previously focused element prior to the modal opening.
+       * @property {string} [selectorModalContainer] The CSS selector for the content container of the modal for focus wrap feature.
        * @property {string} attribInitTarget The attribute name in the launcher buttons to find target modal dialogs.
        * @property {string[]} [selectorsFloatingMenu]
        *   The CSS selectors of floating menus.
@@ -335,6 +372,7 @@
           selectorModalClose: '[data-modal-close]',
           selectorPrimaryFocus: '[data-modal-primary-focus]',
           selectorsFloatingMenus: [".".concat(prefix, "--overflow-menu-options"), ".".concat(prefix, "--tooltip"), '.flatpickr-calendar'],
+          selectorModalContainer: ".".concat(prefix, "--modal-container"),
           classVisible: 'is-visible',
           classBody: "".concat(prefix, "--body--with-modal-open"),
           attribInitTarget: 'data-modal-target',

@@ -14,28 +14,38 @@
   @include reset;
   @include type-style('body-short-01');
 
-  cursor: pointer;
+  position: relative;
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  min-height: rem($button-height);
+  max-width: rem(320px);
+  min-height: $button-height;
+  // Fix to remove added margins on buttons in safari (see #5155)
+  margin: 0;
   padding: $button-padding;
-  border-radius: $button-border-radius;
   text-align: left;
   text-decoration: none;
-  transition: all $duration--fast-01 motion(entrance, productive);
-  outline: $button-outline-width solid transparent;
-  outline-offset: -4px;
-  position: relative;
-  max-width: rem(320px);
+  vertical-align: top;
+  border-radius: $button-border-radius;
+  outline: none;
+  cursor: pointer;
+  transition: background $duration--fast-01 motion(entrance, productive),
+    box-shadow $duration--fast-01 motion(entrance, productive),
+    border-color $duration--fast-01 motion(entrance, productive),
+    outline $duration--fast-01 motion(entrance, productive);
 
   &:disabled,
-  &.#{$prefix}--btn--disabled {
-    cursor: not-allowed;
+  &:hover:disabled,
+  &:focus:disabled,
+  &.#{$prefix}--btn--disabled,
+  &.#{$prefix}--btn--disabled:hover,
+  &.#{$prefix}--btn--disabled:focus {
     color: $disabled-03;
     background: $disabled-02;
     border-color: $disabled-02;
+    box-shadow: none;
+    cursor: not-allowed;
   }
 
   .#{$prefix}--btn__icon {
@@ -56,14 +66,13 @@
   $font-color,
   $hover-bg-color,
   $icon-color,
-  $active-color,
-  $border-width: $button-border-width
+  $active-color
 ) {
-  background-color: $bg-color;
-  border-width: $border-width;
-  border-style: solid;
-  border-color: $border-color;
   color: $font-color;
+  background-color: $bg-color;
+  border-color: $border-color;
+  border-style: solid;
+  border-width: $button-outline-width;
 
   &:hover {
     background-color: $hover-bg-color;
@@ -71,17 +80,15 @@
 
   &:focus {
     border-color: $focus;
-    outline-color: $ui-02;
-  }
+    box-shadow: inset 0 0 0 $button-outline-width $focus,
+      inset 0 0 0 $button-border-width $ui-background;
 
-  &:disabled:hover,
-  &:disabled:focus,
-  &:hover.#{$prefix}--btn--disabled,
-  &:focus.#{$prefix}--btn--disabled {
-    color: $ui-04;
-    background-color: $disabled-02;
-    border-color: $disabled-02;
-    text-decoration: none;
+    // Windows, Firefox HCM Fix
+    @media screen and (-ms-high-contrast: active),
+      screen and (prefers-contrast) {
+      outline: 3px solid transparent;
+      outline-offset: -3px;
+    }
   }
 
   &:active {
@@ -92,4 +99,11 @@
   .#{$prefix}--btn__icon path {
     fill: $icon-color;
   }
+}
+
+@mixin button-padding-large {
+  align-items: baseline;
+  padding-top: $spacing-05;
+  padding-right: $layout-05;
+  padding-left: $spacing-05;
 }

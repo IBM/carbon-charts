@@ -10,7 +10,7 @@
     factory(mod.exports);
     global.settings = mod.exports;
   }
-})(this, function (_exports) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -40,14 +40,19 @@
    * // @todo given that the default value is so long, is it appropriate to put in the JSDoc?
    * @property {string} [selectorTabbable]
    *   A selector selecting tabbable/focusable nodes.
-   *   By default selectorTabbable refereneces links, areas, inputs, buttons, selects, textareas,
+   *   By default selectorTabbable references links, areas, inputs, buttons, selects, textareas,
    *   iframes, objects, embeds, or elements explicitly using tabindex or contenteditable attributes
    *   as long as the element is not `disabled` or the `tabindex="-1"`.
+   * @property {string} [selectorFocusable]
+   *   CSS selector that selects major nodes that are click focusable
+   *   This property is identical to selectorTabbable with the exception of
+   *   the `:not([tabindex='-1'])` pseudo class
    */
 
   var settings = {
     prefix: 'bx',
-    selectorTabbable: "\n    a[href], area[href], input:not([disabled]):not([tabindex='-1']),\n    button:not([disabled]):not([tabindex='-1']),select:not([disabled]):not([tabindex='-1']),\n    textarea:not([disabled]):not([tabindex='-1']),\n    iframe, object, embed, *[tabindex]:not([tabindex='-1']), *[contenteditable=true]\n  "
+    selectorTabbable: "\n    a[href], area[href], input:not([disabled]):not([tabindex='-1']),\n    button:not([disabled]):not([tabindex='-1']),select:not([disabled]):not([tabindex='-1']),\n    textarea:not([disabled]):not([tabindex='-1']),\n    iframe, object, embed, *[tabindex]:not([tabindex='-1']), *[contenteditable=true]\n  ",
+    selectorFocusable: "\n    a[href], area[href], input:not([disabled]),\n    button:not([disabled]),select:not([disabled]),\n    textarea:not([disabled]),\n    iframe, object, embed, *[tabindex], *[contenteditable=true]\n  "
   };
   var settings_1 = settings;
   var _default = settings_1;

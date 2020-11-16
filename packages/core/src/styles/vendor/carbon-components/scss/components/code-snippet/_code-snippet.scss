@@ -10,6 +10,9 @@
 @import '../../globals/scss/helper-mixins';
 @import '../../globals/scss/vendor/@carbon/elements/scss/import-once/import-once';
 @import '../../globals/scss/css--reset';
+@import '../../globals/scss/theme-tokens';
+@import '../../globals/scss/tooltip';
+@import '../../globals/scss/keyframes';
 @import 'mixins';
 
 /// Code snippet styles
@@ -27,18 +30,14 @@
   // Inline Code Snippet
   .#{$prefix}--snippet--inline {
     @include reset;
-    // Note: originally this inline snippet inherited font-size, we might need
-    // a more flexible strategy than explicitly setting font-size with this
-    // type style
-    @include type-style('code-01');
 
     position: relative;
     display: inline;
     padding: 0;
+    color: $text-01;
+    background-color: $ui-01;
     border: 2px solid transparent;
     border-radius: 4px;
-    background-color: $ui-01;
-    color: $text-01;
     cursor: pointer;
 
     &:hover {
@@ -50,104 +49,170 @@
     }
 
     &:focus {
+      border: 2px solid $focus;
       outline: none;
-      border: 2px solid $interactive-01;
     }
+
+    &::before {
+      @include tooltip--caret;
+
+      display: none;
+    }
+
+    .#{$prefix}--copy-btn__feedback {
+      @include tooltip--content('icon');
+
+      display: none;
+      box-sizing: content-box;
+      margin: auto;
+      overflow: visible;
+      clip: auto;
+    }
+
+    @include tooltip--placement('icon', 'bottom', 'center');
+  }
+
+  .#{$prefix}--snippet--inline.#{$prefix}--copy-btn--animating::before,
+  .#{$prefix}--snippet--inline.#{$prefix}--copy-btn--animating
+    .#{$prefix}--copy-btn__feedback {
+    display: block;
+  }
+
+  .#{$prefix}--snippet--inline.#{$prefix}--copy-btn--animating.#{$prefix}--copy-btn--fade-out::before,
+  .#{$prefix}--snippet--inline.#{$prefix}--copy-btn--animating.#{$prefix}--copy-btn--fade-out
+    .#{$prefix}--copy-btn__feedback {
+    animation: $duration--fast-02 motion(standard, productive) hide-feedback;
+  }
+
+  .#{$prefix}--snippet--inline.#{$prefix}--copy-btn--animating.#{$prefix}--copy-btn--fade-in::before,
+  .#{$prefix}--snippet--inline.#{$prefix}--copy-btn--animating.#{$prefix}--copy-btn--fade-in
+    .#{$prefix}--copy-btn__feedback {
+    animation: $duration--fast-02 motion(standard, productive) show-feedback;
   }
 
   .#{$prefix}--snippet--inline code {
-    padding: 0 $spacing-xs;
+    padding: 0 $spacing-03;
   }
 
-  .#{$prefix}--snippet--inline.#{$prefix}--snippet--light {
-    background-color: $field-02;
+  .#{$prefix}--snippet--inline.#{$prefix}--snippet--no-copy {
+    display: inline-block;
 
     &:hover {
-      background-color: rgba($interactive-02, 0.1);
+      background-color: $ui-01;
+      cursor: auto;
     }
   }
 
   // Single Line Snippet
   .#{$prefix}--snippet--single {
     @include bx--snippet;
-    border: none;
-    max-width: rem(760px);
+
     min-width: rem(320px);
+    max-width: rem(760px);
     height: $carbon--spacing-08;
-    padding: 0 56px 0 $carbon--spacing-05;
+    padding-right: $carbon--spacing-08;
+  }
+
+  .#{$prefix}--snippet--single.#{$prefix}--snippet--no-copy {
+    padding: 0;
+
+    &::after {
+      right: $carbon--spacing-05;
+    }
   }
 
   .#{$prefix}--snippet--single .#{$prefix}--snippet-container {
+    position: relative;
     display: flex;
     align-items: center;
+    height: 100%;
+    padding-left: $carbon--spacing-05;
     overflow-x: auto;
-    position: relative;
-    padding: 0 0 $carbon--spacing-05 0;
-    height: rem(56px);
+    border-right: solid $carbon--spacing-05 transparent;
+
+    &:focus {
+      @include focus-outline('outline');
+    }
   }
 
   .#{$prefix}--snippet--single pre {
-    white-space: nowrap;
     @include type-style('code-01');
-    padding-right: $spacing-xs;
+
+    padding-right: $spacing-03;
+    white-space: nowrap;
   }
 
   .#{$prefix}--snippet--single::after {
-    width: rem(16px);
-    height: 100%;
-    content: '';
     position: absolute;
     top: 0;
     right: rem(56px);
-    background-image: linear-gradient(to right, transparent, $ui-01);
+    width: rem(16px);
+    height: 100%;
+    // Safari interprets `transparent` differently, so make color token value transparent instead:
+    background-image: linear-gradient(to right, rgba($ui-01, 0), $ui-01);
+    content: '';
   }
 
   // Multi Line Snippet
   .#{$prefix}--snippet--multi {
     @include bx--snippet;
-    border: none;
-    padding: $carbon--spacing-05;
+
     min-width: rem(320px);
     max-width: 100%;
+    padding: $carbon--spacing-05;
   }
 
   //closed snippet container
   .#{$prefix}--snippet--multi .#{$prefix}--snippet-container {
-    overflow: hidden;
     position: relative;
-    max-height: rem(238px);
     min-height: rem(56px);
+    max-height: rem(238px);
+    overflow: hidden;
     transition: max-height $duration--moderate-01 motion(standard, productive);
   }
 
   // expanded snippet container
   .#{$prefix}--snippet--multi.#{$prefix}--snippet--expand
     .#{$prefix}--snippet-container {
-    max-height: rem(1500px);
+    max-height: 100%;
+    padding-bottom: $spacing-05;
     transition: max-height $duration--moderate-01 motion(standard, productive);
+  }
+
+  .#{$prefix}--snippet--multi.#{$prefix}--snippet--wraptext pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 
   // closed pre
   .#{$prefix}--snippet--multi .#{$prefix}--snippet-container pre {
-    overflow: hidden;
+    padding-right: $carbon--spacing-08;
     padding-bottom: rem(24px);
+    overflow-x: auto;
+  }
+
+  .#{$prefix}--snippet--multi.#{$prefix}--snippet--no-copy
+    .#{$prefix}--snippet-container
+    pre {
+    padding-right: 0;
   }
 
   // expanded pre
   .#{$prefix}--snippet--multi.#{$prefix}--snippet--expand
     .#{$prefix}--snippet-container
     pre {
-    overflow-x: scroll;
+    overflow-x: auto;
   }
 
   .#{$prefix}--snippet--multi .#{$prefix}--snippet-container pre::after {
-    width: rem(16px);
-    height: 100%;
-    content: '';
     position: absolute;
     top: 0;
     right: 0;
-    background-image: linear-gradient(to right, transparent, $ui-01);
+    width: rem(16px);
+    height: 100%;
+    // Safari interprets `transparent` differently, so make color token value transparent instead:
+    background-image: linear-gradient(to right, rgba($ui-01, 0), $ui-01);
+    content: '';
   }
 
   .#{$prefix}--snippet--multi .#{$prefix}--snippet-container pre code {
@@ -156,37 +221,42 @@
 
   //Copy Button
   .#{$prefix}--snippet__icon {
-    fill: $icon-01;
-    height: rem(16px);
     width: rem(16px);
+    height: rem(16px);
     transition: all $duration--fast-01 motion(standard, productive);
+    fill: $icon-01;
   }
 
   .#{$prefix}--snippet-button {
     @include reset;
-    cursor: pointer;
+
     position: absolute;
     top: 0;
     right: 0;
-    border: none;
-    background-color: $ui-01;
-    outline: none;
-    padding: 0;
-    height: $carbon--spacing-08;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: $carbon--spacing-08;
+    height: $carbon--spacing-08;
+    padding: 0;
     overflow: visible;
+    background-color: $ui-01;
+    border: none;
+    outline: none;
+    cursor: pointer;
 
     &:focus {
       @include focus-outline('outline');
+
       outline-color: $focus;
     }
   }
 
   .#{$prefix}--snippet--multi .#{$prefix}--snippet-button {
-    height: $carbon--spacing-07;
+    top: $spacing-03;
+    right: $spacing-03;
     width: $carbon--spacing-07;
-    top: $spacing-xs;
-    right: $spacing-xs;
+    height: $carbon--spacing-07;
   }
 
   .#{$prefix}--snippet-button:hover {
@@ -199,33 +269,50 @@
 
   .#{$prefix}--btn--copy__feedback {
     @include type-style('body-short-01');
-    z-index: z('overlay');
-    font-weight: 400;
-    left: inherit;
+    // Override one in code snippet
+    @include carbon--font-family('sans');
+
     top: 0.75rem;
     right: 1.25rem;
+    left: inherit;
+    z-index: z('overlay');
+    font-weight: 400;
   }
 
-  .#{$prefix}--btn--copy__feedback:before,
-  .#{$prefix}--btn--copy__feedback:after {
+  .#{$prefix}--btn--copy__feedback::before,
+  .#{$prefix}--btn--copy__feedback::after {
     background: $copy-btn-feedback;
   }
 
-  .#{$prefix}--btn--copy__feedback:after {
+  .#{$prefix}--btn--copy__feedback::after {
     border: none;
+  }
+
+  // TODO: remove copy button styles above
+  .#{$prefix}--snippet .#{$prefix}--copy-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    // Override inherited rule in code snippet
+    @include carbon--font-family('sans');
   }
 
   // Show more / less button
   button.#{$prefix}--btn.#{$prefix}--snippet-btn--expand {
+    @include type-style('body-short-01');
+    @include carbon--font-family('sans');
+
+    position: absolute;
+    right: $spacing-03;
+    bottom: $spacing-03;
     display: inline-flex;
     align-items: center;
-    position: absolute;
-    right: $spacing-xs;
-    bottom: $spacing-xs;
-    padding: $spacing-xs;
+    padding: $spacing-03;
     padding-left: $carbon--spacing-05;
     color: $text-01;
     background-color: $field-01;
+    border: 0;
   }
 
   button.#{$prefix}--btn.#{$prefix}--snippet-btn--expand
@@ -239,16 +326,16 @@
   }
 
   .#{$prefix}--snippet-btn--expand .#{$prefix}--icon-chevron--down {
-    fill: $text-01;
-    margin-left: $spacing-xs;
     margin-bottom: rem(1px);
+    margin-left: $spacing-03;
     transform: rotate(0deg);
     transition: $duration--moderate-01 motion(standard, productive);
+    fill: $text-01;
   }
 
   button.#{$prefix}--btn.#{$prefix}--snippet-btn--expand:hover {
-    background: $hover-ui;
     color: $text-01;
+    background: $hover-ui;
   }
 
   .#{$prefix}--snippet-btn--expand:active {
@@ -257,6 +344,8 @@
 
   .#{$prefix}--snippet-btn--expand:focus {
     @include focus-outline('outline');
+
+    border-color: transparent;
   }
 
   .#{$prefix}--snippet--expand
@@ -264,6 +353,32 @@
     .#{$prefix}--icon-chevron--down {
     transform: rotate(180deg);
     transition: transform $transition--expansion;
+  }
+
+  // Light version
+  .#{$prefix}--snippet.#{$prefix}--snippet--light,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light .#{$prefix}--snippet-button,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light
+    .#{$prefix}--snippet-btn--expand,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light .#{$prefix}--copy-btn {
+    background-color: $ui-02;
+  }
+
+  .#{$prefix}--snippet.#{$prefix}--snippet--light.#{$prefix}--snippet--inline:hover,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light
+    .#{$prefix}--snippet-button:hover,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light
+    .#{$prefix}--snippet-btn--expand:hover,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light .#{$prefix}--copy-btn:hover {
+    background-color: $hover-ui-light;
+  }
+
+  .#{$prefix}--snippet.#{$prefix}--snippet--light.#{$prefix}--snippet--single::after,
+  .#{$prefix}--snippet.#{$prefix}--snippet--light.#{$prefix}--snippet--multi
+    .#{$prefix}--snippet-container
+    pre::after {
+    // Safari interprets `transparent` differently, so make color token value transparent instead:
+    background-image: linear-gradient(to right, rgba($ui-02, 0), $ui-02);
   }
 
   // Skeleton State
@@ -281,18 +396,38 @@
 
   .#{$prefix}--snippet.#{$prefix}--skeleton code {
     @include skeleton;
+
+    display: block;
     width: 100%;
     height: 1rem;
-    display: block;
   }
 
   .#{$prefix}--snippet-button .#{$prefix}--btn--copy__feedback {
-    top: rem(25px);
-    left: 1rem;
+    // (The height of button) + (The height of the tooltip's triangle) + 4px
+    top: rem(50.8px);
     right: auto;
+    left: 50%;
+
+    &::before {
+      top: 0;
+    }
+
+    &::after {
+      top: rem(-4px);
+    }
+  }
+
+  .#{$prefix}--snippet--multi
+    .#{$prefix}--snippet-button
+    .#{$prefix}--btn--copy__feedback {
+    // (The height of button) + (The height of the tooltip's triangle) + 4px
+    top: rem(42.8px);
   }
 
   .#{$prefix}--snippet--inline .#{$prefix}--btn--copy__feedback {
+    // TODO: use updated global tooltip mixins under the hood
+    // since all of the positioning values for the copy button tooltip are arbitrary hard coded rem values, we need this arbitrary 4px offset to keep the proper tooltip spacing according to the spec
+    top: calc(100% - #{rem(4px)});
     right: auto;
     left: 50%;
   }
@@ -305,15 +440,12 @@
     height: rem(56px);
   }
 
-  .#{$prefix}--snippet.#{$prefix}--skeleton .#{$prefix}--snippet-container {
-    height: 100%;
-  }
-
   .#{$prefix}--snippet.#{$prefix}--skeleton span {
     @include skeleton;
+
+    display: block;
     width: 100%;
     height: 1rem;
-    display: block;
     margin-top: 0.5rem;
 
     &:first-child {
@@ -332,30 +464,6 @@
   .#{$prefix}--snippet--single.#{$prefix}--skeleton
     .#{$prefix}--snippet-container {
     padding-bottom: 0;
-  }
-
-  .#{$prefix}--snippet--inline .#{$prefix}--btn--copy__feedback {
-    right: auto;
-  }
-
-  // Skeleton State
-  .#{$prefix}--snippet--code.#{$prefix}--skeleton {
-    height: rem(98px);
-  }
-
-  .#{$prefix}--snippet--terminal.#{$prefix}--skeleton {
-    height: rem(56px);
-  }
-
-  .#{$prefix}--snippet.#{$prefix}--skeleton .#{$prefix}--snippet-container {
-    height: 100%;
-  }
-
-  .#{$prefix}--snippet.#{$prefix}--skeleton code {
-    @include skeleton;
-    width: 100%;
-    height: 1rem;
-    display: block;
   }
 }
 

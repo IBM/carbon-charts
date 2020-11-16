@@ -24,13 +24,18 @@ var CarbonComponents = (function (exports) {
    * // @todo given that the default value is so long, is it appropriate to put in the JSDoc?
    * @property {string} [selectorTabbable]
    *   A selector selecting tabbable/focusable nodes.
-   *   By default selectorTabbable refereneces links, areas, inputs, buttons, selects, textareas,
+   *   By default selectorTabbable references links, areas, inputs, buttons, selects, textareas,
    *   iframes, objects, embeds, or elements explicitly using tabindex or contenteditable attributes
    *   as long as the element is not `disabled` or the `tabindex="-1"`.
+   * @property {string} [selectorFocusable]
+   *   CSS selector that selects major nodes that are click focusable
+   *   This property is identical to selectorTabbable with the exception of
+   *   the `:not([tabindex='-1'])` pseudo class
    */
   var settings = {
     prefix: 'bx',
-    selectorTabbable: "\n    a[href], area[href], input:not([disabled]):not([tabindex='-1']),\n    button:not([disabled]):not([tabindex='-1']),select:not([disabled]):not([tabindex='-1']),\n    textarea:not([disabled]):not([tabindex='-1']),\n    iframe, object, embed, *[tabindex]:not([tabindex='-1']), *[contenteditable=true]\n  "
+    selectorTabbable: "\n    a[href], area[href], input:not([disabled]):not([tabindex='-1']),\n    button:not([disabled]):not([tabindex='-1']),select:not([disabled]):not([tabindex='-1']),\n    textarea:not([disabled]):not([tabindex='-1']),\n    iframe, object, embed, *[tabindex]:not([tabindex='-1']), *[contenteditable=true]\n  ",
+    selectorFocusable: "\n    a[href], area[href], input:not([disabled]),\n    button:not([disabled]),select:not([disabled]),\n    textarea:not([disabled]),\n    iframe, object, embed, *[tabindex], *[contenteditable=true]\n  "
   };
   var settings_1 = settings;
 
@@ -90,13 +95,13 @@ var CarbonComponents = (function (exports) {
       var source = arguments[i] != null ? arguments[i] : {};
 
       if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
+        ownKeys(Object(source), true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
       } else {
-        ownKeys(source).forEach(function (key) {
+        ownKeys(Object(source)).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
       }
@@ -136,6 +141,19 @@ var CarbonComponents = (function (exports) {
     return _setPrototypeOf(o, p);
   }
 
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -150,6 +168,25 @@ var CarbonComponents = (function (exports) {
     }
 
     return _assertThisInitialized(self);
+  }
+
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
   }
 
   function _superPropBase(object, property) {
@@ -183,19 +220,15 @@ var CarbonComponents = (function (exports) {
   }
 
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _arrayWithHoles(arr) {
@@ -203,10 +236,11 @@ var CarbonComponents = (function (exports) {
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
+    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -232,12 +266,29 @@ var CarbonComponents = (function (exports) {
     return _arr;
   }
 
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   /**
@@ -283,9 +334,7 @@ var CarbonComponents = (function (exports) {
 
     return flatten(mixinfns).reduce(function (Class, mixinfn) {
       return mixinfn(Class);
-    },
-    /*#__PURE__*/
-    function () {
+    }, /*#__PURE__*/function () {
       function _class() {
         _classCallCheck(this, _class);
       }
@@ -301,10 +350,10 @@ var CarbonComponents = (function (exports) {
    * LICENSE file in the root directory of this source tree.
    */
   function createComponent (ToMix) {
-    var CreateComponent =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var CreateComponent = /*#__PURE__*/function (_ToMix) {
       _inherits(CreateComponent, _ToMix);
+
+      var _super = _createSuper(CreateComponent);
 
       /**
        * The component instances managed by this component.
@@ -327,7 +376,7 @@ var CarbonComponents = (function (exports) {
 
         _classCallCheck(this, CreateComponent);
 
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(CreateComponent).call(this, element, options));
+        _this = _super.call(this, element, options);
 
         _defineProperty(_assertThisInitialized(_this), "children", []);
 
@@ -343,7 +392,7 @@ var CarbonComponents = (function (exports) {
         _this.element = element;
         /**
          * The component options.
-         * @type {Object}
+         * @type {object}
          */
 
         _this.options = Object.assign(Object.create(_this.constructor.options), options);
@@ -396,15 +445,15 @@ var CarbonComponents = (function (exports) {
      * Mix-in class to instantiate components by searching for their root elements.
      * @class InitComponentBySearch
      */
-    var InitComponentBySearch =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var InitComponentBySearch = /*#__PURE__*/function (_ToMix) {
       _inherits(InitComponentBySearch, _ToMix);
+
+      var _super = _createSuper(InitComponentBySearch);
 
       function InitComponentBySearch() {
         _classCallCheck(this, InitComponentBySearch);
 
-        return _possibleConstructorReturn(this, _getPrototypeOf(InitComponentBySearch).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
 
       _createClass(InitComponentBySearch, null, [{
@@ -458,14 +507,12 @@ var CarbonComponents = (function (exports) {
      * @class Handles
      * @implements Handle
      */
-    var Handles =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var Handles = /*#__PURE__*/function (_ToMix) {
       _inherits(Handles, _ToMix);
 
-      function Handles() {
-        var _getPrototypeOf2;
+      var _super = _createSuper(Handles);
 
+      function Handles() {
         var _this;
 
         _classCallCheck(this, Handles);
@@ -474,7 +521,7 @@ var CarbonComponents = (function (exports) {
           args[_key] = arguments[_key];
         }
 
-        _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Handles)).call.apply(_getPrototypeOf2, [this].concat(args)));
+        _this = _super.call.apply(_super, [this].concat(args));
 
         _defineProperty(_assertThisInitialized(_this), "handles", new Set());
 
@@ -551,10 +598,10 @@ var CarbonComponents = (function (exports) {
     mixed: 'mixed'
   };
 
-  var Checkbox =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Checkbox = /*#__PURE__*/function (_mixin) {
     _inherits(Checkbox, _mixin);
+
+    var _super = _createSuper(Checkbox);
 
     /**
      * Checkbox UI.
@@ -568,7 +615,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Checkbox);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Checkbox).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element, 'click', function (event) {
         _this._handleClick(event);
@@ -760,15 +807,15 @@ var CarbonComponents = (function (exports) {
      * Mix-in class to manage events associated with states.
      * @class EventedState
      */
-    var EventedState =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var EventedState = /*#__PURE__*/function (_ToMix) {
       _inherits(EventedState, _ToMix);
+
+      var _super = _createSuper(EventedState);
 
       function EventedState() {
         _classCallCheck(this, EventedState);
 
-        return _possibleConstructorReturn(this, _getPrototypeOf(EventedState).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
 
       _createClass(EventedState, [{
@@ -863,7 +910,7 @@ var CarbonComponents = (function (exports) {
          * Classes inheriting {@link EventedState `EventedState`} should override this function.
          * @function EventedState#shouldStateBeChanged
          * @param {string} [state] The new state. Can be an omitted, which means toggling.
-         * @param {Object} [detail]
+         * @param {object} [detail]
          *   The object that should be put to event details that is fired before/after changing state.
          *   Can have a `group` property, which specifies what state to be changed.
          * @returns {boolean}
@@ -931,10 +978,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var FileUploader =
-  /*#__PURE__*/
-  function (_mixin) {
+  var FileUploader = /*#__PURE__*/function (_mixin) {
     _inherits(FileUploader, _mixin);
+
+    var _super = _createSuper(FileUploader);
 
     /**
      * File uploader.
@@ -952,7 +999,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, FileUploader);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(FileUploader).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_changeState", function (state, detail, callback) {
         if (state === 'delete-filename-fileuploader') {
@@ -965,18 +1012,54 @@ var CarbonComponents = (function (exports) {
       });
 
       _defineProperty(_assertThisInitialized(_this), "_handleDeleteButton", function (evt) {
-        var target = eventMatches(evt, "[data-for=".concat(_this.inputId, "]"));
+        var target = eventMatches(evt, _this.options.selectorCloseButton);
 
         if (target) {
-          _this._changeState('delete-filename-fileuploader', {
+          _this.changeState('delete-filename-fileuploader', {
             initialEvt: evt,
-            filenameElement: target.parentNode
+            filenameElement: target.closest(_this.options.selectorSelectedFile)
           });
+        }
+      });
+
+      _defineProperty(_assertThisInitialized(_this), "_handleDragDrop", function (evt) {
+        var isOfSelf = _this.element.contains(evt.target); // In IE11 `evt.dataTransfer.types` is a `DOMStringList` instead of an array
+
+
+        if (Array.prototype.indexOf.call(evt.dataTransfer.types, 'Files') >= 0 && !eventMatches(evt, _this.options.selectorOtherDropContainers)) {
+          var inArea = isOfSelf && eventMatches(evt, _this.options.selectorDropContainer);
+
+          if (evt.type === 'dragover') {
+            evt.preventDefault();
+            var dropEffect = inArea ? 'copy' : 'none';
+
+            if (Array.isArray(evt.dataTransfer.types)) {
+              // IE11 throws a "permission denied" error accessing `.effectAllowed`
+              evt.dataTransfer.effectAllowed = dropEffect;
+            }
+
+            evt.dataTransfer.dropEffect = dropEffect;
+
+            _this.dropContainer.classList.toggle(_this.options.classDragOver, Boolean(inArea));
+          }
+
+          if (evt.type === 'dragleave') {
+            _this.dropContainer.classList.toggle(_this.options.classDragOver, false);
+          }
+
+          if (inArea && evt.type === 'drop') {
+            evt.preventDefault();
+
+            _this._displayFilenames(evt.dataTransfer.files);
+
+            _this.dropContainer.classList.remove(_this.options.classDragOver);
+          }
         }
       });
 
       _this.input = _this.element.querySelector(_this.options.selectorInput);
       _this.container = _this.element.querySelector(_this.options.selectorContainer);
+      _this.dropContainer = _this.element.querySelector(_this.options.selectorDropContainer);
 
       if (!_this.input) {
         throw new TypeError('Cannot find the file input box.');
@@ -994,6 +1077,12 @@ var CarbonComponents = (function (exports) {
 
       _this.manage(on(_this.container, 'click', _this._handleDeleteButton));
 
+      _this.manage(on(_this.element.ownerDocument, 'dragleave', _this._handleDragDrop));
+
+      _this.manage(on(_this.dropContainer, 'dragover', _this._handleDragDrop));
+
+      _this.manage(on(_this.dropContainer, 'drop', _this._handleDragDrop));
+
       return _this;
     }
 
@@ -1005,7 +1094,7 @@ var CarbonComponents = (function (exports) {
     }, {
       key: "_uploadHTML",
       value: function _uploadHTML() {
-        return "\n      <div data-loading class=\"".concat(this.options.classLoading, "\">\n        <svg class=\"").concat(this.options.classLoadingSvg, "\" viewBox=\"-42 -42 84 84\">\n          <circle cx=\"0\" cy=\"0\" r=\"37.5\" />\n        </svg>\n      </div>");
+        return "\n      <div class=\"".concat(this.options.classLoadingAnimation, "\">\n        <div data-inline-loading-spinner class=\"").concat(this.options.classLoading, "\">\n          <svg class=\"").concat(this.options.classLoadingSvg, "\" viewBox=\"-75 -75 150 150\">\n            <circle class=\"").concat(this.options.classLoadingBackground, "\" cx=\"0\" cy=\"0\" r=\"37.5\" />\n            <circle class=\"").concat(this.options.classLoadingStroke, "\" cx=\"0\" cy=\"0\" r=\"37.5\" />\n          </svg>\n        </div>\n      </div>");
       }
     }, {
       key: "_closeButtonHTML",
@@ -1015,7 +1104,7 @@ var CarbonComponents = (function (exports) {
     }, {
       key: "_checkmarkHTML",
       value: function _checkmarkHTML() {
-        return "\n      <svg class=\"".concat(this.options.classFileComplete, "\" viewBox=\"0 0 16 16\" fill-rule=\"evenodd\" width=\"16\" height=\"16\">\n       <path d=\"M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM6.7 11.5L3.4 8.1l1.4-1.4 1.9 1.9 4.1-4.1 1.4 1.4-5.5 5.6z\"/>\n      </svg>");
+        return "\n      <svg focusable=\"false\"\n        preserveAspectRatio=\"xMidYMid meet\"\n        style=\"will-change: transform;\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        class=\"".concat(this.options.classFileComplete, "\"\n        width=\"16\" height=\"16\" viewBox=\"0 0 16 16\"\n        aria-hidden=\"true\">\n        <path d=\"M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zM7 11L4.3 8.3l.9-.8L7 9.3l4-3.9.9.8L7 11z\"></path>\n        <path d=\"M7 11L4.3 8.3l.9-.8L7 9.3l4-3.9.9.8L7 11z\" data-icon-path=\"inner-path\" opacity=\"0\"></path>\n      </svg>\n    ");
       }
     }, {
       key: "_getStateContainers",
@@ -1034,6 +1123,7 @@ var CarbonComponents = (function (exports) {
       }
       /**
        * Inject selected files into DOM. Invoked on change event.
+       * @param {File[]} files The files to upload.
        */
 
     }, {
@@ -1041,8 +1131,9 @@ var CarbonComponents = (function (exports) {
       value: function _displayFilenames() {
         var _this2 = this;
 
+        var files = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.input.files;
         var container = this.element.querySelector(this.options.selectorContainer);
-        var HTMLString = toArray(this.input.files).map(function (file) {
+        var HTMLString = toArray(files).map(function (file) {
           return _this2._filenamesHTML(file.name, _this2.inputId);
         }).join('');
         container.insertAdjacentHTML('afterbegin', HTMLString);
@@ -1117,13 +1208,20 @@ var CarbonComponents = (function (exports) {
           selectorInput: "input[type=\"file\"].".concat(prefix, "--file-input"),
           selectorContainer: '[data-file-container]',
           selectorCloseButton: ".".concat(prefix, "--file-close"),
-          classLoading: "".concat(prefix, "--loading"),
+          selectorSelectedFile: ".".concat(prefix, "--file__selected-file"),
+          selectorDropContainer: "[data-file-drop-container]",
+          selectorOtherDropContainers: '[data-drop-container]',
+          classLoading: "".concat(prefix, "--loading ").concat(prefix, "--loading--small"),
+          classLoadingAnimation: "".concat(prefix, "--inline-loading__animation"),
           classLoadingSvg: "".concat(prefix, "--loading__svg"),
+          classLoadingBackground: "".concat(prefix, "--loading__background"),
+          classLoadingStroke: "".concat(prefix, "--loading__stroke"),
           classFileName: "".concat(prefix, "--file-filename"),
           classFileClose: "".concat(prefix, "--file-close"),
           classFileComplete: "".concat(prefix, "--file-complete"),
           classSelectedFile: "".concat(prefix, "--file__selected-file"),
           classStateContainer: "".concat(prefix, "--file__state-container"),
+          classDragOver: "".concat(prefix, "--file__drop-container--drag-over"),
           eventBeforeDeleteFilenameFileuploader: 'fileuploader-before-delete-filename',
           eventAfterDeleteFilenameFileuploader: 'fileuploader-after-delete-filename'
         };
@@ -1141,10 +1239,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var ContentSwitcher =
-  /*#__PURE__*/
-  function (_mixin) {
+  var ContentSwitcher = /*#__PURE__*/function (_mixin) {
     _inherits(ContentSwitcher, _mixin);
+
+    var _super = _createSuper(ContentSwitcher);
 
     /**
      * Set of content switcher buttons.
@@ -1167,7 +1265,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, ContentSwitcher);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ContentSwitcher).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element, 'click', function (event) {
         _this._handleClick(event);
@@ -1318,10 +1416,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var Tab =
-  /*#__PURE__*/
-  function (_ContentSwitcher) {
+  var Tab = /*#__PURE__*/function (_ContentSwitcher) {
     _inherits(Tab, _ContentSwitcher);
+
+    var _super = _createSuper(Tab);
 
     /**
      * Container of tabs.
@@ -1347,7 +1445,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Tab);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Tab).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element, 'keydown', function (event) {
         _this._handleKeyDown(event);
@@ -1566,7 +1664,7 @@ var CarbonComponents = (function (exports) {
        * Enum for navigating backward/forward.
        * @readonly
        * @member Tab.NAVIGATE
-       * @type {Object}
+       * @type {object}
        * @property {number} BACKWARD Navigating backward.
        * @property {number} FORWARD Navigating forward.
        */
@@ -1623,15 +1721,15 @@ var CarbonComponents = (function (exports) {
      * Mix-in class to launch a floating menu.
      * @class EventedShowHideState
      */
-    var EventedShowHideState =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var EventedShowHideState = /*#__PURE__*/function (_ToMix) {
       _inherits(EventedShowHideState, _ToMix);
+
+      var _super = _createSuper(EventedShowHideState);
 
       function EventedShowHideState() {
         _classCallCheck(this, EventedShowHideState);
 
-        return _possibleConstructorReturn(this, _getPrototypeOf(EventedShowHideState).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
 
       _createClass(EventedShowHideState, [{
@@ -1678,10 +1776,10 @@ var CarbonComponents = (function (exports) {
   var exports$1 = [eventedState, eventedShowHideState];
 
   function trackBlur(ToMix) {
-    var TrackBlur =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var TrackBlur = /*#__PURE__*/function (_ToMix) {
       _inherits(TrackBlur, _ToMix);
+
+      var _super = _createSuper(TrackBlur);
 
       /**
        * Mix-in class to add an handler for losing focus.
@@ -1694,12 +1792,19 @@ var CarbonComponents = (function (exports) {
 
         _classCallCheck(this, TrackBlur);
 
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(TrackBlur).call(this, element, options));
-        var hasFocusin = 'onfocusin' in window;
+        _this = _super.call(this, element, options);
+        var hasFocusin = ('onfocusin' in window);
         var focusinEventName = hasFocusin ? 'focusin' : 'focus';
+        var focusoutEventName = hasFocusin ? 'focusout' : 'blur';
 
         _this.manage(on(_this.element.ownerDocument, focusinEventName, function (event) {
-          if (!_this.element.contains(event.target)) {
+          if (!(_this.options.contentNode || _this.element).contains(event.target)) {
+            _this.handleBlur(event);
+          }
+        }, !hasFocusin));
+
+        _this.manage(on(_this.element.ownerDocument, focusoutEventName, function (event) {
+          if (!event.relatedTarget) {
             _this.handleBlur(event);
           }
         }, !hasFocusin));
@@ -1734,9 +1839,7 @@ var CarbonComponents = (function (exports) {
    * LICENSE file in the root directory of this source tree.
    */
   // mdn resize function
-  var optimizedResize =
-  /* #__PURE__ */
-  function optimizedResize() {
+  var optimizedResize = /* #__PURE__ */function optimizedResize() {
     var callbacks = [];
     var running = false; // run the actual callbacks
 
@@ -1789,7 +1892,7 @@ var CarbonComponents = (function (exports) {
 
   /**
    * The structure for the position of floating menu.
-   * @typedef {Object} FloatingMenu~position
+   * @typedef {object} FloatingMenu~position
    * @property {number} left The left position.
    * @property {number} top The top position.
    * @property {number} right The right position.
@@ -1798,14 +1901,14 @@ var CarbonComponents = (function (exports) {
 
   /**
    * The structure for the size of floating menu.
-   * @typedef {Object} FloatingMenu~size
+   * @typedef {object} FloatingMenu~size
    * @property {number} width The width.
    * @property {number} height The height.
    */
 
   /**
    * The structure for the position offset of floating menu.
-   * @typedef {Object} FloatingMenu~offset
+   * @typedef {object} FloatingMenu~offset
    * @property {number} top The top position.
    * @property {number} left The left position.
    */
@@ -1870,10 +1973,10 @@ var CarbonComponents = (function (exports) {
     }), _DIRECTION_LEFT$DIREC)[direction];
   };
 
-  var FloatingMenu =
-  /*#__PURE__*/
-  function (_mixin) {
+  var FloatingMenu = /*#__PURE__*/function (_mixin) {
     _inherits(FloatingMenu, _mixin);
+
+    var _super = _createSuper(FloatingMenu);
 
     /**
      * Floating menu.
@@ -1905,7 +2008,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, FloatingMenu);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(FloatingMenu).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       var attribDirectionValue = _this.element.getAttribute(_this.options.attribDirection);
 
@@ -1918,23 +2021,53 @@ var CarbonComponents = (function (exports) {
         _this.element.setAttribute(_this.options.attribDirection, _this.options.direction);
       }
 
+      _this.manage(on(_this.element.ownerDocument, 'keydown', function (event) {
+        _this._handleKeydown(event);
+      }));
+
       return _this;
     }
     /**
-     * Focuses back on the trigger button if this component loses focus.
+     * Handles key press on document.
+     * @param {Event} event The triggering event.
+     * @private
      */
 
 
     _createClass(FloatingMenu, [{
+      key: "_handleKeydown",
+      value: function _handleKeydown(event) {
+        var key = event.which;
+        var _this$options = this.options,
+            triggerNode = _this$options.triggerNode,
+            refNode = _this$options.refNode;
+        var isOfMenu = this.element.contains(event.target);
+
+        switch (key) {
+          // Esc
+          case 27:
+            this.changeState('hidden', getLaunchingDetails(event), function () {
+              if (isOfMenu) {
+                (triggerNode || refNode).focus();
+              }
+            });
+            break;
+        }
+      }
+      /**
+       * Focuses back on the trigger button if this component loses focus.
+       */
+
+    }, {
       key: "handleBlur",
       value: function handleBlur(event) {
         if (this.element.classList.contains(this.options.classShown)) {
           this.changeState('hidden', getLaunchingDetails(event));
-          var _this$options = this.options,
-              refNode = _this$options.refNode,
-              triggerNode = _this$options.triggerNode;
+          var _this$options2 = this.options,
+              refNode = _this$options2.refNode,
+              triggerNode = _this$options2.triggerNode;
 
-          if (this.element.contains(event.relatedTarget) && refNode && event.target !== refNode) {
+          if ((event.relatedTarget === null || this.element.contains(event.relatedTarget)) && refNode && event.target !== refNode) {
             HTMLElement.prototype.focus.call(triggerNode || refNode); // SVGElement in IE11 does not have `.focus()` method
           }
         }
@@ -1958,13 +2091,13 @@ var CarbonComponents = (function (exports) {
       key: "_getPos",
       value: function _getPos() {
         var element = this.element;
-        var _this$options2 = this.options,
-            refNode = _this$options2.refNode,
-            offset = _this$options2.offset,
-            direction = _this$options2.direction;
+        var _this$options3 = this.options,
+            refNode = _this$options3.refNode,
+            offset = _this$options3.offset,
+            direction = _this$options3.direction;
 
         if (!refNode) {
-          throw new Error('Cannot find the refernce node for positioning floating menu.');
+          throw new Error('Cannot find the reference node for positioning floating menu.');
         }
 
         return getFloatingPosition({
@@ -2048,19 +2181,14 @@ var CarbonComponents = (function (exports) {
         var _this2 = this;
 
         var shown = state === 'shown';
-        var _this$options3 = this.options,
-            refNode = _this$options3.refNode,
-            classShown = _this$options3.classShown,
-            classRefShown = _this$options3.classRefShown;
+        var _this$options4 = this.options,
+            refNode = _this$options4.refNode,
+            classShown = _this$options4.classShown,
+            classRefShown = _this$options4.classRefShown,
+            triggerNode = _this$options4.triggerNode;
 
         if (!refNode) {
-          throw new TypeError('Cannot find the refernce node for changing the style.');
-        }
-
-        this.element.classList.toggle(classShown, shown);
-
-        if (classRefShown) {
-          refNode.classList.toggle(classRefShown, shown);
+          throw new TypeError('Cannot find the reference node for changing the style.');
         }
 
         if (state === 'shown') {
@@ -2071,12 +2199,39 @@ var CarbonComponents = (function (exports) {
           }
 
           this._getContainer().appendChild(this.element);
+        }
 
+        this.element.setAttribute('aria-hidden', (!shown).toString());
+        (triggerNode || refNode).setAttribute('aria-expanded', shown.toString());
+        this.element.classList.toggle(classShown, shown);
+
+        if (classRefShown) {
+          refNode.classList.toggle(classRefShown, shown);
+        }
+
+        if (state === 'shown') {
           this._place(); // IE11 puts focus on elements with `.focus()`, even ones without `tabindex` attribute
 
 
           if (!this.element.hasAttribute(this.options.attribAvoidFocusOnOpen)) {
-            (this.element.querySelector(this.options.selectorPrimaryFocus) || this.element).focus();
+            var primaryFocusNode = this.element.querySelector(this.options.selectorPrimaryFocus);
+            var contentNode = this.options.contentNode || this.element;
+            var tabbableNode = contentNode.querySelector(settings_1.selectorTabbable); // The programmatically focusable element may be (and typically will be) the content node itself;
+
+            var focusableNode = contentNode.matches(settings_1.selectorFocusable) ? contentNode : contentNode.querySelector(settings_1.selectorFocusable);
+
+            if (primaryFocusNode) {
+              // User defined focusable node
+              primaryFocusNode.focus();
+            } else if (tabbableNode) {
+              // First sequentially focusable node
+              tabbableNode.focus();
+            } else if (focusableNode) {
+              // First programmatic focusable node
+              focusableNode.focus();
+            } else {
+              this.element.focus();
+            }
           }
         }
 
@@ -2100,7 +2255,7 @@ var CarbonComponents = (function (exports) {
     }]);
 
     return FloatingMenu;
-  }(mixin(createComponent, exports$1, exports$2));
+  }(mixin(createComponent, exports$1, exports$2, handles));
 
   _defineProperty(FloatingMenu, "options",
   /* #__PURE_CLASS_PROPERTY__ */
@@ -2131,25 +2286,21 @@ var CarbonComponents = (function (exports) {
 
   /**
    * The CSS property names of the arrow keyed by the floating menu direction.
-   * @type {Object<string, string>}
+   * @type {object<string, string>}
    */
 
-  var triggerButtonPositionProps =
-  /* #__PURE__ */
-  function () {
+  var triggerButtonPositionProps = /* #__PURE__ */function () {
     var _ref;
 
     return _ref = {}, _defineProperty(_ref, DIRECTION_TOP, 'bottom'), _defineProperty(_ref, DIRECTION_BOTTOM, 'top'), _defineProperty(_ref, DIRECTION_LEFT, 'left'), _defineProperty(_ref, DIRECTION_RIGHT, 'right'), _ref;
   }();
   /**
    * Determines how the position of arrow should affect the floating menu position.
-   * @type {Object<string, number>}
+   * @type {object<string, number>}
    */
 
 
-  var triggerButtonPositionFactors =
-  /* #__PURE__ */
-  function () {
+  var triggerButtonPositionFactors = /* #__PURE__ */function () {
     var _ref2;
 
     return _ref2 = {}, _defineProperty(_ref2, DIRECTION_TOP, -2), _defineProperty(_ref2, DIRECTION_BOTTOM, -1), _defineProperty(_ref2, DIRECTION_LEFT, -2), _defineProperty(_ref2, DIRECTION_RIGHT, -1), _ref2;
@@ -2201,10 +2352,10 @@ var CarbonComponents = (function (exports) {
     return undefined;
   };
 
-  var OverflowMenu =
-  /*#__PURE__*/
-  function (_mixin) {
+  var OverflowMenu = /*#__PURE__*/function (_mixin) {
     _inherits(OverflowMenu, _mixin);
+
+    var _super = _createSuper(OverflowMenu);
 
     /**
      * Overflow menu.
@@ -2226,7 +2377,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, OverflowMenu);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(OverflowMenu).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "getCurrentNavigation", function () {
         var focused = _this.element.ownerDocument.activeElement;
@@ -2293,15 +2444,6 @@ var CarbonComponents = (function (exports) {
     _createClass(OverflowMenu, [{
       key: "changeState",
       value: function changeState(state, detail, callback) {
-        // @todo Can clean up to use `this.triggerNode` once non-compliant code is deprecated
-        var triggerElement = this.triggerNode ? 'triggerNode' : 'element';
-
-        if (state === 'hidden') {
-          this[triggerElement].setAttribute('aria-expanded', 'false');
-        } else {
-          this[triggerElement].setAttribute('aria-expanded', 'true');
-        }
-
         if (!this.optionMenu) {
           var optionMenu = this.element.querySelector(this.options.selectorOptionMenu);
 
@@ -2315,7 +2457,8 @@ var CarbonComponents = (function (exports) {
             classShown: this.options.classMenuShown,
             classRefShown: this.options.classShown,
             offset: this.options.objMenuOffset,
-            triggerNode: this.triggerNode
+            triggerNode: this.triggerNode,
+            contentNode: this.element.querySelector(this.options.selectorContent)
           });
           this.children.push(this.optionMenu);
         }
@@ -2394,16 +2537,7 @@ var CarbonComponents = (function (exports) {
         var triggerElement = triggerNode ? 'triggerNode' : 'element';
 
         switch (key) {
-          // Esc
-          case 27:
-            this.changeState('hidden', getLaunchingDetails(event), function () {
-              if (isOfMenu) {
-                _this3[triggerElement].focus();
-              }
-            });
-            break;
           // Enter || Space bar
-
           case 13:
           case 32:
             {
@@ -2448,9 +2582,6 @@ var CarbonComponents = (function (exports) {
               this.navigate(direction);
             }
             break;
-
-          default:
-            break;
         }
       }
     }], [{
@@ -2461,7 +2592,8 @@ var CarbonComponents = (function (exports) {
           selectorInit: '[data-overflow-menu]',
           selectorOptionMenu: ".".concat(prefix, "--overflow-menu-options"),
           selectorTrigger: 'button[aria-haspopup]',
-          selectorItem: "\n        .".concat(prefix, "--overflow-menu-options--open >\n        .").concat(prefix, "--overflow-menu-options__option:not(.").concat(prefix, "--overflow-menu-options__option--disabled) >\n        .").concat(prefix, "--overflow-menu-options__btn\n      "),
+          selectorContent: ".".concat(prefix, "--overflow-menu-options__content"),
+          selectorItem: "\n        .".concat(prefix, "--overflow-menu-options--open\n        .").concat(prefix, "--overflow-menu-options__option:not(.").concat(prefix, "--overflow-menu-options__option--disabled) >\n        .").concat(prefix, "--overflow-menu-options__btn\n      "),
           classShown: "".concat(prefix, "--overflow-menu--open"),
           classMenuShown: "".concat(prefix, "--overflow-menu-options--open"),
           classMenuFlip: "".concat(prefix, "--overflow-menu--flip"),
@@ -2483,15 +2615,15 @@ var CarbonComponents = (function (exports) {
      * Mix-in class to instantiate components events on launcher button.
      * @class InitComponentByLauncher
      */
-    var InitComponentByLauncher =
-    /*#__PURE__*/
-    function (_ToMix) {
+    var InitComponentByLauncher = /*#__PURE__*/function (_ToMix) {
       _inherits(InitComponentByLauncher, _ToMix);
+
+      var _super = _createSuper(InitComponentByLauncher);
 
       function InitComponentByLauncher() {
         _classCallCheck(this, InitComponentByLauncher);
 
-        return _possibleConstructorReturn(this, _getPrototypeOf(InitComponentByLauncher).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
 
       _createClass(InitComponentByLauncher, null, [{
@@ -2577,10 +2709,10 @@ var CarbonComponents = (function (exports) {
     return InitComponentByLauncher;
   }
 
-  var Modal =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Modal = /*#__PURE__*/function (_mixin) {
     _inherits(Modal, _mixin);
+
+    var _super = _createSuper(Modal);
 
     /**
      * Modal dialog.
@@ -2610,14 +2742,16 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Modal);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Modal).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_handleFocusinListener", void 0);
 
       _defineProperty(_assertThisInitialized(_this), "_handleKeydownListener", void 0);
 
       _defineProperty(_assertThisInitialized(_this), "_handleFocusin", function (evt) {
-        if (_this.element.classList.contains(_this.options.classVisible) && !_this.element.contains(evt.target) && _this.options.selectorsFloatingMenus.every(function (selector) {
+        var focusWrapNode = _this.element.querySelector(_this.options.selectorModalContainer) || _this.element;
+
+        if (_this.element.classList.contains(_this.options.classVisible) && !focusWrapNode.contains(evt.target) && _this.options.selectorsFloatingMenus.every(function (selector) {
           return !eventMatches(evt, selector);
         })) {
           _this.element.querySelector(settings_1.selectorTabbable).focus();
@@ -2697,7 +2831,7 @@ var CarbonComponents = (function (exports) {
         }
 
         if (state === 'shown') {
-          var hasFocusin = 'onfocusin' in this.element.ownerDocument.defaultView;
+          var hasFocusin = ('onfocusin' in this.element.ownerDocument.defaultView);
           var focusinEventName = hasFocusin ? 'focusin' : 'focus';
           this._handleFocusinListener = this.manage(on(this.element.ownerDocument, focusinEventName, this._handleFocusin, !hasFocusin));
         }
@@ -2766,6 +2900,7 @@ var CarbonComponents = (function (exports) {
        * @property {string} [selectorPrimaryFocus] The CSS selector to determine the element to put focus when modal gets open.
        * @property {string} [selectorFocusOnClose] The CSS selector to determine the element to put focus when modal closes.
        *   If undefined, focus returns to the previously focused element prior to the modal opening.
+       * @property {string} [selectorModalContainer] The CSS selector for the content container of the modal for focus wrap feature.
        * @property {string} attribInitTarget The attribute name in the launcher buttons to find target modal dialogs.
        * @property {string[]} [selectorsFloatingMenu]
        *   The CSS selectors of floating menus.
@@ -2793,6 +2928,7 @@ var CarbonComponents = (function (exports) {
           selectorModalClose: '[data-modal-close]',
           selectorPrimaryFocus: '[data-modal-primary-focus]',
           selectorsFloatingMenus: [".".concat(prefix, "--overflow-menu-options"), ".".concat(prefix, "--tooltip"), '.flatpickr-calendar'],
+          selectorModalContainer: ".".concat(prefix, "--modal-container"),
           classVisible: 'is-visible',
           classBody: "".concat(prefix, "--body--with-modal-open"),
           attribInitTarget: 'data-modal-target',
@@ -2812,10 +2948,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Loading =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Loading = /*#__PURE__*/function (_mixin) {
     _inherits(Loading, _mixin);
+
+    var _super = _createSuper(Loading);
 
     /**
      * Spinner indicating loading state.
@@ -2831,7 +2967,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Loading);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Loading).call(this, element, options));
+      _this = _super.call(this, element, options);
       _this.active = _this.options.active; // Initialize spinner
 
       _this.set(_this.active);
@@ -2975,10 +3111,10 @@ var CarbonComponents = (function (exports) {
     }
   }
 
-  var InlineLoading =
-  /*#__PURE__*/
-  function (_mixin) {
+  var InlineLoading = /*#__PURE__*/function (_mixin) {
     _inherits(InlineLoading, _mixin);
+
+    var _super = _createSuper(InlineLoading);
 
     /**
      * Spinner indicating loading state.
@@ -2994,7 +3130,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, InlineLoading);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(InlineLoading).call(this, element, options)); // Sets the initial state
+      _this = _super.call(this, element, options); // Sets the initial state
 
       var initialState = _this.options.initialState;
 
@@ -3026,20 +3162,28 @@ var CarbonComponents = (function (exports) {
         var _this$options = this.options,
             selectorSpinner = _this$options.selectorSpinner,
             selectorFinished = _this$options.selectorFinished,
+            selectorError = _this$options.selectorError,
             selectorTextActive = _this$options.selectorTextActive,
-            selectorTextFinished = _this$options.selectorTextFinished;
+            selectorTextFinished = _this$options.selectorTextFinished,
+            selectorTextError = _this$options.selectorTextError;
         var spinner = elem.querySelector(selectorSpinner);
         var finished = elem.querySelector(selectorFinished);
+        var error = elem.querySelector(selectorError);
         var textActive = elem.querySelector(selectorTextActive);
         var textFinished = elem.querySelector(selectorTextFinished);
+        var textError = elem.querySelector(selectorTextError);
 
         if (spinner) {
           spinner.classList.toggle(this.options.classLoadingStop, state !== states.ACTIVE);
-          toggleAttribute(spinner, 'hidden', state === states.FINISHED);
+          toggleAttribute(spinner, 'hidden', state !== states.INACTIVE && state !== states.ACTIVE);
         }
 
         if (finished) {
           toggleAttribute(finished, 'hidden', state !== states.FINISHED);
+        }
+
+        if (error) {
+          toggleAttribute(error, 'hidden', state !== states.ERROR);
         }
 
         if (textActive) {
@@ -3050,11 +3194,15 @@ var CarbonComponents = (function (exports) {
           toggleAttribute(textFinished, 'hidden', state !== states.FINISHED);
         }
 
+        if (textError) {
+          toggleAttribute(textError, 'hidden', state !== states.ERROR);
+        }
+
         return this;
       }
       /**
        * The list of states.
-       * @type {Object<string, string>}
+       * @type {object<string, string>}
        */
 
     }], [{
@@ -3070,8 +3218,10 @@ var CarbonComponents = (function (exports) {
        * @property {string} selectorInit The CSS selector to find inline loading components.
        * @property {string} selectorSpinner The CSS selector to find the spinner.
        * @property {string} selectorFinished The CSS selector to find the "finished" icon.
+       * @property {string} selectorError The CSS selector to find the "error" icon.
        * @property {string} selectorTextActive The CSS selector to find the text describing the active state.
        * @property {string} selectorTextFinished The CSS selector to find the text describing the finished state.
+       * @property {string} selectorTextError The CSS selector to find the text describing the error state.
        * @property {string} classLoadingStop The CSS class for spinner's stopped state.
        */
       get: function get() {
@@ -3080,8 +3230,10 @@ var CarbonComponents = (function (exports) {
           selectorInit: '[data-inline-loading]',
           selectorSpinner: '[data-inline-loading-spinner]',
           selectorFinished: '[data-inline-loading-finished]',
+          selectorError: '[data-inline-loading-error]',
           selectorTextActive: '[data-inline-loading-text-active]',
           selectorTextFinished: '[data-inline-loading-text-finished]',
+          selectorTextError: '[data-inline-loading-text-error]',
           classLoadingStop: "".concat(prefix, "--loading--stop")
         };
       }
@@ -3095,7 +3247,8 @@ var CarbonComponents = (function (exports) {
   {
     INACTIVE: 'inactive',
     ACTIVE: 'active',
-    FINISHED: 'finished'
+    FINISHED: 'finished',
+    ERROR: 'error'
   });
 
   _defineProperty(InlineLoading, "components",
@@ -3106,10 +3259,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var Dropdown =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Dropdown = /*#__PURE__*/function (_mixin) {
     _inherits(Dropdown, _mixin);
+
+    var _super = _createSuper(Dropdown);
 
     /**
      * A selector with drop downs.
@@ -3133,7 +3286,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Dropdown);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Dropdown).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element.ownerDocument, 'click', function (event) {
         _this._toggle(event);
@@ -3149,7 +3302,24 @@ var CarbonComponents = (function (exports) {
         if (item) {
           _this.select(item);
         }
-      }));
+      })); // When using the active descendant approach we use a class to give focus styles during keyboard (up/down arrows)
+      // navigation instead of relying on the :focus selector. This leaves the potential to have multiple items when
+      // switching interactions between keyboard and mouse users. To more closely align with Carbon React implementation,
+      // we want the focus class to move as the user hovers over items. This also updates the location of focus based on
+      // the last hovered item if the user switches back to using the keyboard.
+
+
+      if ( // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
+      _this.element.querySelector(_this.options.selectorTrigger) && _this.element.querySelector(_this.options.selectorMenu)) {
+        // Using the latest HTML structure that supports the aria-activedescendant attribute
+        _this.manage(on(_this.element, 'mouseover', function (event) {
+          var item = eventMatches(event, _this.options.selectorItem);
+
+          if (item) {
+            _this._updateFocus(item);
+          }
+        }));
+      }
 
       return _this;
     }
@@ -3172,7 +3342,61 @@ var CarbonComponents = (function (exports) {
           this.navigate(direction);
           event.preventDefault(); // Prevents up/down keys from scrolling container
         } else {
+          // get selected item
+          // in v10.0, the anchor elements fire click events on Enter keypress when a dropdown item is selected
+          // in v10.5 (#3586), focus is no longer placed on the dropdown items and is instead kept fixed on the ul menu
+          // so we need to manually call getCurrentNavigation and select the item
+          var item = this.getCurrentNavigation();
+
+          if (item && isOpen && (event.which === 13 || event.which === 32) && !this.element.ownerDocument.activeElement.matches(this.options.selectorItem)) {
+            event.preventDefault();
+            this.select(item);
+          }
+
           this._toggle(event);
+        }
+      }
+      /**
+       * When using aria-activedescendant we want to make sure attributes and classes
+       * are properly cleaned up when the dropdown is closed
+       * @private
+       */
+
+    }, {
+      key: "_focusCleanup",
+      value: function _focusCleanup() {
+        // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
+        var triggerNode = this.element.querySelector(this.options.selectorTrigger); // only want to grab the listNode IF it's using the latest a11y HTML structure
+
+        var listNode = triggerNode ? this.element.querySelector(this.options.selectorMenu) : null;
+
+        if (listNode) {
+          listNode.removeAttribute('aria-activedescendant');
+          var focusedItem = this.element.querySelector(this.options.selectorItemFocused);
+
+          if (focusedItem) {
+            focusedItem.classList.remove(this.options.classFocused);
+          }
+        }
+      }
+      /**
+       * Update focus using aria-activedescendant HTML structure
+       * @param {HTMLElement} itemToFocus The element to be focused.
+       */
+
+    }, {
+      key: "_updateFocus",
+      value: function _updateFocus(itemToFocus) {
+        // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
+        var triggerNode = this.element.querySelector(this.options.selectorTrigger); // only want to grab the listNode IF it's using the latest a11y HTML structure
+
+        var listNode = triggerNode ? this.element.querySelector(this.options.selectorMenu) : null;
+        var previouslyFocused = listNode.querySelector(this.options.selectorItemFocused);
+        itemToFocus.classList.add(this.options.classFocused);
+        listNode.setAttribute('aria-activedescendant', itemToFocus.id);
+
+        if (previouslyFocused) {
+          previouslyFocused.classList.remove(this.options.classFocused);
         }
       }
       /**
@@ -3191,13 +3415,14 @@ var CarbonComponents = (function (exports) {
 
         if (isDisabled) {
           return;
-        }
+        } // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
+
 
         var triggerNode = this.element.querySelector(this.options.selectorTrigger);
 
         if ( // User presses down arrow
-        event.which === 40 && !event.target.matches(this.options.selectorItem) || // User presses space or enter and the trigger is not a button
-        !triggerNode && [13, 32].indexOf(event.which) >= 0 && !event.target.matches(this.options.selectorItem) || // User presses esc
+        event.which === 40 && !event.target.matches(this.options.selectorItem) || // User presses space or enter and the trigger is not a button OR event is not fired by trigger
+        (!triggerNode || !triggerNode.contains(event.target)) && [13, 32].indexOf(event.which) >= 0 && !event.target.matches(this.options.selectorItem) || // User presses esc
         event.which === 27 || // User clicks
         event.type === 'click') {
           var isOpen = this.element.classList.contains(this.options.classOpen);
@@ -3229,22 +3454,23 @@ var CarbonComponents = (function (exports) {
             (listNode || this.element).focus();
 
             if (listNode) {
-              var selectedNode = listNode.querySelector(this.options.selectorItemSelected);
+              var selectedNode = listNode.querySelector(this.options.selectorLinkSelected);
               listNode.setAttribute('aria-activedescendant', (selectedNode || listItems[0]).id);
               (selectedNode || listItems[0]).classList.add(this.options.classFocused);
             }
           } else if (changedState && (isOfSelf || actions.remove)) {
             // toggled close
-            (triggerNode || this.element).focus();
+            // timer is used to call focus AFTER the click event on
+            // trigger button (which is caused by keypress e.g. during keyboard navigation)
+            setTimeout(function () {
+              return (triggerNode || _this2.element).focus();
+            }, 0);
 
             if (triggerNode) {
               triggerNode.setAttribute('aria-expanded', 'false');
             }
 
-            if (listNode) {
-              listNode.removeAttribute('aria-activedescendant');
-              this.element.querySelector(this.options.selectorItemFocused).classList.remove(this.options.classFocused);
-            }
+            this._focusCleanup();
           } // @todo remove once legacy structure is depreciated
 
 
@@ -3257,6 +3483,12 @@ var CarbonComponents = (function (exports) {
               }
             });
           }
+
+          var menuListNode = this.element.querySelector(this.options.selectorMenu);
+
+          if (menuListNode) {
+            menuListNode.tabIndex = this.element.classList.contains(this.options.classOpen) ? '0' : '-1';
+          }
         }
       }
       /**
@@ -3268,6 +3500,7 @@ var CarbonComponents = (function (exports) {
       value: function getCurrentNavigation() {
         var focusedNode; // Using the latest semantic markup structure where trigger is a button
         // @todo remove conditional once legacy structure is depreciated
+        // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
 
         if (this.element.querySelector(this.options.selectorTrigger)) {
           var listNode = this.element.querySelector(this.options.selectorMenu);
@@ -3290,7 +3523,7 @@ var CarbonComponents = (function (exports) {
       key: "navigate",
       value: function navigate(direction) {
         var items = toArray$3(this.element.querySelectorAll(this.options.selectorItem));
-        var start = this.getCurrentNavigation() || this.element.querySelector(this.options.selectorItemSelected);
+        var start = this.getCurrentNavigation() || this.element.querySelector(this.options.selectorLinkSelected);
 
         var getNextItem = function getNextItem(old) {
           var handleUnderflow = function handleUnderflow(i, l) {
@@ -3306,16 +3539,15 @@ var CarbonComponents = (function (exports) {
           return items[handleUnderflow(handleOverflow(index, items.length), items.length)];
         };
 
+        var isShowSelected = this.element.classList.contains(this.options.classShowSelected);
+
         for (var current = getNextItem(start); current && current !== start; current = getNextItem(current)) {
-          if (!current.matches(this.options.selectorItemHidden) && !current.parentNode.matches(this.options.selectorItemHidden) && !current.matches(this.options.selectorItemSelected)) {
+          if (!current.matches(this.options.selectorItemHidden) && !current.parentNode.matches(this.options.selectorItemHidden) && (isShowSelected || !isShowSelected && !current.parentElement.matches(this.options.selectorItemSelected))) {
             // Using the latest semantic markup structure where trigger is a button
             // @todo remove conditional once legacy structure is depreciated
+            // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
             if (this.element.querySelector(this.options.selectorTrigger)) {
-              var listNode = this.element.querySelector(this.options.selectorMenu);
-              var previouslyFocused = listNode.querySelector(this.options.selectorItemFocused);
-              current.classList.add(this.options.classFocused);
-              listNode.setAttribute('aria-activedescendant', current.id);
-              previouslyFocused.classList.remove(this.options.classFocused);
+              this._updateFocus(current);
             } else {
               current.focus();
             }
@@ -3347,6 +3579,7 @@ var CarbonComponents = (function (exports) {
 
         if (this.element.dispatchEvent(eventStart)) {
           if (this.element.dataset.dropdownType !== 'navigation') {
+            // NOTE: `selectorTrigger` does NOT match the trigger button in older markup
             var selectorText = !this.element.querySelector(this.options.selectorTrigger) && this.element.dataset.dropdownType !== 'inline' ? this.options.selectorText : this.options.selectorTextInner;
             var text = this.element.querySelector(selectorText);
 
@@ -3354,13 +3587,13 @@ var CarbonComponents = (function (exports) {
               text.innerHTML = itemToSelect.innerHTML;
             }
 
-            itemToSelect.classList.add(this.options.classSelected);
+            itemToSelect.parentElement.classList.add(this.options.classSelected);
           }
 
           this.element.dataset.value = itemToSelect.parentElement.dataset.value;
-          toArray$3(this.element.querySelectorAll(this.options.selectorItemSelected)).forEach(function (item) {
+          toArray$3(this.element.querySelectorAll(this.options.selectorLinkSelected)).forEach(function (item) {
             if (itemToSelect !== item) {
-              item.classList.remove(_this3.options.classSelected);
+              item.parentElement.classList.remove(_this3.options.classSelected);
             }
           });
           this.element.dispatchEvent(new CustomEvent(this.options.eventAfterSelected, {
@@ -3380,6 +3613,8 @@ var CarbonComponents = (function (exports) {
       key: "handleBlur",
       value: function handleBlur() {
         this.element.classList.remove(this.options.classOpen);
+
+        this._focusCleanup();
       }
       /**
        * The map associating DOM element and selector instance.
@@ -3397,7 +3632,9 @@ var CarbonComponents = (function (exports) {
        * @member Dropdown.options
        * @type {object}
        * @property {string} selectorInit The CSS selector to find selectors.
-       * @property {string} [selectorTrigger] The CSS selector to find trigger button when using a11y compliant markup.
+       * @property {string} [selectorTrigger]
+       *   The CSS selector to find the trigger button when using a11y compliant markup.
+       *   NOTE: Does NOT match the trigger button in older markup.
        * @property {string} [selectorMenu] The CSS selector to find menu list when using a11y compliant markup.
        * @property {string} [selectorText] The CSS selector to find the element showing the selected item.
        * @property {string} [selectorTextInner] The CSS selector to find the element showing the selected item, used for inline mode.
@@ -3407,6 +3644,8 @@ var CarbonComponents = (function (exports) {
        *   Used to skip dropdown items for keyboard navigation.
        * @property {string} [selectorItemSelected] The CSS selector to find the clickable area in the selected dropdown item.
        * @property {string} [selectorItemFocused] The CSS selector to find the clickable area in the focused dropdown item.
+       * @property {string} [selectorLinkSelected] The CSS selector to target the link node of the selected dropdown item.
+       * @property {string} [classShowSelected] The CSS class for the show selected modifier of the dropdown.
        * @property {string} [classSelected] The CSS class for the selected dropdown item.
        * @property {string} [classFocused] The CSS class for the focused dropdown item.
        * @property {string} [classOpen] The CSS class for the open state.
@@ -3421,6 +3660,7 @@ var CarbonComponents = (function (exports) {
         return {
           selectorInit: '[data-dropdown]',
           selectorTrigger: "button.".concat(prefix, "--dropdown-text"),
+          // NOTE: Does NOT match the trigger button in older markup.
           selectorMenu: ".".concat(prefix, "--dropdown-list"),
           selectorText: ".".concat(prefix, "--dropdown-text"),
           selectorTextInner: ".".concat(prefix, "--dropdown-text__inner"),
@@ -3428,6 +3668,8 @@ var CarbonComponents = (function (exports) {
           selectorItemSelected: ".".concat(prefix, "--dropdown--selected"),
           selectorItemFocused: ".".concat(prefix, "--dropdown--focused"),
           selectorItemHidden: "[hidden],[aria-hidden=\"true\"]",
+          selectorLinkSelected: ".".concat(prefix, "--dropdown--selected .").concat(prefix, "--dropdown-link"),
+          classShowSelected: "".concat(prefix, "--dropdown--show-selected"),
           classSelected: "".concat(prefix, "--dropdown--selected"),
           classFocused: "".concat(prefix, "--dropdown--focused"),
           classOpen: "".concat(prefix, "--dropdown--open"),
@@ -3440,7 +3682,7 @@ var CarbonComponents = (function (exports) {
        * Enum for navigating backward/forward.
        * @readonly
        * @member Dropdown.NAVIGATE
-       * @type {Object}
+       * @type {object}
        * @property {number} BACKWARD Navigating backward.
        * @property {number} FORWARD Navigating forward.
        */
@@ -3461,10 +3703,10 @@ var CarbonComponents = (function (exports) {
     FORWARD: 1
   });
 
-  var NumberInput =
-  /*#__PURE__*/
-  function (_mixin) {
+  var NumberInput = /*#__PURE__*/function (_mixin) {
     _inherits(NumberInput, _mixin);
+
+    var _super = _createSuper(NumberInput);
 
     /**
      * Number input UI.
@@ -3478,7 +3720,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, NumberInput);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(NumberInput).call(this, element, options)); // Broken DOM tree is seen with up/down arrows <svg> in IE, which breaks event delegation.
+      _this = _super.call(this, element, options); // Broken DOM tree is seen with up/down arrows <svg> in IE, which breaks event delegation.
       // <svg> does not have `Element.classList` in IE11
 
       _this.manage(on(_this.element.querySelector('.up-icon'), 'click', function (event) {
@@ -3502,11 +3744,38 @@ var CarbonComponents = (function (exports) {
       value: function _handleClick(event) {
         var numberInput = this.element.querySelector(this.options.selectorInput);
         var target = event.currentTarget.getAttribute('class').split(' ');
+        var min = Number(numberInput.min);
+        var max = Number(numberInput.max);
+        var step = Number(numberInput.step) || 1;
 
         if (target.indexOf('up-icon') >= 0) {
-          ++numberInput.value;
+          var nextValue = Number(numberInput.value) + step;
+
+          if (numberInput.max === '') {
+            numberInput.value = nextValue;
+          } else if (numberInput.value < max) {
+            if (nextValue > max) {
+              numberInput.value = max;
+            } else if (nextValue < min) {
+              numberInput.value = min;
+            } else {
+              numberInput.value = nextValue;
+            }
+          }
         } else if (target.indexOf('down-icon') >= 0) {
-          --numberInput.value;
+          var _nextValue = Number(numberInput.value) - step;
+
+          if (numberInput.min === '') {
+            numberInput.value = _nextValue;
+          } else if (numberInput.value > min) {
+            if (_nextValue < min) {
+              numberInput.value = min;
+            } else if (_nextValue > max) {
+              numberInput.value = max;
+            } else {
+              numberInput.value = _nextValue;
+            }
+          }
         } // Programmatic change in value (including `stepUp()`/`stepDown()`) won't fire change event
 
 
@@ -3554,10 +3823,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var DataTable =
-  /*#__PURE__*/
-  function (_mixin) {
+  var DataTable = /*#__PURE__*/function (_mixin) {
     _inherits(DataTable, _mixin);
+
+    var _super = _createSuper(DataTable);
 
     /**
      * Data Table
@@ -3579,7 +3848,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, DataTable);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(DataTable).call(this, _element, options));
+      _this = _super.call(this, _element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_sortToggle", function (detail) {
         var element = detail.element,
@@ -3662,8 +3931,12 @@ var CarbonComponents = (function (exports) {
       });
 
       _defineProperty(_assertThisInitialized(_this), "_actionBarToggle", function (toggleOn) {
+        var handleTransitionEnd;
+
         var transition = function transition(evt) {
-          _this.batchActionEl.removeEventListener('transitionend', transition);
+          if (handleTransitionEnd) {
+            handleTransitionEnd = _this.unmanage(handleTransitionEnd).release();
+          }
 
           if (evt.target.matches(_this.options.selectorActions)) {
             if (_this.batchActionEl.dataset.active === 'false') {
@@ -3685,7 +3958,7 @@ var CarbonComponents = (function (exports) {
         }
 
         if (_this.batchActionEl) {
-          _this.batchActionEl.addEventListener('transitionend', transition);
+          handleTransitionEnd = _this.manage(on(_this.batchActionEl, 'transitionend', transition));
         }
       });
 
@@ -3728,15 +4001,12 @@ var CarbonComponents = (function (exports) {
         });
       });
 
-      _defineProperty(_assertThisInitialized(_this), "_expandableHoverToggle", function (element) {
-        element.previousElementSibling.classList.add(_this.options.classExpandableRowHover);
+      _defineProperty(_assertThisInitialized(_this), "_expandableHoverToggle", function (evt) {
+        var element = eventMatches(evt, _this.options.selectorChildRow);
 
-        var mouseout = function mouseout() {
-          element.previousElementSibling.classList.remove(_this.options.classExpandableRowHover);
-          element.removeEventListener('mouseout', mouseout);
-        };
-
-        element.addEventListener('mouseout', mouseout);
+        if (element) {
+          element.previousElementSibling.classList.toggle(_this.options.classExpandableRowHover, evt.type === 'mouseover');
+        }
       });
 
       _defineProperty(_assertThisInitialized(_this), "_toggleState", function (element, evt) {
@@ -3813,15 +4083,11 @@ var CarbonComponents = (function (exports) {
 
       _this.refreshRows();
 
-      _this.element.addEventListener('mouseover', function (evt) {
-        var eventElement = eventMatches(evt, _this.options.selectorChildRow);
+      _this.manage(on(_this.element, 'mouseover', _this._expandableHoverToggle));
 
-        if (eventElement) {
-          _this._expandableHoverToggle(eventElement, true);
-        }
-      });
+      _this.manage(on(_this.element, 'mouseout', _this._expandableHoverToggle));
 
-      _this.element.addEventListener('click', function (evt) {
+      _this.manage(on(_this.element, 'click', function (evt) {
         var eventElement = eventMatches(evt, _this.options.eventTrigger);
 
         var searchContainer = _this.element.querySelector(_this.options.selectorToolbarSearchContainer);
@@ -3833,9 +4099,9 @@ var CarbonComponents = (function (exports) {
         if (searchContainer) {
           _this._handleDocumentClick(evt);
         }
-      });
+      }));
 
-      _this.element.addEventListener('keydown', _this._keydownHandler);
+      _this.manage(on(_this.element, 'keydown', _this._keydownHandler));
 
       _this.state = {
         checkboxCount: 0
@@ -3931,7 +4197,7 @@ var CarbonComponents = (function (exports) {
     }]);
 
     return DataTable;
-  }(mixin(createComponent, initComponentBySearch, eventedState));
+  }(mixin(createComponent, initComponentBySearch, eventedState, handles));
 
   _defineProperty(DataTable, "components",
   /* #__PURE_CLASS_PROPERTY__ */
@@ -5666,8 +5932,6 @@ var CarbonComponents = (function (exports) {
                               self._input.focus();
                           }
                           break;
-                      default:
-                          break;
                   }
               }
               if (self.amPM !== undefined && e.target === self.amPM) {
@@ -6140,8 +6404,6 @@ var CarbonComponents = (function (exports) {
                           dates = inputDate
                               .split(self.l10n.rangeSeparator)
                               .map(function (date) { return self.parseDate(date, format); });
-                          break;
-                      default:
                           break;
                   }
               }
@@ -6637,16 +6899,17 @@ var CarbonComponents = (function (exports) {
 
       return {
         onMonthChange: updateCurrentMonth,
+        onValueUpdate: updateCurrentMonth,
         onOpen: updateCurrentMonth,
         onReady: [setupElements, updateCurrentMonth, register]
       };
     };
   };
 
-  var DatePicker =
-  /*#__PURE__*/
-  function (_mixin) {
+  var DatePicker = /*#__PURE__*/function (_mixin) {
     _inherits(DatePicker, _mixin);
+
+    var _super = _createSuper(DatePicker);
 
     /**
      * DatePicker.
@@ -6660,7 +6923,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, DatePicker);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(DatePicker).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_handleFocus", function () {
         if (_this.calendar) {
@@ -6693,8 +6956,8 @@ var CarbonComponents = (function (exports) {
           // and close the date picker dropdown when this component loses focus
 
           var w = doc.defaultView;
-          var hasFocusin = 'onfocusin' in w;
-          var hasFocusout = 'onfocusout' in w;
+          var hasFocusin = ('onfocusin' in w);
+          var hasFocusout = ('onfocusout' in w);
           var focusinEventName = hasFocusin ? 'focusin' : 'focus';
           var focusoutEventName = hasFocusout ? 'focusout' : 'blur';
 
@@ -6718,6 +6981,7 @@ var CarbonComponents = (function (exports) {
         var calendar = new flatpickr(date, Object.assign(flattenOptions(_this.options), {
           allowInput: true,
           mode: type,
+          disableMobile: true,
           positionElement: type === 'range' && _this.element.querySelector(_this.options.selectorDatePickerInputFrom),
           onClose: function onClose(selectedDates) {
             // An attempt to disable Flatpickr's focus tracking system,
@@ -7013,10 +7277,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Pagination =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Pagination = /*#__PURE__*/function (_mixin) {
     _inherits(Pagination, _mixin);
+
+    var _super = _createSuper(Pagination);
 
     /**
      * Pagination component.
@@ -7045,7 +7309,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Pagination);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Pagination).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_emitEvent", function (evtName, detail) {
         var event = new CustomEvent("".concat(evtName), {
@@ -7156,10 +7420,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var Search =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Search = /*#__PURE__*/function (_mixin) {
     _inherits(Search, _mixin);
+
+    var _super = _createSuper(Search);
 
     /**
      * Search with Options.
@@ -7185,7 +7449,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Search);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Search).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       var closeIcon = _this.element.querySelector(_this.options.selectorClearIcon);
 
@@ -7290,10 +7554,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Accordion =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Accordion = /*#__PURE__*/function (_mixin) {
     _inherits(Accordion, _mixin);
+
+    var _super = _createSuper(Accordion);
 
     /**
      * Accordion.
@@ -7307,7 +7571,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Accordion);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Accordion).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element, 'click', function (event) {
         var item = eventMatches(event, _this.options.selectorAccordionItem);
@@ -7403,10 +7667,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var CopyButton =
-  /*#__PURE__*/
-  function (_mixin) {
+  var CopyButton = /*#__PURE__*/function (_mixin) {
     _inherits(CopyButton, _mixin);
+
+    var _super = _createSuper(CopyButton);
 
     /**
      * CopyBtn UI.
@@ -7420,20 +7684,36 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, CopyButton);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(CopyButton).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element, 'click', function () {
         return _this.handleClick();
       }));
 
+      _this.manage(on(_this.element, 'animationend', function (event) {
+        return _this.handleAnimationEnd(event);
+      }));
+
       return _this;
     }
     /**
-     * Show the feedback tooltip on click. Hide the feedback tooltip after specified timeout value.
+     * Cleanup animation classes
      */
 
 
     _createClass(CopyButton, [{
+      key: "handleAnimationEnd",
+      value: function handleAnimationEnd(event) {
+        if (event.animationName === 'hide-feedback') {
+          this.element.classList.remove(this.options.classAnimating);
+          this.element.classList.remove(this.options.classFadeOut);
+        }
+      }
+      /**
+       * Show the feedback tooltip on click. Hide the feedback tooltip after specified timeout value.
+       */
+
+    }, {
       key: "handleClick",
       value: function handleClick() {
         var _this2 = this;
@@ -7444,6 +7724,14 @@ var CarbonComponents = (function (exports) {
           feedback.classList.add(this.options.classShowFeedback);
           setTimeout(function () {
             feedback.classList.remove(_this2.options.classShowFeedback);
+          }, this.options.timeoutValue);
+        } else {
+          this.element.classList.add(this.options.classAnimating);
+          this.element.classList.add(this.options.classFadeIn);
+          setTimeout(function () {
+            _this2.element.classList.remove(_this2.options.classFadeIn);
+
+            _this2.element.classList.add(_this2.options.classFadeOut);
           }, this.options.timeoutValue);
         }
       }
@@ -7473,6 +7761,9 @@ var CarbonComponents = (function (exports) {
           selectorInit: '[data-copy-btn]',
           feedbackTooltip: '[data-feedback]',
           classShowFeedback: "".concat(prefix, "--btn--copy__feedback--displayed"),
+          classAnimating: "".concat(prefix, "--copy-btn--animating"),
+          classFadeIn: "".concat(prefix, "--copy-btn--fade-in"),
+          classFadeOut: "".concat(prefix, "--copy-btn--fade-out"),
           timeoutValue: 2000
         };
       }
@@ -7485,10 +7776,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Notification =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Notification = /*#__PURE__*/function (_mixin) {
     _inherits(Notification, _mixin);
+
+    var _super = _createSuper(Notification);
 
     /**
      * InlineNotification.
@@ -7502,7 +7793,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Notification);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Notification).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_changeState", function (state, callback) {
         if (state === 'delete-notification') {
@@ -7559,10 +7850,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var Toolbar =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Toolbar = /*#__PURE__*/function (_mixin) {
     _inherits(Toolbar, _mixin);
+
+    var _super = _createSuper(Toolbar);
 
     /**
      * Toolbar.
@@ -7576,7 +7867,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Toolbar);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Toolbar).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       if (!_this.element.dataset.tableTarget) {
         console.warn('There is no table bound to this toolbar!'); // eslint-disable-line no-console
@@ -7701,6 +7992,326 @@ var CarbonComponents = (function (exports) {
   }(mixin(createComponent, initComponentBySearch, handles));
 
   _defineProperty(Toolbar, "components",
+  /* #__PURE_CLASS_PROPERTY__ */
+  new WeakMap());
+
+  function initComponentByEvent (ToMix) {
+    /**
+     * Mix-in class to instantiate components upon events.
+     * @class InitComponentByEvent
+     */
+    var InitComponentByEvent = /*#__PURE__*/function (_ToMix) {
+      _inherits(InitComponentByEvent, _ToMix);
+
+      var _super = _createSuper(InitComponentByEvent);
+
+      function InitComponentByEvent() {
+        _classCallCheck(this, InitComponentByEvent);
+
+        return _super.apply(this, arguments);
+      }
+
+      _createClass(InitComponentByEvent, null, [{
+        key: "init",
+
+        /**
+         * `true` suggests that this component is lazily initialized upon an action/event, etc.
+         * @type {boolean}
+         */
+
+        /**
+         * Instantiates this component in the given element.
+         * If the given element indicates that it's an component of this class, instantiates it.
+         * Otherwise, instantiates this component by clicking on this component in the given node.
+         * @param {Node} target The DOM node to instantiate this component in. Should be a document or an element.
+         * @param {object} [options] The component options.
+         * @param {string} [options.selectorInit] The CSS selector to find this component.
+         * @returns {Handle} The handle to remove the event listener to handle clicking.
+         */
+        value: function init() {
+          var _this = this;
+
+          var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+          var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+          var effectiveOptions = Object.assign(Object.create(this.options), options);
+
+          if (!target || target.nodeType !== Node.ELEMENT_NODE && target.nodeType !== Node.DOCUMENT_NODE) {
+            throw new TypeError('DOM document or DOM element should be given to search for and initialize this widget.');
+          }
+
+          if (target.nodeType === Node.ELEMENT_NODE && target.matches(effectiveOptions.selectorInit)) {
+            this.create(target, options);
+          } else {
+            // To work around non-bubbling `focus` event, use `focusin` event instead of it's available, and "capture mode" otherwise
+            var hasFocusin = ('onfocusin' in (target.nodeType === Node.ELEMENT_NODE ? target.ownerDocument : target).defaultView);
+            var handles = effectiveOptions.initEventNames.map(function (name) {
+              var eventName = name === 'focus' && hasFocusin ? 'focusin' : name;
+              return on(target, eventName, function (event) {
+                var element = eventMatches(event, effectiveOptions.selectorInit); // Instantiated components handles events by themselves
+
+                if (element && !_this.components.has(element)) {
+                  var component = _this.create(element, options);
+
+                  if (typeof component.createdByEvent === 'function') {
+                    component.createdByEvent(event);
+                  }
+                }
+              }, name === 'focus' && !hasFocusin);
+            });
+            return {
+              release: function release() {
+                for (var handle = handles.pop(); handle; handle = handles.pop()) {
+                  handle.release();
+                }
+              }
+            };
+          }
+
+          return '';
+        }
+      }]);
+
+      return InitComponentByEvent;
+    }(ToMix);
+
+    _defineProperty(InitComponentByEvent, "forLazyInit",
+    /* #__PURE_CLASS_PROPERTY__ */
+    true);
+
+    return InitComponentByEvent;
+  }
+
+  /**
+   * @param {Element} menuBody The menu body with the menu arrow.
+   * @param {string} menuDirection Where the floating menu menu should be placed relative to the trigger button.
+   * @returns {FloatingMenu~offset} The adjustment of the floating menu position, upon the position of the menu arrow.
+   * @private
+   */
+
+  var getMenuOffset$1 = function getMenuOffset(menuBody, menuDirection) {
+    var _DIRECTION_LEFT$DIREC, _DIRECTION_LEFT$DIREC2;
+
+    var arrowStyle = menuBody.ownerDocument.defaultView.getComputedStyle(menuBody, ':before');
+    var arrowPositionProp = (_DIRECTION_LEFT$DIREC = {}, _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_LEFT, 'right'), _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_TOP, 'bottom'), _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_RIGHT, 'left'), _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_BOTTOM, 'top'), _DIRECTION_LEFT$DIREC)[menuDirection];
+    var menuPositionAdjustmentProp = (_DIRECTION_LEFT$DIREC2 = {}, _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_LEFT, 'left'), _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_TOP, 'top'), _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_RIGHT, 'left'), _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_BOTTOM, 'top'), _DIRECTION_LEFT$DIREC2)[menuDirection];
+    var values = [arrowPositionProp, 'border-bottom-width'].reduce(function (o, name) {
+      return _objectSpread2(_objectSpread2({}, o), {}, _defineProperty({}, name, Number((/^([\d-.]+)px$/.exec(arrowStyle.getPropertyValue(name)) || [])[1])));
+    }, {});
+    var margin = 0;
+
+    if (menuDirection !== DIRECTION_BOTTOM) {
+      var style = menuBody.ownerDocument.defaultView.getComputedStyle(menuBody);
+      margin = Number((/^([\d-.]+)px$/.exec(style.getPropertyValue('margin-top')) || [])[1]);
+    }
+
+    values[arrowPositionProp] = values[arrowPositionProp] || -6; // IE, etc.
+
+    if (Object.keys(values).every(function (name) {
+      return !isNaN(values[name]);
+    })) {
+      var arrowPosition = values[arrowPositionProp],
+          borderBottomWidth = values['border-bottom-width'];
+      return _defineProperty({
+        left: 0,
+        top: 0
+      }, menuPositionAdjustmentProp, Math.sqrt(Math.pow(borderBottomWidth, 2) * 2) - arrowPosition + margin * (menuDirection === DIRECTION_TOP ? 2 : 1));
+    }
+
+    return undefined;
+  };
+  /**
+   * Key codes for allowed keys that will trigger opening a tooltip
+   * @type {Integer[]}
+   * @private
+   */
+
+
+  var allowedOpenKeys = [32, 13];
+
+  var Tooltip = /*#__PURE__*/function (_mixin) {
+    _inherits(Tooltip, _mixin);
+
+    var _super = _createSuper(Tooltip);
+
+    /**
+     * Tooltip.
+     * @extends CreateComponent
+     * @extends InitComponentBySearch
+     * @extends Handles
+     */
+    function Tooltip(element, options) {
+      var _this;
+
+      _classCallCheck(this, Tooltip);
+
+      _this = _super.call(this, element, options);
+
+      _defineProperty(_assertThisInitialized(_this), "_hasContextMenu", false);
+
+      _this._hookOn(element);
+
+      return _this;
+    }
+    /**
+     * A flag to detect if `oncontextmenu` event is fired right before `focus`/`blur` events.
+     * @type {boolean}
+     */
+
+
+    _createClass(Tooltip, [{
+      key: "createdByEvent",
+
+      /**
+       * A method called when this widget is created upon events.
+       * @param {Event} event The event triggering the creation.
+       */
+      value: function createdByEvent(event) {
+        var relatedTarget = event.relatedTarget,
+            type = event.type,
+            which = event.which;
+
+        if (type === 'click' || allowedOpenKeys.includes(which)) {
+          this._handleClick({
+            relatedTarget: relatedTarget,
+            type: type,
+            details: getLaunchingDetails(event)
+          });
+        }
+      }
+      /**
+       * Changes the shown/hidden state.
+       * @param {string} state The new state.
+       * @param {object} detail The detail of the event trigging this action.
+       * @param {Function} callback Callback called when change in state completes.
+       */
+
+    }, {
+      key: "changeState",
+      value: function changeState(state, detail, callback) {
+        if (!this.tooltip) {
+          var tooltip = this.element.ownerDocument.querySelector(this.element.getAttribute(this.options.attribTooltipTarget));
+
+          if (!tooltip) {
+            throw new Error('Cannot find the target tooltip.');
+          } // Lazily create a component instance for tooltip
+
+
+          this.tooltip = FloatingMenu.create(tooltip, {
+            refNode: this.element,
+            classShown: this.options.classShown,
+            offset: this.options.objMenuOffset,
+            contentNode: tooltip.querySelector(this.options.selectorContent)
+          });
+
+          this._hookOn(tooltip);
+
+          this.children.push(this.tooltip);
+        } // Delegates the action of changing state to the tooltip.
+        // (And thus the before/after shown/hidden events are fired from the tooltip)
+
+
+        this.tooltip.changeState(state, Object.assign(detail, {
+          delegatorNode: this.element
+        }), callback);
+      }
+      /**
+       * Attaches event handlers to show the tooltip.
+       * @param {Element} element The element to attach the events to.
+       * @private
+       */
+
+    }, {
+      key: "_hookOn",
+      value: function _hookOn(element) {
+        var _this2 = this;
+
+        /**
+         * Setup the _handleClick function for displaying a tooltip
+         * @param {Event} evt - user initiated event
+         * @param {Integer[]} [allowedKeys] - allowed key codes the user may press to open the tooltip
+         * @private
+         */
+        var handleClickContextMenu = function handleClickContextMenu(evt, allowedKeys) {
+          var relatedTarget = evt.relatedTarget,
+              type = evt.type,
+              which = evt.which; // Allow user to use `space` or `enter` to open tooltip
+
+          if (typeof allowedKeys === 'undefined' || allowedKeys.includes(which)) {
+            var hadContextMenu = _this2._hasContextMenu;
+            _this2._hasContextMenu = type === 'contextmenu';
+
+            _this2._handleClick({
+              relatedTarget: relatedTarget,
+              type: type,
+              hadContextMenu: hadContextMenu,
+              details: getLaunchingDetails(evt)
+            });
+          }
+        };
+
+        this.manage(on(element, 'click', handleClickContextMenu, false));
+
+        if (this.element.tagName !== 'BUTTON') {
+          this.manage(on(this.element, 'keydown', function (event) {
+            handleClickContextMenu(event, allowedOpenKeys);
+          }, false));
+        }
+      }
+      /**
+       * Handles click/focus events.
+       * @param {object} params The parameters.
+       * @param {Element} params.relatedTarget The element that focus went to. (For `blur` event)
+       * @param {string} params.type The event type triggering this method.
+       * @param {boolean} params.hadContextMenu
+       * @param {object} params.details The event details.
+       * @private
+       */
+
+    }, {
+      key: "_handleClick",
+      value: function _handleClick(_ref2) {
+        var relatedTarget = _ref2.relatedTarget,
+            type = _ref2.type,
+            hadContextMenu = _ref2.hadContextMenu,
+            details = _ref2.details;
+        var state = {
+          click: 'shown',
+          keydown: 'shown',
+          blur: 'hidden',
+          touchleave: 'hidden',
+          touchcancel: 'hidden'
+        }[type];
+        var shouldPreventClose;
+
+        if (type === 'blur') {
+          // Note: SVGElement in IE11 does not have `.contains()`
+          var wentToSelf = relatedTarget && this.element.contains && this.element.contains(relatedTarget) || this.tooltip && this.tooltip.element.contains(relatedTarget);
+          shouldPreventClose = hadContextMenu || wentToSelf;
+        }
+
+        if (!shouldPreventClose) {
+          this.changeState(state, details);
+        }
+      }
+    }], [{
+      key: "options",
+      get: function get() {
+        var prefix = settings_1.prefix;
+        return {
+          selectorInit: '[data-tooltip-trigger]',
+          selectorContent: ".".concat(prefix, "--tooltip__content"),
+          classShown: "".concat(prefix, "--tooltip--shown"),
+          attribTooltipTarget: 'data-tooltip-target',
+          objMenuOffset: getMenuOffset$1,
+          initEventNames: ['click', 'keydown']
+        };
+      }
+    }]);
+
+    return Tooltip;
+  }(mixin(createComponent, initComponentByEvent, exports$1, handles));
+
+  _defineProperty(Tooltip, "components",
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
@@ -8082,297 +8693,128 @@ var CarbonComponents = (function (exports) {
 
   var lodash_debounce = debounce;
 
-  function initComponentByEvent (ToMix) {
-    /**
-     * Mix-in class to instantiate components upon events.
-     * @class InitComponentByEvent
-     */
-    var InitComponentByEvent =
-    /*#__PURE__*/
-    function (_ToMix) {
-      _inherits(InitComponentByEvent, _ToMix);
+  var TooltipSimple = /*#__PURE__*/function (_mixin) {
+    _inherits(TooltipSimple, _mixin);
 
-      function InitComponentByEvent() {
-        _classCallCheck(this, InitComponentByEvent);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(InitComponentByEvent).apply(this, arguments));
-      }
-
-      _createClass(InitComponentByEvent, null, [{
-        key: "init",
-
-        /**
-         * `true` suggests that this component is lazily initialized upon an action/event, etc.
-         * @type {boolean}
-         */
-
-        /**
-         * Instantiates this component in the given element.
-         * If the given element indicates that it's an component of this class, instantiates it.
-         * Otherwise, instantiates this component by clicking on this component in the given node.
-         * @param {Node} target The DOM node to instantiate this component in. Should be a document or an element.
-         * @param {object} [options] The component options.
-         * @param {string} [options.selectorInit] The CSS selector to find this component.
-         * @returns {Handle} The handle to remove the event listener to handle clicking.
-         */
-        value: function init() {
-          var _this = this;
-
-          var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
-          var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-          var effectiveOptions = Object.assign(Object.create(this.options), options);
-
-          if (!target || target.nodeType !== Node.ELEMENT_NODE && target.nodeType !== Node.DOCUMENT_NODE) {
-            throw new TypeError('DOM document or DOM element should be given to search for and initialize this widget.');
-          }
-
-          if (target.nodeType === Node.ELEMENT_NODE && target.matches(effectiveOptions.selectorInit)) {
-            this.create(target, options);
-          } else {
-            // To work around non-bubbling `focus` event, use `focusin` event instead of it's available, and "capture mode" otherwise
-            var hasFocusin = 'onfocusin' in (target.nodeType === Node.ELEMENT_NODE ? target.ownerDocument : target).defaultView;
-            var handles = effectiveOptions.initEventNames.map(function (name) {
-              var eventName = name === 'focus' && hasFocusin ? 'focusin' : name;
-              return on(target, eventName, function (event) {
-                var element = eventMatches(event, effectiveOptions.selectorInit); // Instantiated components handles events by themselves
-
-                if (element && !_this.components.has(element)) {
-                  var component = _this.create(element, options);
-
-                  if (typeof component.createdByEvent === 'function') {
-                    component.createdByEvent(event);
-                  }
-                }
-              }, name === 'focus' && !hasFocusin);
-            });
-            return {
-              release: function release() {
-                for (var handle = handles.pop(); handle; handle = handles.pop()) {
-                  handle.release();
-                }
-              }
-            };
-          }
-
-          return '';
-        }
-      }]);
-
-      return InitComponentByEvent;
-    }(ToMix);
-
-    _defineProperty(InitComponentByEvent, "forLazyInit",
-    /* #__PURE_CLASS_PROPERTY__ */
-    true);
-
-    return InitComponentByEvent;
-  }
-
-  /**
-   * @param {Element} menuBody The menu body with the menu arrow.
-   * @param {string} menuDirection Where the floating menu menu should be placed relative to the trigger button.
-   * @returns {FloatingMenu~offset} The adjustment of the floating menu position, upon the position of the menu arrow.
-   * @private
-   */
-
-  var getMenuOffset$1 = function getMenuOffset(menuBody, menuDirection) {
-    var _DIRECTION_LEFT$DIREC, _DIRECTION_LEFT$DIREC2;
-
-    var arrowStyle = menuBody.ownerDocument.defaultView.getComputedStyle(menuBody, ':before');
-    var arrowPositionProp = (_DIRECTION_LEFT$DIREC = {}, _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_LEFT, 'right'), _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_TOP, 'bottom'), _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_RIGHT, 'left'), _defineProperty(_DIRECTION_LEFT$DIREC, DIRECTION_BOTTOM, 'top'), _DIRECTION_LEFT$DIREC)[menuDirection];
-    var menuPositionAdjustmentProp = (_DIRECTION_LEFT$DIREC2 = {}, _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_LEFT, 'left'), _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_TOP, 'top'), _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_RIGHT, 'left'), _defineProperty(_DIRECTION_LEFT$DIREC2, DIRECTION_BOTTOM, 'top'), _DIRECTION_LEFT$DIREC2)[menuDirection];
-    var values = [arrowPositionProp, 'border-bottom-width'].reduce(function (o, name) {
-      return _objectSpread2({}, o, _defineProperty({}, name, Number((/^([\d-.]+)px$/.exec(arrowStyle.getPropertyValue(name)) || [])[1])));
-    }, {});
-    var margin = 0;
-
-    if (menuDirection !== DIRECTION_BOTTOM) {
-      var style = menuBody.ownerDocument.defaultView.getComputedStyle(menuBody);
-      margin = Number((/^([\d-.]+)px$/.exec(style.getPropertyValue('margin-top')) || [])[1]);
-    }
-
-    values[arrowPositionProp] = values[arrowPositionProp] || -6; // IE, etc.
-
-    if (Object.keys(values).every(function (name) {
-      return !isNaN(values[name]);
-    })) {
-      var arrowPosition = values[arrowPositionProp],
-          borderBottomWidth = values['border-bottom-width'];
-      return _defineProperty({
-        left: 0,
-        top: 0
-      }, menuPositionAdjustmentProp, Math.sqrt(Math.pow(borderBottomWidth, 2) * 2) - arrowPosition + margin * (menuDirection === DIRECTION_TOP ? 2 : 1));
-    }
-
-    return undefined;
-  };
-
-  var Tooltip =
-  /*#__PURE__*/
-  function (_mixin) {
-    _inherits(Tooltip, _mixin);
+    var _super = _createSuper(TooltipSimple);
 
     /**
-     * Tooltip.
+     * Simple Tooltip.
      * @extends CreateComponent
      * @extends InitComponentBySearch
      * @extends Handles
+     * @param {HTMLElement} element - The element functioning as a text field.
      */
-    function Tooltip(element, options) {
+    function TooltipSimple(element, options) {
       var _this;
 
-      _classCallCheck(this, Tooltip);
+      _classCallCheck(this, TooltipSimple);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Tooltip).call(this, element, options));
+      _this = _super.call(this, element, options);
 
-      _defineProperty(_assertThisInitialized(_this), "_hasContextMenu", false);
+      _defineProperty(_assertThisInitialized(_this), "tooltipFadeOut", lodash_debounce(function () {
+        var tooltipTriggerButton = _this.getTooltipTriggerButton();
 
-      _defineProperty(_assertThisInitialized(_this), "_debouncedHandleClick", lodash_debounce(_this._handleClick, 200));
+        if (tooltipTriggerButton) {
+          tooltipTriggerButton.classList.remove(_this.options.classTooltipVisible);
+        }
+      }, 100));
 
-      _this._hookOn(element);
+      _defineProperty(_assertThisInitialized(_this), "getTooltipTriggerButton", function () {
+        return _this.element.matches(_this.options.selectorTriggerButton) ? _this.element : _this.element.querySelector(_this.options.selectorTriggerButton);
+      });
+
+      _defineProperty(_assertThisInitialized(_this), "allowTooltipVisibility", function (_ref) {
+        var visible = _ref.visible;
+
+        var tooltipTriggerButton = _this.getTooltipTriggerButton();
+
+        if (!tooltipTriggerButton) {
+          return;
+        }
+
+        if (visible) {
+          tooltipTriggerButton.classList.remove(_this.options.classTooltipHidden);
+        } else {
+          tooltipTriggerButton.classList.add(_this.options.classTooltipHidden);
+        }
+      });
+
+      _this.manage(on(_this.element.ownerDocument, 'keydown', function (event) {
+        // ESC
+        if (event.which === 27) {
+          _this.allowTooltipVisibility({
+            visible: false
+          });
+
+          var tooltipTriggerButton = _this.getTooltipTriggerButton();
+
+          if (tooltipTriggerButton) {
+            tooltipTriggerButton.classList.remove(_this.options.classTooltipVisible);
+          }
+        }
+      }));
+
+      _this.manage(on(_this.element, 'mouseenter', function () {
+        _this.tooltipFadeOut.cancel();
+
+        _this.allowTooltipVisibility({
+          visible: true
+        });
+
+        var tooltipTriggerButton = _this.getTooltipTriggerButton();
+
+        if (tooltipTriggerButton) {
+          tooltipTriggerButton.classList.add(_this.options.classTooltipVisible);
+        }
+      }));
+
+      _this.manage(on(_this.element, 'mouseleave', _this.tooltipFadeOut));
+
+      _this.manage(on(_this.element, 'focusin', function (event) {
+        if (eventMatches(event, _this.options.selectorTriggerButton)) {
+          _this.allowTooltipVisibility({
+            visible: true
+          });
+        }
+      }));
 
       return _this;
     }
-    /**
-     * A flag to detect if `oncontextmenu` event is fired right before `focus`/`blur` events.
-     * @type {boolean}
-     */
 
-
-    _createClass(Tooltip, [{
-      key: "createdByEvent",
-
-      /**
-       * A method called when this widget is created upon events.
-       * @param {Event} event The event triggering the creation.
-       */
-      value: function createdByEvent(event) {
-        var relatedTarget = event.relatedTarget,
-            type = event.type;
-
-        this._debouncedHandleClick({
-          relatedTarget: relatedTarget,
-          type: type === 'focusin' ? 'focus' : type,
-          details: getLaunchingDetails(event)
-        });
-      }
-      /**
-       * Changes the shown/hidden state.
-       * @param {string} state The new state.
-       * @param {object} detail The detail of the event trigging this action.
-       * @param {Function} callback Callback called when change in state completes.
-       // */
-
-    }, {
-      key: "changeState",
-      value: function changeState(state, detail, callback) {
-        if (!this.tooltip) {
-          var tooltip = this.element.ownerDocument.querySelector(this.element.getAttribute(this.options.attribTooltipTarget));
-
-          if (!tooltip) {
-            throw new Error('Cannot find the target tooltip.');
-          } // Lazily create a component instance for tooltip
-
-
-          this.tooltip = FloatingMenu.create(tooltip, {
-            refNode: this.element,
-            classShown: this.options.classShown,
-            offset: this.options.objMenuOffset
-          });
-
-          this._hookOn(tooltip);
-
-          this.children.push(this.tooltip);
-        } // Delegates the action of changing state to the tooltip.
-        // (And thus the before/after shown/hidden events are fired from the tooltip)
-
-
-        this.tooltip.changeState(state, Object.assign(detail, {
-          delegatorNode: this.element
-        }), callback);
-      }
-      /**
-       * Attaches event handlers to show/hide the tooltip.
-       * @param {Element} element The element to attach the events to.
-       * @private
-       */
-
-    }, {
-      key: "_hookOn",
-      value: function _hookOn(element) {
-        var _this2 = this;
-
-        var hasFocusin = 'onfocusin' in window;
-        var focusinEventName = hasFocusin ? 'focusin' : 'focus';
-        [focusinEventName, 'blur', 'touchleave', 'touchcancel'].forEach(function (name) {
-          _this2.manage(on(element, name, function (event) {
-            var relatedTarget = event.relatedTarget,
-                type = event.type;
-            var hadContextMenu = _this2._hasContextMenu;
-            _this2._hasContextMenu = type === 'contextmenu';
-
-            _this2._debouncedHandleClick({
-              relatedTarget: relatedTarget,
-              type: type === 'focusin' ? 'focus' : type,
-              hadContextMenu: hadContextMenu,
-              details: getLaunchingDetails(event)
-            });
-          }, name === focusinEventName && !hasFocusin));
-        });
-      }
-      /**
-       * Handles click/focus events.
-       * @param {object} params The parameters.
-       * @param {Element} params.relatedTarget The element that focus went to. (For `blur` event)
-       * @param {string} params.type The event type triggering this method.
-       * @param {boolean} params.hadContextMenu
-       * @param {object} params.details The event details.
-       * @private
-       */
-
-    }, {
-      key: "_handleClick",
-      value: function _handleClick(_ref2) {
-        var relatedTarget = _ref2.relatedTarget,
-            type = _ref2.type,
-            hadContextMenu = _ref2.hadContextMenu,
-            details = _ref2.details;
-        var state = {
-          focus: 'shown',
-          blur: 'hidden',
-          touchleave: 'hidden',
-          touchcancel: 'hidden'
-        }[type];
-        var shouldPreventClose;
-
-        if (type === 'blur') {
-          // Note: SVGElement in IE11 does not have `.contains()`
-          var wentToSelf = relatedTarget && this.element.contains && this.element.contains(relatedTarget) || this.tooltip && this.tooltip.element.contains(relatedTarget);
-          shouldPreventClose = hadContextMenu || wentToSelf;
-        }
-
-        if (!shouldPreventClose) {
-          this.changeState(state, details);
-        }
-      }
-    }], [{
+    _createClass(TooltipSimple, null, [{
       key: "options",
+
+      /**
+       * The component options.
+       *
+       * If `options` is specified in the constructor,
+       * {@linkcode TooltipSimple.create .create()},
+       * or {@linkcode TooltipSimple.init .init()},
+       * properties in this object are overriden for the instance being
+       * created and how {@linkcode TooltipSimple.init .init()} works.
+       * @property {string} selectorInit The CSS selector to find simple tooltip UIs.
+       */
       get: function get() {
         var prefix = settings_1.prefix;
         return {
-          selectorInit: '[data-tooltip-trigger]',
-          classShown: "".concat(prefix, "--tooltip--shown"),
-          attribTooltipTarget: 'data-tooltip-target',
-          objMenuOffset: getMenuOffset$1,
-          initEventNames: ['focus']
+          selectorInit: '[data-tooltip-definition],[data-tooltip-icon]',
+          selectorTriggerButton: ".".concat(prefix, "--tooltip__trigger.").concat(prefix, "--tooltip--a11y"),
+          classTooltipHidden: "".concat(prefix, "--tooltip--hidden"),
+          classTooltipVisible: "".concat(prefix, "--tooltip--visible")
         };
       }
+      /**
+       * The map associating DOM element and simple tooltip UI instance.
+       * @type {WeakMap}
+       */
+
     }]);
 
-    return Tooltip;
-  }(mixin(createComponent, initComponentByEvent, exports$1, handles));
+    return TooltipSimple;
+  }(mixin(createComponent, initComponentBySearch, handles));
 
-  _defineProperty(Tooltip, "components",
+  _defineProperty(TooltipSimple, "components",
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
@@ -8380,10 +8822,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var ProgressIndicator =
-  /*#__PURE__*/
-  function (_mixin) {
+  var ProgressIndicator = /*#__PURE__*/function (_mixin) {
     _inherits(ProgressIndicator, _mixin);
+
+    var _super = _createSuper(ProgressIndicator);
 
     /**
      * ProgressIndicator.
@@ -8405,10 +8847,10 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, ProgressIndicator);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ProgressIndicator).call(this, element, options));
+      _this = _super.call(this, element, options);
       /**
        * The component state.
-       * @type {Object}
+       * @type {object}
        */
 
       _this.state = {
@@ -8629,10 +9071,10 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var StructuredList =
-  /*#__PURE__*/
-  function (_mixin) {
+  var StructuredList = /*#__PURE__*/function (_mixin) {
     _inherits(StructuredList, _mixin);
+
+    var _super = _createSuper(StructuredList);
 
     /**
      * StructuredList
@@ -8649,7 +9091,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, StructuredList);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(StructuredList).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.manage(on(_this.element, 'keydown', function (evt) {
         if (evt.which === 37 || evt.which === 38 || evt.which === 39 || evt.which === 40) {
@@ -8798,10 +9240,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Slider =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Slider = /*#__PURE__*/function (_mixin) {
     _inherits(Slider, _mixin);
+
+    var _super = _createSuper(Slider);
 
     /**
      * Slider.
@@ -8815,7 +9257,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Slider);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Slider).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_changeState", function (state, detail, callback) {
         callback();
@@ -9058,10 +9500,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var Tile =
-  /*#__PURE__*/
-  function (_mixin) {
+  var Tile = /*#__PURE__*/function (_mixin) {
     _inherits(Tile, _mixin);
+
+    var _super = _createSuper(Tile);
 
     /**
      * Tile.
@@ -9074,7 +9516,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, Tile);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Tile).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_getClass", function (type) {
         var typeObj = {
@@ -9190,10 +9632,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var CodeSnippet =
-  /*#__PURE__*/
-  function (_mixin) {
+  var CodeSnippet = /*#__PURE__*/function (_mixin) {
     _inherits(CodeSnippet, _mixin);
+
+    var _super = _createSuper(CodeSnippet);
 
     /**
      * CodeSnippet UI.
@@ -9207,7 +9649,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, CodeSnippet);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(CodeSnippet).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this._initCodeSnippet();
 
@@ -9285,10 +9727,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var TextInput =
-  /*#__PURE__*/
-  function (_mixin) {
+  var TextInput = /*#__PURE__*/function (_mixin) {
     _inherits(TextInput, _mixin);
+
+    var _super = _createSuper(TextInput);
 
     /**
      * Text Input.
@@ -9302,7 +9744,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, TextInput);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(TextInput).call(this, _element, options));
+      _this = _super.call(this, _element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_setIconVisibility", function (_ref) {
         var iconVisibilityOn = _ref.iconVisibilityOn,
@@ -9409,22 +9851,43 @@ var CarbonComponents = (function (exports) {
 
   var prefix = settings_1.prefix;
 
-  var SideNav =
-  /*#__PURE__*/
-  function (_mixin) {
+  var SideNav = /*#__PURE__*/function (_mixin) {
     _inherits(SideNav, _mixin);
+
+    var _super = _createSuper(SideNav);
 
     /**
      * The map associating DOM element and copy button UI instance.
      * @member SideNav.components
      * @type {WeakMap}
      */
+
+    /**
+     * Side nav.
+     * @extends CreateComponent
+     * @extends InitComponentBySearch
+     * @extends Handles
+     * @param {HTMLElement} element The element working as a side nav.
+     * @param {object} [options] The component options.
+     * @param {string} [options.selectorSideNavToggle]
+     *   The CSS selector to find the toggle button.
+     * @param {string} [options.selectorSideNavSubmenu] The CSS selector to find the trigger buttons for sub nav items.
+     * @param {string} [options.selectorSideNavItem] The CSS selector to find the nav items.
+     * @param {string} [options.selectorSideNavLink] The CSS selector to find the interactive potions in non-nested nav items.
+     * @param {string} [options.selectorSideNavLinkCurrent]
+     *   The CSS selector to find the interactive potion in active non-nested nav item.
+     * @param {string} [options.classSideNavExpanded] The CSS class for the expanded state.
+     * @param {string} [options.classSideNavItemActive]
+     *   The CSS class for the active/inactive state for nav items.
+     * @param {string} [options.classSideNavLinkCurrent]
+     *   The CSS class for the active/inactive state of the interactive potion in non-nested nav items.
+     */
     function SideNav(element, options) {
       var _this;
 
       _classCallCheck(this, SideNav);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(SideNav).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_handleClick", function (evt) {
         var matchesToggle = eventMatches(evt, _this.options.selectorSideNavToggle);
@@ -9470,7 +9933,7 @@ var CarbonComponents = (function (exports) {
      * Enum for toggling side nav visibility
      * @readonly
      * @member SideNav.state
-     * @type {Object}
+     * @type {object}
      * @property {string} EXPANDED Opening/visible
      * @property {string} COLLAPSED Closing/hidden
      */
@@ -9524,9 +9987,7 @@ var CarbonComponents = (function (exports) {
     classSideNavLinkCurrent: "".concat(prefix, "--side-nav__link--current")
   });
 
-  var forEach =
-  /* #__PURE__ */
-  function () {
+  var forEach = /* #__PURE__ */function () {
     return Array.prototype.forEach;
   }();
 
@@ -9534,17 +9995,28 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var HeaderSubmenu =
-  /*#__PURE__*/
-  function (_mixin) {
+  var HeaderSubmenu = /*#__PURE__*/function (_mixin) {
     _inherits(HeaderSubmenu, _mixin);
 
+    var _super = _createSuper(HeaderSubmenu);
+
+    /**
+     * Sub menus in header nav.
+     * @extends CreateComponent
+     * @extends InitComponentBySearch
+     * @extends Handles
+     * @param {HTMLElement} element The element working as a submenu in header nav.
+     * @param {object} [options] The component options.
+     * @param {string} [options.selectorTrigger] The CSS selector to find the trigger button.
+     * @param {string} [options.selectorItem] The CSS selector to find the menu items.
+     * @param {string} [options.attribExpanded] The attribute that represents the expanded/collapsed state.
+     */
     function HeaderSubmenu(element, options) {
       var _this;
 
       _classCallCheck(this, HeaderSubmenu);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderSubmenu).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "_getAction", function (event) {
         var isFlyoutMenu = eventMatches(event, _this.options.selectorFlyoutMenu);
@@ -9769,9 +10241,6 @@ var CarbonComponents = (function (exports) {
                     event.preventDefault(); // prevents keys from scrolling page
 
                     break;
-
-                  default:
-                    break;
                 }
               }
 
@@ -9780,7 +10249,7 @@ var CarbonComponents = (function (exports) {
         }
       });
 
-      var hasFocusOut = 'onfocusout' in window;
+      var hasFocusOut = ('onfocusout' in window);
 
       _this.manage(on(_this.element, hasFocusOut ? 'focusout' : 'blur', _this._handleEvent, !hasFocusOut));
 
@@ -9814,6 +10283,9 @@ var CarbonComponents = (function (exports) {
        * @member HeaderSubmenu.options
        * @type {object}
        * @property {string} selectorInit The data attribute to find side navs.
+       * @property {string} [selectorTrigger] The CSS selector to find the trigger button.
+       * @property {string} [selectorItem] The CSS selector to find the menu items.
+       * @property {string} [attribExpanded] The attribute that represents the expanded/collapsed state.
        */
       get: function get() {
         var prefix = settings_1.prefix;
@@ -9828,7 +10300,7 @@ var CarbonComponents = (function (exports) {
        * Enum for navigating backward/forward.
        * @readonly
        * @member HeaderSubmenu.NAVIGATE
-       * @type {Object}
+       * @type {object}
        * @property {number} BACKWARD Navigating backward.
        * @property {number} FORWARD Navigating forward.
        */
@@ -9862,17 +10334,28 @@ var CarbonComponents = (function (exports) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var HeaderNav =
-  /*#__PURE__*/
-  function (_mixin) {
+  var HeaderNav = /*#__PURE__*/function (_mixin) {
     _inherits(HeaderNav, _mixin);
 
+    var _super = _createSuper(HeaderNav);
+
+    /**
+     * Header nav.
+     * @extends CreateComponent
+     * @extends InitComponentBySearch
+     * @extends Handles
+     * @param {HTMLElement} element The element working as an header nav.
+     * @param {object} [options] The component options.
+     * @param {string} [options.selectorSubmenu] The CSS selector to find sub menus.
+     * @param {string} [options.selectorSubmenuLink] The CSS selector to find the trigger buttons of sub menus.
+     * @param {string} [options.selectorSubmenuItem] The CSS selector to find the sub menu items.
+     */
     function HeaderNav(element, options) {
       var _this;
 
       _classCallCheck(this, HeaderNav);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderNav).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "getCurrentNavigation", function () {
         var focused = _this.element.ownerDocument.activeElement.closest(_this.options.selectorSubmenu);
@@ -9940,6 +10423,9 @@ var CarbonComponents = (function (exports) {
        * @member HeaderNav.options
        * @type {object}
        * @property {string} selectorInit The data attribute to find side navs.
+       * @property {string} [selectorSubmenu] The CSS selector to find sub menus.
+       * @property {string} [selectorSubmenuLink] The CSS selector to find the trigger buttons of sub menus.
+       * @property {string} [selectorSubmenuItem] The CSS selector to find the sub menu items.
        */
       get: function get() {
         var prefix = settings_1.prefix;
@@ -9955,7 +10441,7 @@ var CarbonComponents = (function (exports) {
        * Enum for navigating backward/forward.
        * @readonly
        * @member Header.NAVIGATE
-       * @type {Object}
+       * @type {object}
        * @property {number} BACKWARD Navigating backward.
        * @property {number} FORWARD Navigating forward.
        */
@@ -9976,14 +10462,12 @@ var CarbonComponents = (function (exports) {
     FORWARD: 1
   });
 
-  var NavigationMenuPanel =
-  /*#__PURE__*/
-  function (_mixin) {
+  var NavigationMenuPanel = /*#__PURE__*/function (_mixin) {
     _inherits(NavigationMenuPanel, _mixin);
 
-    function NavigationMenuPanel() {
-      var _getPrototypeOf2;
+    var _super = _createSuper(NavigationMenuPanel);
 
+    function NavigationMenuPanel() {
       var _this;
 
       _classCallCheck(this, NavigationMenuPanel);
@@ -9992,7 +10476,7 @@ var CarbonComponents = (function (exports) {
         args[_key] = arguments[_key];
       }
 
-      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(NavigationMenuPanel)).call.apply(_getPrototypeOf2, [this].concat(args)));
+      _this = _super.call.apply(_super, [this].concat(args));
 
       _defineProperty(_assertThisInitialized(_this), "createdByLauncher", function (event) {
         var isExpanded = !_this.element.hasAttribute('hidden');
@@ -10072,10 +10556,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var NavigationMenu =
-  /*#__PURE__*/
-  function (_NavigationMenuPanel) {
+  var NavigationMenu = /*#__PURE__*/function (_NavigationMenuPanel) {
     _inherits(NavigationMenu, _NavigationMenuPanel);
+
+    var _super = _createSuper(NavigationMenu);
 
     /**
      * A navigation menu
@@ -10108,7 +10592,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, NavigationMenu);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(NavigationMenu).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "getCurrentNavigation", function () {
         return _this.element.ownerDocument.activeElement;
@@ -10249,7 +10733,7 @@ var CarbonComponents = (function (exports) {
         }
       }));
 
-      var hasFocusOut = 'onfocusout' in window;
+      var hasFocusOut = ('onfocusout' in window);
 
       _this.manage(on(_this.element, hasFocusOut ? 'focusout' : 'blur', _this._handleFocusOut, !hasFocusOut));
 
@@ -10300,7 +10784,7 @@ var CarbonComponents = (function (exports) {
        * Enum for navigating backward/forward.
        * @readonly
        * @member NavigationMenuPanel.NAVIGATE
-       * @type {Object}
+       * @type {object}
        * @property {number} BACKWARD Navigating backward.
        * @property {number} FORWARD Navigating forward.
        */
@@ -10329,12 +10813,12 @@ var CarbonComponents = (function (exports) {
    * @returns {Handle} The handle to release the attached event handler
    */
   function onFocusByKeyboard(node, name, callback) {
-    var hasFocusout = 'onfocusout' in window;
+    var hasFocusout = ('onfocusout' in window);
     var focusinEventName = hasFocusout ? 'focusin' : 'focus';
     var focusoutEventName = hasFocusout ? 'focusout' : 'blur';
     /**
      * Event types supported by this function
-     * @type {Object<string, string>}
+     * @type {object<string, string>}
      */
 
     var supportedEvents = {
@@ -10381,13 +10865,15 @@ var CarbonComponents = (function (exports) {
     };
   }
 
-  var ProductSwitcher =
-  /*#__PURE__*/
-  function (_NavigationMenuPanel) {
+  var seq = 0;
+
+  var ProductSwitcher = /*#__PURE__*/function (_NavigationMenuPanel) {
     _inherits(ProductSwitcher, _NavigationMenuPanel);
 
+    var _super = _createSuper(ProductSwitcher);
+
     /**
-     * A navigation menu
+     * A navigation menu.
      * @extends NavigationMenuPanel
      * @param {HTMLElement} element The element working as a selector.
      * @param {object} [options] The component options.
@@ -10403,7 +10889,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, ProductSwitcher);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ProductSwitcher).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "current", '');
 
@@ -10439,7 +10925,7 @@ var CarbonComponents = (function (exports) {
         var launcher = event.delegateTarget;
 
         if (!launcher.id) {
-          launcher.id = "__carbon-product-switcher-launcher-".concat(Math.random().toString(36).substr(2));
+          launcher.id = "__carbon-product-switcher-launcher-".concat(seq++);
         }
 
         var current = launcher.id;
@@ -10555,10 +11041,10 @@ var CarbonComponents = (function (exports) {
   /* #__PURE_CLASS_PROPERTY__ */
   new WeakMap());
 
-  var PaginationNav =
-  /*#__PURE__*/
-  function (_mixin) {
+  var PaginationNav = /*#__PURE__*/function (_mixin) {
     _inherits(PaginationNav, _mixin);
+
+    var _super = _createSuper(PaginationNav);
 
     /**
      * Pagination Nav component
@@ -10572,7 +11058,7 @@ var CarbonComponents = (function (exports) {
 
       _classCallCheck(this, PaginationNav);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(PaginationNav).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _defineProperty(_assertThisInitialized(_this), "getActivePageNumber", function () {
         var pageNum;
@@ -10763,6 +11249,7 @@ var CarbonComponents = (function (exports) {
    */
 
   var components = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     Checkbox: Checkbox,
     FileUploader: FileUploader,
     ContentSwitcher: ContentSwitcher,
@@ -10783,6 +11270,7 @@ var CarbonComponents = (function (exports) {
     Notification: Notification,
     Toolbar: Toolbar,
     Tooltip: Tooltip,
+    TooltipSimple: TooltipSimple,
     ProgressIndicator: ProgressIndicator,
     FloatingMenu: FloatingMenu,
     StructuredList: StructuredList,
@@ -10956,6 +11444,7 @@ var CarbonComponents = (function (exports) {
   exports.Tile = Tile;
   exports.Toolbar = Toolbar;
   exports.Tooltip = Tooltip;
+  exports.TooltipSimple = TooltipSimple;
   exports.settings = settings_1;
   exports.watch = watch;
 

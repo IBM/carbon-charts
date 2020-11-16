@@ -11,10 +11,11 @@
 
 @import '../../globals/scss/vars';
 @import '../../globals/scss/helper-mixins';
-@import '../../globals/scss/layer';
 @import '../../globals/scss/vendor/@carbon/elements/scss/import-once/import-once';
 @import '../../globals/scss/css--reset';
 @import '../../globals/scss/layout';
+
+@import '../list-box/list-box';
 
 /// Dropdown styles
 /// @access private
@@ -22,9 +23,9 @@
 @mixin dropdown {
   .#{$prefix}--dropdown__wrapper--inline {
     display: inline-grid;
-    align-items: center;
-    grid-template: auto auto / auto min-content;
     grid-gap: rem(4px);
+    grid-template: auto auto / auto min-content;
+    align-items: center;
 
     .#{$prefix}--label {
       @include type-style('body-short-01');
@@ -44,26 +45,55 @@
   .#{$prefix}--dropdown {
     @include reset;
     @include focus-outline('reset');
+
     position: relative;
-    list-style: none;
     display: block;
+    width: 100%;
+    height: rem(40px);
+    color: $text-01;
+    list-style: none;
     background-color: $field-01;
     border: none;
     border-bottom: 1px solid $ui-04;
-    width: 100%;
-    height: rem(40px);
-    cursor: pointer;
-    color: $text-01;
     outline: 2px solid transparent;
+    cursor: pointer;
     transition: background-color $duration--fast-01 motion(standard, productive);
-
-    &:focus {
-      @include focus-outline('outline');
-    }
 
     &:hover {
       background-color: $hover-ui;
     }
+  }
+
+  // Menu's triggering element updated to button with Downshift v5 upgrade
+  .#{$prefix}--dropdown .#{$prefix}--list-box__field {
+    @include button-reset;
+
+    padding: 0 rem(48px) 0 rem(16px);
+    text-align: left;
+
+    // Windows, Firefox HCM Fix
+    @media screen and (-ms-high-contrast: active),
+      screen and (prefers-contrast) {
+      border: 1px solid transparent;
+    }
+  }
+
+  .#{$prefix}--dropdown--xl {
+    height: rem(48px);
+    max-height: rem(48px);
+  }
+
+  .#{$prefix}--dropdown--xl .#{$prefix}--dropdown__arrow {
+    top: rem(16px);
+  }
+
+  .#{$prefix}--dropdown--sm {
+    height: rem(32px);
+    max-height: rem(32px);
+  }
+
+  .#{$prefix}--dropdown--sm .#{$prefix}--dropdown__arrow {
+    top: rem(8px);
   }
 
   .#{$prefix}--dropdown--open {
@@ -74,22 +104,22 @@
     @include focus-outline('invalid');
 
     .#{$prefix}--dropdown-text {
-      padding-right: rem(56px); // TODO: spacing token
+      padding-right: rem(56px);
     }
 
     + .#{$prefix}--form-requirement {
       display: inline-block;
       max-height: rem(200px);
-      color: $support-01;
+      color: $text-error;
     }
   }
 
   .#{$prefix}--dropdown__invalid-icon {
     position: absolute;
     top: 50%;
-    right: rem(40px); // TODO: spacing token
-    fill: $support-01;
+    right: $spacing-08;
     transform: translateY(-50%);
+    fill: $support-01;
   }
 
   .#{$prefix}--dropdown--open:hover {
@@ -101,7 +131,11 @@
   }
 
   .#{$prefix}--dropdown--open .#{$prefix}--dropdown-list {
-    @include layer('overlay');
+    @include box-shadow;
+
+    // 40px item height * 5.5 items shown
+    max-height: rem(220px);
+    transition: max-height $duration--fast-02 motion(entrance, productive);
   }
 
   .#{$prefix}--dropdown--light {
@@ -113,21 +147,22 @@
   }
 
   .#{$prefix}--dropdown__arrow {
-    fill: $ui-05;
     position: absolute;
-    right: 1rem;
     top: rem(13px);
-    pointer-events: none;
-    transition: transform $duration--fast-02 motion(standard, productive);
+    right: 1rem;
     transform-origin: 50% 45%;
+    transition: transform $duration--fast-02 motion(standard, productive);
+    pointer-events: none;
+    fill: $ui-05;
   }
 
   button.#{$prefix}--dropdown-text {
+    width: 100%;
+    color: $text-01;
+    text-align: left;
     // button-reset mixin contradicts with bx--dropdown-text styles
     background: none;
     border: none;
-    width: 100%;
-    text-align: left;
 
     &:focus {
       @include focus-outline('outline');
@@ -136,32 +171,41 @@
 
   .#{$prefix}--dropdown-text {
     @include type-style('body-short-01');
+
     display: block;
-    height: rem(40px);
-    padding-top: $carbon--spacing-04;
-    padding-bottom: $carbon--spacing-04;
+    // Account for the border in `.bx--dropdown`
+    height: calc(100% + 1px);
+    // 2rem + SVG width
+    padding-right: rem(42px);
     padding-left: $carbon--spacing-05;
-    padding-right: rem(42px); // 2rem + SVG width
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
   }
 
   .#{$prefix}--dropdown-list {
     @include reset;
     @include focus-outline('reset');
-    @include layer('overlay');
+    @include box-shadow;
     @include type-style('body-short-01');
-    background-color: $ui-01;
+
+    position: absolute;
+    z-index: z('dropdown');
     display: flex;
     flex-direction: column;
     width: 100%;
-    list-style: none;
-    position: absolute;
-    z-index: z('dropdown');
     max-height: 0;
+    // NOTE: IE, Edge, and Safari do not support two value `overflow` shorthand.
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style: none;
+
+    background-color: $ui-01;
     transition: max-height $duration--fast-02 motion(standard, productive);
-    overflow: hidden auto;
+  }
+
+  .#{$prefix}--dropdown--light .#{$prefix}--dropdown-list {
+    background-color: $field-02;
   }
 
   .#{$prefix}--dropdown:not(.#{$prefix}--dropdown--open)
@@ -170,11 +214,12 @@
   }
 
   .#{$prefix}--dropdown-item {
+    position: relative;
+    visibility: inherit;
+    opacity: 0;
     transition: visibility $duration--fast-01 motion(standard, productive),
       opacity $duration--fast-01 motion(standard, productive),
       background-color $duration--fast-01 motion(standard, productive);
-    opacity: 0;
-    visibility: inherit;
 
     &:hover {
       background-color: $hover-ui;
@@ -199,19 +244,20 @@
 
   .#{$prefix}--dropdown-link {
     @include focus-outline('reset');
+
     display: block;
     height: rem(40px);
-    color: $text-02;
-    text-decoration: none;
-    font-weight: normal;
-    line-height: rem(16px);
-    padding: rem(11px) 0;
     margin: 0 $carbon--spacing-05;
+    padding: rem(11px) 0;
+    overflow: hidden;
+    color: $text-02;
+    font-weight: normal;
+    line-height: 1rem;
+    white-space: nowrap;
+    text-decoration: none;
+    text-overflow: ellipsis;
     border: 1px solid transparent;
     border-top-color: $ui-03;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
 
     &:hover {
       color: $text-01;
@@ -219,11 +265,58 @@
     }
   }
 
+  .#{$prefix}--dropdown--light .#{$prefix}--dropdown-link {
+    border-top-color: $decorative-01;
+  }
+
+  .#{$prefix}--dropdown--sm .#{$prefix}--dropdown-link {
+    height: rem(32px);
+    padding-top: rem(7px);
+    padding-bottom: rem(7px);
+  }
+
+  .#{$prefix}--dropdown--xl .#{$prefix}--dropdown-link {
+    height: rem(48px);
+    padding-top: rem(15px);
+    padding-bottom: rem(15px);
+  }
+
   .#{$prefix}--dropdown--focused,
   .#{$prefix}--dropdown-link:focus {
     @include focus-outline('outline');
+
     margin: 0;
     padding: rem(11px) rem(16px);
+  }
+
+  // We don't want to apply focus styles via focus selector when using the aria-activedescendant structure
+  .#{$prefix}--dropdown-list[aria-activedescendant]
+    .#{$prefix}--dropdown-link:focus {
+    // Copied from .bx--dropdown-link styles
+    margin: 0 $carbon--spacing-05;
+    padding: rem(11px) 0;
+    outline: none;
+  }
+
+  // Need added weight for item that is :focused and .bx--dropdown--focused
+  .#{$prefix}--dropdown-list[aria-activedescendant]
+    .#{$prefix}--dropdown--focused:focus {
+    // copied from default focus styles
+    @include focus-outline('outline');
+
+    margin: 0;
+    padding: rem(11px) rem(16px);
+  }
+
+  // Don't want to allow multiple elements have a "selected" style. Not sure why active
+  // had unique styles initially but creating an overwrite for the latest HTML markup for
+  // backwards compatibility. For the next major release it would be possible to clean up
+  // the HTML structure to prevent the user of :active and :focus styles which is creating
+  // these duplicated styles in the list. The Carbon 10 version of dropdown is already
+  // supporting 2 very different HTML structures.
+  .#{$prefix}--dropdown-list[aria-activedescendant]
+    .#{$prefix}--dropdown-item:active {
+    background-color: inherit;
   }
 
   .#{$prefix}--dropdown-item:hover .#{$prefix}--dropdown-link {
@@ -238,9 +331,16 @@
     transform: rotate(-180deg);
   }
 
-  .#{$prefix}--dropdown--open .#{$prefix}--dropdown-list {
-    max-height: 15rem;
-    transition: max-height $duration--fast-02 motion(entrance, productive);
+  .#{$prefix}--dropdown--open.#{$prefix}--dropdown--xl
+    .#{$prefix}--dropdown-list {
+    // 48px item height * 5.5 items shown
+    max-height: rem(264px);
+  }
+
+  .#{$prefix}--dropdown--open.#{$prefix}--dropdown--sm
+    .#{$prefix}--dropdown-list {
+    // 32px item height * 5.5 items shown
+    max-height: rem(176px);
   }
 
   .#{$prefix}--dropdown--open .#{$prefix}--dropdown-item {
@@ -249,7 +349,6 @@
 
   .#{$prefix}--dropdown--disabled {
     border-bottom-color: transparent;
-    cursor: not-allowed;
 
     &:hover {
       background-color: $field-01;
@@ -259,11 +358,15 @@
       outline: none;
     }
 
-    .#{$prefix}--dropdown-text {
+    // TODO: remove in v11
+    .#{$prefix}--dropdown-text,
+    .#{$prefix}--list-box__label {
       color: $disabled-02;
     }
 
-    .#{$prefix}--dropdown__arrow {
+    // TODO: remove in v11
+    .#{$prefix}--dropdown__arrow,
+    .#{$prefix}--list-box__menu-icon svg {
       fill: $disabled-02;
     }
 
@@ -272,18 +375,22 @@
     }
   }
 
+  .#{$prefix}--dropdown--disabled .#{$prefix}--list-box__field,
+  .#{$prefix}--dropdown--disabled .#{$prefix}--list-box__menu-icon {
+    cursor: not-allowed;
+  }
+
   .#{$prefix}--dropdown--auto-width {
     width: auto;
     max-width: rem(400px);
   }
 
   .#{$prefix}--dropdown--inline {
-    justify-self: start;
     display: inline-block;
-    border-bottom-color: transparent;
+    justify-self: start;
     width: auto;
-    height: rem(32px);
-    background-color: $ui-background;
+    background-color: transparent;
+    border-bottom-color: transparent;
     transition: background $duration--fast-01 motion(entrance, productive);
 
     &:hover {
@@ -291,7 +398,7 @@
     }
 
     &.#{$prefix}--dropdown--disabled {
-      background-color: $ui-background;
+      background-color: transparent;
     }
 
     .#{$prefix}--dropdown__arrow {
@@ -306,8 +413,8 @@
 
   .#{$prefix}--dropdown--inline .#{$prefix}--dropdown-text {
     display: inline-block;
-    padding: rem(7px) rem(32px) rem(7px) $carbon--spacing-04; // TODO: spacing token
     height: rem(32px);
+    padding: rem(7px) $carbon--spacing-07 rem(7px) $carbon--spacing-04;
     overflow: visible;
     color: $text-01;
   }
@@ -334,17 +441,32 @@
 
   .#{$prefix}--dropdown--inline.#{$prefix}--dropdown--open:focus
     .#{$prefix}--dropdown-list {
-    @include layer('overlay');
+    @include box-shadow;
   }
 
   .#{$prefix}--dropdown--inline .#{$prefix}--dropdown-link {
     font-weight: normal;
-    margin-right: $carbon--spacing-04;
-    margin-left: rem(10px);
+  }
 
-    &:focus {
-      margin: 0;
-      padding-left: rem(10px);
+  .#{$prefix}--dropdown--show-selected .#{$prefix}--dropdown--selected {
+    display: block;
+    color: $text-01;
+    background-color: $hover-ui;
+
+    &:hover {
+      background-color: $selected-ui;
+    }
+
+    .#{$prefix}--dropdown-link {
+      border-top-color: transparent;
+    }
+
+    + .#{$prefix}--dropdown-item .#{$prefix}--dropdown-link {
+      border-top-color: transparent;
+    }
+
+    .#{$prefix}--list-box__menu-item__selected-icon {
+      display: block;
     }
   }
 

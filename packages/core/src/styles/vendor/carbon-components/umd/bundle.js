@@ -10,7 +10,7 @@
     factory(mod.exports, global.boot, global.index, global.watch);
     global.bundle = mod.exports;
   }
-})(this, function (_exports, _boot, _index, _watch) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _boot, _index, _watch) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

@@ -155,7 +155,7 @@ export class Toolbar extends Component {
 					.attr("role", Roles.IMG);
 
 				buttonIcon.html(button.iconSVGContent);
-				if (button.shouldBeDisabled()) {
+				if (button.shouldBeDisabled && button.shouldBeDisabled()) {
 					buttonContainer
 						.classed("toolbar-button--disabled", true)
 						.classed("toolbar-button--focusable", false)
@@ -456,9 +456,25 @@ export class Toolbar extends Component {
 					};
 				}
 				break;
-
-			// add more toolbar control configuration here
-
+			case ToolbarControlTypes.MAKE_FULLSCREEN:
+				controlConfig = {
+					id: "toolbar-makefullscreen",
+					iconSVGContent: this.getControlIconByType(controlType),
+					shouldBeDisabled: () => false,
+					clickFunction: () => {
+						this.services.domUtils.toggleFullscreen();
+					}
+				};
+				break;
+			case ToolbarControlTypes.SHOW_AS_DATATABLE:
+				controlConfig = {
+					id: "toolbar-showasdatatable",
+					iconSVGContent: this.getControlIconByType(controlType),
+					shouldBeDisabled: false,
+					clickFunction: () =>
+						this.services.events.dispatchEvent(Events.Modal.SHOW)
+				};
+				break;
 			default:
 				throw Error(
 					"Not supported toolbar control type: " + controlType
@@ -477,10 +493,10 @@ export class Toolbar extends Component {
 						<path d="M22.45,21A10.87,10.87,0,0,0,25,14,11,11,0,1,0,14,25a10.87,10.87,0,0,0,7-2.55L28.59,30,30,28.59ZM14,23a9,9,0,1,1,9-9A9,9,0,0,1,14,23Z"/>`;
 			case ToolbarControlTypes.RESET_ZOOM:
 				return `<path d="M22.4478,21A10.855,10.855,0,0,0,25,14,10.99,10.99,0,0,0,6,6.4658V2H4v8h8V8H7.332a8.9768,8.9768,0,1,1-2.1,8H3.1912A11.0118,11.0118,0,0,0,14,25a10.855,10.855,0,0,0,7-2.5522L28.5859,30,30,28.5859Z"/>`;
-
-			// add more icons here
-			// svg icon must be with 32x32 viewBox
-
+			case ToolbarControlTypes.MAKE_FULLSCREEN:
+				return `<polygon points="21 2 21 4 26.59 4 17 13.58 18.41 15 28 5.41 28 11 30 11 30 2 21 2"/><polygon points="15 18.42 13.59 17 4 26.59 4 21 2 21 2 30 11 30 11 28 5.41 28 15 18.42"/>`;
+			case ToolbarControlTypes.SHOW_AS_DATATABLE:
+				return `<rect x="4" y="6" width="18" height="2"/><rect x="4" y="12" width="18" height="2"/><rect x="4" y="18" width="18" height="2"/><rect x="4" y="24" width="18" height="2"/><rect x="26" y="6" width="2" height="2"/><rect x="26" y="12" width="2" height="2"/><rect x="26" y="18" width="2" height="2"/><rect x="26" y="24" width="2" height="2"/>`;
 			default:
 				throw Error(
 					"Not supported toolbar control type: " + controlType

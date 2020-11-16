@@ -23,7 +23,7 @@ import on from '../../globals/js/misc/on';
 
 /**
  * The CSS property names of the arrow keyed by the floating menu direction.
- * @type {Object<string, string>}
+ * @type {object<string, string>}
  */
 const triggerButtonPositionProps = /* #__PURE__ */ (() => ({
   [DIRECTION_TOP]: 'bottom',
@@ -34,7 +34,7 @@ const triggerButtonPositionProps = /* #__PURE__ */ (() => ({
 
 /**
  * Determines how the position of arrow should affect the floating menu position.
- * @type {Object<string, number>}
+ * @type {object<string, number>}
  */
 const triggerButtonPositionFactors = /* #__PURE__ */ (() => ({
   [DIRECTION_TOP]: -2,
@@ -124,13 +124,13 @@ class OverflowMenu extends mixin(
       );
     }
     this.manage(
-      on(this.element.ownerDocument, 'click', event => {
+      on(this.element.ownerDocument, 'click', (event) => {
         this._handleDocumentClick(event);
         this.wasOpenBeforeClick = undefined;
       })
     );
     this.manage(
-      on(this.element.ownerDocument, 'keydown', event => {
+      on(this.element.ownerDocument, 'keydown', (event) => {
         this._handleKeyPress(event);
       })
     );
@@ -150,14 +150,6 @@ class OverflowMenu extends mixin(
    * @param {Function} callback Callback called when change in state completes.
    */
   changeState(state, detail, callback) {
-    // @todo Can clean up to use `this.triggerNode` once non-compliant code is deprecated
-    const triggerElement = this.triggerNode ? 'triggerNode' : 'element';
-    if (state === 'hidden') {
-      this[triggerElement].setAttribute('aria-expanded', 'false');
-    } else {
-      this[triggerElement].setAttribute('aria-expanded', 'true');
-    }
-
     if (!this.optionMenu) {
       const optionMenu = this.element.querySelector(
         this.options.selectorOptionMenu
@@ -173,6 +165,7 @@ class OverflowMenu extends mixin(
         classRefShown: this.options.classShown,
         offset: this.options.objMenuOffset,
         triggerNode: this.triggerNode,
+        contentNode: this.element.querySelector(this.options.selectorContent),
       });
       this.children.push(this.optionMenu);
     }
@@ -236,14 +229,14 @@ class OverflowMenu extends mixin(
    * Moves the focus up/down.
    * @param {number} direction The direction of navigating.
    */
-  navigate = direction => {
+  navigate = (direction) => {
     const items = [
       ...this.element.ownerDocument.querySelectorAll(this.options.selectorItem),
     ];
     const start =
       this.getCurrentNavigation() ||
       this.element.querySelector(this.options.selectorItemSelected);
-    const getNextItem = old => {
+    const getNextItem = (old) => {
       const handleUnderflow = (index, length) =>
         index + (index >= 0 ? 0 : length);
       const handleOverflow = (index, length) =>
@@ -285,14 +278,6 @@ class OverflowMenu extends mixin(
     const triggerElement = triggerNode ? 'triggerNode' : 'element';
 
     switch (key) {
-      // Esc
-      case 27:
-        this.changeState('hidden', getLaunchingDetails(event), () => {
-          if (isOfMenu) {
-            this[triggerElement].focus();
-          }
-        });
-        break;
       // Enter || Space bar
       case 13:
       case 32: {
@@ -345,8 +330,9 @@ class OverflowMenu extends mixin(
       selectorInit: '[data-overflow-menu]',
       selectorOptionMenu: `.${prefix}--overflow-menu-options`,
       selectorTrigger: 'button[aria-haspopup]',
+      selectorContent: `.${prefix}--overflow-menu-options__content`,
       selectorItem: `
-        .${prefix}--overflow-menu-options--open >
+        .${prefix}--overflow-menu-options--open
         .${prefix}--overflow-menu-options__option:not(.${prefix}--overflow-menu-options__option--disabled) >
         .${prefix}--overflow-menu-options__btn
       `,

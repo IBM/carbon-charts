@@ -8,6 +8,7 @@
 @import '../../globals/scss/vars';
 @import '../../globals/scss/typography';
 @import '../../globals/scss/helper-mixins';
+@import '../../globals/scss/css--helpers';
 @import '../../globals/scss/tooltip';
 @import '../../globals/scss/vendor/@carbon/elements/scss/import-once/import-once';
 @import 'mixins';
@@ -17,30 +18,8 @@
 /// @access private
 /// @group button
 @mixin button {
-  // button set styles
-  .#{$prefix}--btn-set {
-    display: flex;
-  }
-
-  .#{$prefix}--btn-set > .#{$prefix}--btn {
-    max-width: rem(196px); // 196px from design kit
-    width: 100%;
-  }
-
-  .#{$prefix}--btn--secondary.#{$prefix}--btn--disabled
-    + .#{$prefix}--btn--primary.#{$prefix}--btn--disabled,
-  .#{$prefix}--btn--tertiary.#{$prefix}--btn--disabled
-    + .#{$prefix}--btn--danger.#{$prefix}--btn--disabled {
-    border-left: rem(1px) solid $disabled-03;
-  }
-
   .#{$prefix}--btn {
     @include button-base;
-
-    &.#{$prefix}--btn--disabled > svg.#{$prefix}--btn__icon,
-    &:disabled > svg.#{$prefix}--btn__icon {
-      fill: $disabled-03;
-    }
   }
 
   // Reset intrisic padding in Firefox (see #731)
@@ -87,8 +66,7 @@
       $interactive-03,
       $hover-tertiary,
       currentColor,
-      $active-tertiary,
-      1px
+      $active-tertiary
     );
 
     &:hover {
@@ -96,12 +74,13 @@
     }
 
     &:focus {
-      color: $text-04;
+      color: $inverse-01;
       background-color: $interactive-03;
     }
 
     &:active {
-      background-color: $active-primary;
+      background-color: $active-tertiary;
+      border-color: transparent;
     }
 
     &:disabled,
@@ -110,16 +89,9 @@
     &.#{$prefix}--btn--disabled,
     &.#{$prefix}--btn--disabled:hover,
     &.#{$prefix}--btn--disabled:focus {
+      color: $disabled-03;
       background: transparent;
-      color: $disabled;
-
-      & > .#{$prefix}--btn__icon path {
-        fill: $disabled;
-      }
-    }
-
-    &:hover > .#{$prefix}--btn__icon path {
-      fill: $inverse-01;
+      outline: none;
     }
   }
 
@@ -132,6 +104,7 @@
       currentColor,
       $active-ui
     );
+
     padding: $button-padding-ghost;
 
     .#{$prefix}--btn__icon {
@@ -142,10 +115,6 @@
     &:hover,
     &:active {
       color: $hover-primary-text;
-
-      .#{$prefix}--btn__icon path {
-        fill: $hover-primary-text;
-      }
     }
 
     &:active {
@@ -158,13 +127,10 @@
     &.#{$prefix}--btn--disabled,
     &.#{$prefix}--btn--disabled:hover,
     &.#{$prefix}--btn--disabled:focus {
-      color: $disabled;
+      color: $disabled-03;
       background: transparent;
       border-color: transparent;
-
-      .#{$prefix}--btn__icon path {
-        fill: $disabled;
-      }
+      outline: none;
     }
 
     &.#{$prefix}--btn--sm {
@@ -178,18 +144,47 @@
 
   .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger {
     @include tooltip--trigger('icon', 'bottom');
-    outline: $button-outline-width solid transparent;
-    outline-offset: -4px;
+
+    svg,
+    &:hover svg,
+    &:focus svg {
+      fill: currentColor;
+    }
+  }
+
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--btn--ghost:focus svg {
+    fill: $icon-01;
+  }
+
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--btn--ghost:hover svg {
+    fill: $icon-01;
   }
 
   .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger:focus {
     border-color: $focus;
-    outline-color: $ui-02;
+
+    // Windows, Firefox HCM Fix
+    @media screen and (-ms-high-contrast: active),
+      screen and (prefers-contrast) {
+      outline: 3px solid transparent;
+      outline-offset: -3px;
+    }
+  }
+
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger:active:not([disabled]) {
+    border-color: transparent;
   }
 
   .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger:focus
     svg {
     outline-color: transparent;
+  }
+
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger[disabled]:hover,
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger[disabled]:focus,
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--tooltip__trigger[disabled]:active {
+    cursor: not-allowed;
+    fill: $disabled-03;
   }
 
   .#{$prefix}--btn--icon-only--top {
@@ -201,10 +196,9 @@
     @include tooltip--placement('icon', 'bottom', 'center');
   }
 
-  .#{$prefix}--btn--icon-only,
-  .#{$prefix}--btn--sm.#{$prefix}--btn--icon-only,
-  .#{$prefix}--btn--field.#{$prefix}--btn--icon-only {
-    padding-right: rem(13px);
+  .#{$prefix}--btn--icon-only {
+    padding-right: rem(15px);
+    padding-left: rem(15px);
 
     .#{$prefix}--btn__icon {
       position: static;
@@ -215,21 +209,147 @@
     }
   }
 
+  .#{$prefix}--btn path[data-icon-path='inner-path'] {
+    fill: none;
+  }
+
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--btn--ghost
+    .#{$prefix}--btn__icon,
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--btn--ghost:hover
+    .#{$prefix}--btn__icon {
+    fill: $icon-01;
+
+    // Windows, Firefox HCM Fix
+    @media screen and (-ms-high-contrast: active),
+      screen and (prefers-contrast) {
+      // `ButtonText` is a CSS2 system color to help improve colors in HCM
+      path {
+        fill: ButtonText;
+      }
+    }
+  }
+
+  .#{$prefix}--btn--ghost.#{$prefix}--btn--icon-only
+    .#{$prefix}--btn__icon
+    path,
+  .#{$prefix}--btn--ghost.#{$prefix}--btn--icon-only .#{$prefix}--btn__icon {
+    fill: $icon-01;
+  }
+
+  .#{$prefix}--btn--ghost.#{$prefix}--btn--icon-only[disabled]
+    .#{$prefix}--btn__icon
+    path,
+  .#{$prefix}--btn--ghost.#{$prefix}--btn--icon-only[disabled]
+    .#{$prefix}--btn__icon,
+  .#{$prefix}--btn.#{$prefix}--btn--icon-only.#{$prefix}--btn--ghost[disabled]:hover
+    .#{$prefix}--btn__icon {
+    fill: $disabled-03;
+
+    // Windows, Firefox HCM Fix
+    @media screen and (-ms-high-contrast: active),
+      screen and (prefers-contrast) {
+      // `GrayText` is a CSS2 system color to help improve colors in HCM
+      path {
+        fill: GrayText;
+      }
+    }
+  }
+
+  .#{$prefix}--btn--ghost.#{$prefix}--btn--icon-only[disabled] {
+    cursor: not-allowed;
+  }
+
+  .#{$prefix}--btn--field.#{$prefix}--btn--icon-only {
+    padding-right: rem(11px);
+    padding-left: rem(11px);
+  }
+
+  .#{$prefix}--btn--sm.#{$prefix}--btn--icon-only {
+    padding-right: rem(7px);
+    padding-left: rem(7px);
+  }
+
   .#{$prefix}--btn--danger {
     @include button-theme(
-      // $support-01, TODO: replace with updated token
-        #dc222b,
-      // $support-01, TODO: replace with updated token
-        #dc222b,
+      $danger-01,
+      transparent,
       $text-04,
       $hover-danger,
-      $icon-03,
+      currentColor,
       $active-danger
     );
 
     &:hover {
       color: $text-04;
-      border: $button-border-width solid transparent;
+    }
+
+    &-tertiary {
+      @include button-theme(
+        transparent,
+        $danger-02,
+        $danger-02,
+        $hover-danger,
+        currentColor,
+        $active-danger
+      );
+
+      &:hover {
+        color: $text-04;
+        border-color: $hover-danger;
+      }
+
+      &:focus {
+        color: $text-04;
+        background-color: $danger-01;
+      }
+
+      &:active {
+        color: $text-04;
+        border-color: $active-danger;
+      }
+    }
+
+    &-ghost {
+      @include button-theme(
+        transparent,
+        transparent,
+        $danger-02,
+        $hover-danger,
+        currentColor,
+        $active-danger
+      );
+
+      padding: $button-padding-ghost;
+
+      .#{$prefix}--btn__icon {
+        position: static;
+        margin-left: $carbon--spacing-03;
+      }
+
+      &:hover,
+      &:active {
+        color: $text-04;
+      }
+
+      &:disabled,
+      &:hover:disabled,
+      &:focus:disabled,
+      &.#{$prefix}--btn--disabled,
+      &.#{$prefix}--btn--disabled:hover,
+      &.#{$prefix}--btn--disabled:focus {
+        color: $disabled;
+        background: transparent;
+        border-color: transparent;
+        outline: none;
+      }
+
+      &.#{$prefix}--btn--sm {
+        padding: $button-padding-ghost-sm;
+      }
+
+      &.#{$prefix}--btn--field {
+        padding: $button-padding-ghost-field;
+      }
     }
   }
 
@@ -238,16 +358,79 @@
     padding: $button-padding-sm;
   }
 
+  .#{$prefix}--btn--xl:not(.#{$prefix}--btn--icon-only) {
+    @include button-padding-large;
+
+    min-height: rem(80px);
+  }
+
+  .#{$prefix}--btn--lg:not(.#{$prefix}--btn--icon-only) {
+    @include button-padding-large;
+
+    min-height: rem(64px);
+  }
+
   .#{$prefix}--btn--field {
-    height: 40px;
-    min-height: 40px;
+    min-height: rem(40px);
     padding: $button-padding-field;
   }
 
   // Skeleton State
   .#{$prefix}--btn.#{$prefix}--skeleton {
     @include skeleton;
+
     width: rem(150px);
+  }
+
+  // button set styles
+  .#{$prefix}--btn-set {
+    display: flex;
+  }
+
+  .#{$prefix}--btn-set--stacked {
+    flex-direction: column;
+  }
+
+  .#{$prefix}--btn-set .#{$prefix}--btn {
+    width: 100%;
+    // 196px from design kit
+    max-width: rem(196px);
+
+    &:not(:focus) {
+      box-shadow: rem(-1px) 0 0 0 $button-separator;
+    }
+
+    &:first-of-type:not(:focus) {
+      box-shadow: inherit;
+    }
+  }
+
+  .#{$prefix}--btn-set .#{$prefix}--btn:focus + .#{$prefix}--btn {
+    box-shadow: inherit;
+  }
+
+  .#{$prefix}--btn-set--stacked .#{$prefix}--btn:not(:focus) {
+    box-shadow: 0 rem(-1px) 0 0 $button-separator;
+  }
+
+  .#{$prefix}--btn-set--stacked .#{$prefix}--btn:first-of-type:not(:focus) {
+    box-shadow: inherit;
+  }
+
+  .#{$prefix}--btn-set .#{$prefix}--btn.#{$prefix}--btn--disabled {
+    box-shadow: rem(-1px) 0 0 0 $disabled-03;
+
+    &:first-of-type {
+      box-shadow: none;
+    }
+  }
+
+  .#{$prefix}--btn-set--stacked .#{$prefix}--btn.#{$prefix}--btn--disabled {
+    box-shadow: 0 rem(-1px) 0 0 $disabled-03;
+
+    &:first-of-type {
+      box-shadow: none;
+    }
   }
 }
 

@@ -12,8 +12,8 @@
 @include exports('data-table-inline-edit') {
   .#{$prefix}--inline-edit-label {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
     &:hover {
       .#{$prefix}--inline-edit-label__icon {
@@ -35,7 +35,8 @@
 
     &:focus {
       @include focus-outline;
-      padding: $spacing-3xs;
+
+      padding: $spacing-01;
 
       .#{$prefix}--inline-edit-label__icon {
         width: auto;
@@ -45,8 +46,8 @@
   }
 
   .#{$prefix}--inline-edit-label__icon {
-    fill: $ui-05;
     opacity: 0;
+    fill: $ui-05;
   }
 
   .#{$prefix}--inline-edit-input {
@@ -58,7 +59,7 @@
     margin-left: rem(-12px);
 
     input {
-      padding-left: $spacing-sm;
+      padding-left: $spacing-04;
     }
   }
 
@@ -68,7 +69,7 @@
     }
 
     select {
-      padding: 0.45rem 2.75rem 0.45rem $spacing-md;
+      padding: 0.45rem 2.75rem 0.45rem $spacing-05;
     }
 
     .#{$prefix}--select__arrow {

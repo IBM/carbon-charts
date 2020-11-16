@@ -10,7 +10,7 @@
     factory(mod.exports);
     global.resize = mod.exports;
   }
-})(this, function (_exports) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -25,9 +25,7 @@
    */
   // mdn resize function
 
-  var optimizedResize =
-  /* #__PURE__ */
-  function optimizedResize() {
+  var optimizedResize = /* #__PURE__ */function optimizedResize() {
     var callbacks = [];
     var running = false; // run the actual callbacks
 

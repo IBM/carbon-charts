@@ -10,7 +10,7 @@
     factory(mod.exports);
     global.onFocusByKeyboard = mod.exports;
   }
-})(this, function (_exports) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -26,12 +26,12 @@
    */
 
   function onFocusByKeyboard(node, name, callback) {
-    var hasFocusout = 'onfocusout' in window;
+    var hasFocusout = ('onfocusout' in window);
     var focusinEventName = hasFocusout ? 'focusin' : 'focus';
     var focusoutEventName = hasFocusout ? 'focusout' : 'blur';
     /**
      * Event types supported by this function
-     * @type {Object<string, string>}
+     * @type {object<string, string>}
      */
 
     var supportedEvents = {

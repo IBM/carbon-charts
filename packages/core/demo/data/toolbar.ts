@@ -15,13 +15,13 @@ const addToolbarOptions = (options, configs?) => {
 	};
 	options.toolbar.controls = [
 		{
-			type: "Zoom in"
+			type: "zoom-in"
 		},
 		{
-			type: "Zoom out"
+			type: "zoom-out"
 		},
 		{
-			type: "Reset zoom"
+			type: "zoom-reset"
 		}
 	];
 
@@ -54,13 +54,13 @@ export const toolbarLineTimeSeriesOptions = addToolbarOptions(
 		numberOfIcons: 2,
 		controls: [
 			{
-				type: "Reset zoom"
+				type: "zoom-reset"
 			},
 			{
-				type: "Zoom in"
+				type: "zoom-in"
 			},
 			{
-				type: "Zoom out"
+				type: "zoom-out"
 			}
 		]
 	}

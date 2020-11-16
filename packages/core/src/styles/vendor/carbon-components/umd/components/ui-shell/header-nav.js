@@ -10,7 +10,7 @@
     factory(mod.exports, global.mixin, global.createComponent, global.initComponentBySearch, global.handles, global.on, global.settings);
     global.headerNav = mod.exports;
   }
-})(this, function (_exports, _mixin2, _createComponent, _initComponentBySearch, _handles, _on, _settings) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _mixin2, _createComponent, _initComponentBySearch, _handles, _on, _settings) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -31,6 +31,8 @@
   }
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function _typeof(obj) {
         return typeof obj;
@@ -66,29 +68,6 @@
     return Constructor;
   }
 
-  function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-      return call;
-    }
-
-    return _assertThisInitialized(self);
-  }
-
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return self;
-  }
-
-  function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-      return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-  }
-
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function");
@@ -113,21 +92,88 @@
     return _setPrototypeOf(o, p);
   }
 
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+      return call;
+    }
+
+    return _assertThisInitialized(self);
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
   var toArray = function toArray(arrayLike) {
     return Array.prototype.slice.call(arrayLike);
   };
 
-  var HeaderNav =
-  /*#__PURE__*/
-  function (_mixin) {
+  var HeaderNav = /*#__PURE__*/function (_mixin) {
     _inherits(HeaderNav, _mixin);
+
+    var _super = _createSuper(HeaderNav);
+    /**
+     * Header nav.
+     * @extends CreateComponent
+     * @extends InitComponentBySearch
+     * @extends Handles
+     * @param {HTMLElement} element The element working as an header nav.
+     * @param {object} [options] The component options.
+     * @param {string} [options.selectorSubmenu] The CSS selector to find sub menus.
+     * @param {string} [options.selectorSubmenuLink] The CSS selector to find the trigger buttons of sub menus.
+     * @param {string} [options.selectorSubmenuItem] The CSS selector to find the sub menu items.
+     */
+
 
     function HeaderNav(element, options) {
       var _this;
 
       _classCallCheck(this, HeaderNav);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderNav).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       _this.getCurrentNavigation = function () {
         var focused = _this.element.ownerDocument.activeElement.closest(_this.options.selectorSubmenu);
@@ -195,6 +241,9 @@
        * @member HeaderNav.options
        * @type {object}
        * @property {string} selectorInit The data attribute to find side navs.
+       * @property {string} [selectorSubmenu] The CSS selector to find sub menus.
+       * @property {string} [selectorSubmenuLink] The CSS selector to find the trigger buttons of sub menus.
+       * @property {string} [selectorSubmenuItem] The CSS selector to find the sub menu items.
        */
       get: function get() {
         var prefix = _settings.default.prefix;
@@ -210,7 +259,7 @@
        * Enum for navigating backward/forward.
        * @readonly
        * @member Header.NAVIGATE
-       * @type {Object}
+       * @type {object}
        * @property {number} BACKWARD Navigating backward.
        * @property {number} FORWARD Navigating forward.
        */
@@ -225,5 +274,6 @@
     return HeaderNav;
   }((0, _mixin2.default)(_createComponent.default, _initComponentBySearch.default, _handles.default));
 
-  _exports.default = HeaderNav;
+  var _default = HeaderNav;
+  _exports.default = _default;
 });

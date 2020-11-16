@@ -3,9 +3,11 @@ import on from '../../globals/js/misc/on';
 import settings from '../../globals/js/settings';
 import onFocusOutByKeyboard from '../../globals/js/misc/on-focus-by-keyboard';
 
-export default class ProductSwitcher extends NavigationMenuPanel {
+let seq = 0;
+
+class ProductSwitcher extends NavigationMenuPanel {
   /**
-   * A navigation menu
+   * A navigation menu.
    * @extends NavigationMenuPanel
    * @param {HTMLElement} element The element working as a selector.
    * @param {object} [options] The component options.
@@ -46,7 +48,7 @@ export default class ProductSwitcher extends NavigationMenuPanel {
    * trigger button
    * @param {Event} event The event triggering this method
    */
-  _handleFocusOut = event => {
+  _handleFocusOut = (event) => {
     if (this.element.contains(event.relatedTarget)) {
       return;
     }
@@ -65,7 +67,7 @@ export default class ProductSwitcher extends NavigationMenuPanel {
   /**
    * @param {Event} event The event triggering this method
    */
-  _handleKeyDown = event => {
+  _handleKeyDown = (event) => {
     const isExpanded = !this.element.hasAttribute('hidden');
     if (event.which === 27 && isExpanded) {
       const triggerButton = this.current;
@@ -74,15 +76,13 @@ export default class ProductSwitcher extends NavigationMenuPanel {
     }
   };
 
-  createdByLauncher = event => {
+  createdByLauncher = (event) => {
     const isExpanded = this.element.classList.contains(
       this.options.classProductSwitcherExpanded
     );
     const launcher = event.delegateTarget;
     if (!launcher.id) {
-      launcher.id = `__carbon-product-switcher-launcher-${Math.random()
-        .toString(36)
-        .substr(2)}`;
+      launcher.id = `__carbon-product-switcher-launcher-${seq++}`;
     }
     const current = launcher.id;
     this.changeState(
@@ -97,7 +97,7 @@ export default class ProductSwitcher extends NavigationMenuPanel {
    * @param {string} current
    * @returns {boolean} true if given state is different from current state
    */
-  shouldStateBeChanged = current => this.current !== current;
+  shouldStateBeChanged = (current) => this.current !== current;
 
   /**
    * Changes the expanded/collapsed state.
@@ -116,7 +116,7 @@ export default class ProductSwitcher extends NavigationMenuPanel {
     }
 
     // deactivate all other trigger buttons
-    this.triggerButtonIds.forEach(id => {
+    this.triggerButtonIds.forEach((id) => {
       const button = this.element.ownerDocument.getElementById(id);
       const label = button.getAttribute(this.options.attribLabelExpand);
       button.classList.remove(
@@ -195,3 +195,5 @@ export default class ProductSwitcher extends NavigationMenuPanel {
     });
   }
 }
+
+export default ProductSwitcher;

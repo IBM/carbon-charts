@@ -1,28 +1,32 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(["exports", "../../globals/js/misc/mixin", "../../globals/js/mixins/create-component", "../../globals/js/mixins/evented-show-hide-state", "../../globals/js/mixins/track-blur", "../../globals/js/misc/get-launching-details", "../../globals/js/misc/resize"], factory);
+    define(["exports", "warning", "../../globals/js/misc/mixin", "../../globals/js/settings", "../../globals/js/mixins/create-component", "../../globals/js/mixins/evented-show-hide-state", "../../globals/js/mixins/handles", "../../globals/js/mixins/track-blur", "../../globals/js/misc/get-launching-details", "../../globals/js/misc/resize", "../../globals/js/misc/on"], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require("../../globals/js/misc/mixin"), require("../../globals/js/mixins/create-component"), require("../../globals/js/mixins/evented-show-hide-state"), require("../../globals/js/mixins/track-blur"), require("../../globals/js/misc/get-launching-details"), require("../../globals/js/misc/resize"));
+    factory(exports, require("warning"), require("../../globals/js/misc/mixin"), require("../../globals/js/settings"), require("../../globals/js/mixins/create-component"), require("../../globals/js/mixins/evented-show-hide-state"), require("../../globals/js/mixins/handles"), require("../../globals/js/mixins/track-blur"), require("../../globals/js/misc/get-launching-details"), require("../../globals/js/misc/resize"), require("../../globals/js/misc/on"));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.mixin, global.createComponent, global.eventedShowHideState, global.trackBlur, global.getLaunchingDetails, global.resize);
+    factory(mod.exports, global.warning, global.mixin, global.settings, global.createComponent, global.eventedShowHideState, global.handles, global.trackBlur, global.getLaunchingDetails, global.resize, global.on);
     global.floatingMenu = mod.exports;
   }
-})(this, function (_exports, _mixin2, _createComponent, _eventedShowHideState, _trackBlur, _getLaunchingDetails, _resize) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _warning, _mixin2, _settings, _createComponent, _eventedShowHideState, _handles, _trackBlur, _getLaunchingDetails, _resize, _on) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = _exports.getFloatingPosition = _exports.DIRECTION_BOTTOM = _exports.DIRECTION_RIGHT = _exports.DIRECTION_TOP = _exports.DIRECTION_LEFT = void 0;
+  _warning = _interopRequireDefault(_warning);
   _mixin2 = _interopRequireDefault(_mixin2);
+  _settings = _interopRequireDefault(_settings);
   _createComponent = _interopRequireDefault(_createComponent);
   _eventedShowHideState = _interopRequireDefault(_eventedShowHideState);
+  _handles = _interopRequireDefault(_handles);
   _trackBlur = _interopRequireDefault(_trackBlur);
   _getLaunchingDetails = _interopRequireDefault(_getLaunchingDetails);
   _resize = _interopRequireDefault(_resize);
+  _on = _interopRequireDefault(_on);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -31,6 +35,8 @@
   }
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function _typeof(obj) {
         return typeof obj;
@@ -66,22 +72,6 @@
     return Constructor;
   }
 
-  function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-      return call;
-    }
-
-    return _assertThisInitialized(self);
-  }
-
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return self;
-  }
-
   function _get(target, property, receiver) {
     if (typeof Reflect !== "undefined" && Reflect.get) {
       _get = Reflect.get;
@@ -112,13 +102,6 @@
     return object;
   }
 
-  function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-      return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-  }
-
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function");
@@ -143,6 +126,61 @@
     return _setPrototypeOf(o, p);
   }
 
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+      return call;
+    }
+
+    return _assertThisInitialized(self);
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -159,7 +197,7 @@
   }
   /**
    * The structure for the position of floating menu.
-   * @typedef {Object} FloatingMenu~position
+   * @typedef {object} FloatingMenu~position
    * @property {number} left The left position.
    * @property {number} top The top position.
    * @property {number} right The right position.
@@ -168,14 +206,14 @@
 
   /**
    * The structure for the size of floating menu.
-   * @typedef {Object} FloatingMenu~size
+   * @typedef {object} FloatingMenu~size
    * @property {number} width The width.
    * @property {number} height The height.
    */
 
   /**
    * The structure for the position offset of floating menu.
-   * @typedef {Object} FloatingMenu~offset
+   * @typedef {object} FloatingMenu~offset
    * @property {number} top The top position.
    * @property {number} left The left position.
    */
@@ -248,10 +286,10 @@
 
   _exports.getFloatingPosition = getFloatingPosition;
 
-  var FloatingMenu =
-  /*#__PURE__*/
-  function (_mixin) {
+  var FloatingMenu = /*#__PURE__*/function (_mixin) {
     _inherits(FloatingMenu, _mixin);
+
+    var _super = _createSuper(FloatingMenu);
     /**
      * Floating menu.
      * @extends CreateComponent
@@ -284,7 +322,7 @@
 
       _classCallCheck(this, FloatingMenu);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(FloatingMenu).call(this, element, options));
+      _this = _super.call(this, element, options);
 
       var attribDirectionValue = _this.element.getAttribute(_this.options.attribDirection);
 
@@ -297,23 +335,56 @@
         _this.element.setAttribute(_this.options.attribDirection, _this.options.direction);
       }
 
+      _this.manage((0, _on.default)(_this.element.ownerDocument, 'keydown', function (event) {
+        _this._handleKeydown(event);
+      }));
+
       return _this;
     }
     /**
-     * Focuses back on the trigger button if this component loses focus.
+     * Handles key press on document.
+     * @param {Event} event The triggering event.
+     * @private
      */
 
 
     _createClass(FloatingMenu, [{
+      key: "_handleKeydown",
+      value: function _handleKeydown(event) {
+        var key = event.which;
+        var _this$options = this.options,
+            triggerNode = _this$options.triggerNode,
+            refNode = _this$options.refNode;
+        var isOfMenu = this.element.contains(event.target);
+
+        switch (key) {
+          // Esc
+          case 27:
+            this.changeState('hidden', (0, _getLaunchingDetails.default)(event), function () {
+              if (isOfMenu) {
+                (triggerNode || refNode).focus();
+              }
+            });
+            break;
+
+          default:
+            break;
+        }
+      }
+      /**
+       * Focuses back on the trigger button if this component loses focus.
+       */
+
+    }, {
       key: "handleBlur",
       value: function handleBlur(event) {
         if (this.element.classList.contains(this.options.classShown)) {
           this.changeState('hidden', (0, _getLaunchingDetails.default)(event));
-          var _this$options = this.options,
-              refNode = _this$options.refNode,
-              triggerNode = _this$options.triggerNode;
+          var _this$options2 = this.options,
+              refNode = _this$options2.refNode,
+              triggerNode = _this$options2.triggerNode;
 
-          if (this.element.contains(event.relatedTarget) && refNode && event.target !== refNode) {
+          if ((event.relatedTarget === null || this.element.contains(event.relatedTarget)) && refNode && event.target !== refNode) {
             HTMLElement.prototype.focus.call(triggerNode || refNode); // SVGElement in IE11 does not have `.focus()` method
           }
         }
@@ -337,13 +408,13 @@
       key: "_getPos",
       value: function _getPos() {
         var element = this.element;
-        var _this$options2 = this.options,
-            refNode = _this$options2.refNode,
-            offset = _this$options2.offset,
-            direction = _this$options2.direction;
+        var _this$options3 = this.options,
+            refNode = _this$options3.refNode,
+            offset = _this$options3.offset,
+            direction = _this$options3.direction;
 
         if (!refNode) {
-          throw new Error('Cannot find the refernce node for positioning floating menu.');
+          throw new Error('Cannot find the reference node for positioning floating menu.');
         }
 
         return getFloatingPosition({
@@ -427,19 +498,14 @@
         var _this2 = this;
 
         var shown = state === 'shown';
-        var _this$options3 = this.options,
-            refNode = _this$options3.refNode,
-            classShown = _this$options3.classShown,
-            classRefShown = _this$options3.classRefShown;
+        var _this$options4 = this.options,
+            refNode = _this$options4.refNode,
+            classShown = _this$options4.classShown,
+            classRefShown = _this$options4.classRefShown,
+            triggerNode = _this$options4.triggerNode;
 
         if (!refNode) {
-          throw new TypeError('Cannot find the refernce node for changing the style.');
-        }
-
-        this.element.classList.toggle(classShown, shown);
-
-        if (classRefShown) {
-          refNode.classList.toggle(classRefShown, shown);
+          throw new TypeError('Cannot find the reference node for changing the style.');
         }
 
         if (state === 'shown') {
@@ -450,12 +516,43 @@
           }
 
           this._getContainer().appendChild(this.element);
+        }
 
+        this.element.setAttribute('aria-hidden', (!shown).toString());
+        (triggerNode || refNode).setAttribute('aria-expanded', shown.toString());
+        this.element.classList.toggle(classShown, shown);
+
+        if (classRefShown) {
+          refNode.classList.toggle(classRefShown, shown);
+        }
+
+        if (state === 'shown') {
           this._place(); // IE11 puts focus on elements with `.focus()`, even ones without `tabindex` attribute
 
 
           if (!this.element.hasAttribute(this.options.attribAvoidFocusOnOpen)) {
-            (this.element.querySelector(this.options.selectorPrimaryFocus) || this.element).focus();
+            var primaryFocusNode = this.element.querySelector(this.options.selectorPrimaryFocus);
+            var contentNode = this.options.contentNode || this.element;
+            var tabbableNode = contentNode.querySelector(_settings.default.selectorTabbable); // The programmatically focusable element may be (and typically will be) the content node itself;
+
+            var focusableNode = contentNode.matches(_settings.default.selectorFocusable) ? contentNode : contentNode.querySelector(_settings.default.selectorFocusable);
+
+            if (primaryFocusNode) {
+              // User defined focusable node
+              primaryFocusNode.focus();
+            } else if (tabbableNode) {
+              // First sequentially focusable node
+              tabbableNode.focus();
+            } else if (focusableNode) {
+              // First programmatic focusable node
+              focusableNode.focus();
+            } else {
+              this.element.focus();
+
+              if (process.env.NODE_ENV !== "production") {
+                process.env.NODE_ENV !== "production" ? (0, _warning.default)(focusableNode === null, 'Floating Menus must have at least a programmatically focusable child. ' + 'This can be accomplished by adding tabindex="-1" to the content element.') : void 0;
+              }
+            }
           }
         }
 
@@ -500,7 +597,7 @@
     };
     FloatingMenu.components = new WeakMap();
     return FloatingMenu;
-  }((0, _mixin2.default)(_createComponent.default, _eventedShowHideState.default, _trackBlur.default));
+  }((0, _mixin2.default)(_createComponent.default, _eventedShowHideState.default, _trackBlur.default, _handles.default));
 
   var _default = FloatingMenu;
   _exports.default = _default;

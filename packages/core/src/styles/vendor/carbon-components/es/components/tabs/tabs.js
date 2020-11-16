@@ -1,4 +1,6 @@
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
       return typeof obj;
@@ -34,22 +36,6 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
 function _get(target, property, receiver) {
   if (typeof Reflect !== "undefined" && Reflect.get) {
     _get = Reflect.get;
@@ -80,13 +66,6 @@ function _superPropBase(object, property) {
   return object;
 }
 
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function");
@@ -110,6 +89,61 @@ function _setPrototypeOf(o, p) {
 
   return _setPrototypeOf(o, p);
 }
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+        result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 /**
  * Copyright IBM Corp. 2016, 2018
  *
@@ -127,10 +161,10 @@ var toArray = function toArray(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 };
 
-var Tab =
-/*#__PURE__*/
-function (_ContentSwitcher) {
+var Tab = /*#__PURE__*/function (_ContentSwitcher) {
   _inherits(Tab, _ContentSwitcher);
+
+  var _super = _createSuper(Tab);
   /**
    * Container of tabs.
    * @extends ContentSwitcher
@@ -157,7 +191,7 @@ function (_ContentSwitcher) {
 
     _classCallCheck(this, Tab);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Tab).call(this, element, options));
+    _this = _super.call(this, element, options);
 
     _this.manage(on(_this.element, 'keydown', function (event) {
       _this._handleKeyDown(event);
@@ -376,7 +410,7 @@ function (_ContentSwitcher) {
      * Enum for navigating backward/forward.
      * @readonly
      * @member Tab.NAVIGATE
-     * @type {Object}
+     * @type {object}
      * @property {number} BACKWARD Navigating backward.
      * @property {number} FORWARD Navigating forward.
      */

@@ -10,3 +10,7 @@
 		opacity: 0;
 	}
 }
+
+div.#{$prefix}--chart-holder.fullscreen {
+	padding: 2em;
+}

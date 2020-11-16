@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export default function(ToMix) {
+export default function (ToMix) {
   class CreateComponent extends ToMix {
     /**
      * The component instances managed by this component.
@@ -39,7 +39,7 @@ export default function(ToMix) {
 
       /**
        * The component options.
-       * @type {Object}
+       * @type {object}
        */
       this.options = Object.assign(
         Object.create(this.constructor.options),

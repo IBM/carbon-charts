@@ -10,7 +10,7 @@
     factory(mod.exports, global.warning);
     global.removedComponent = mod.exports;
   }
-})(this, function (_exports, _warning) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, _warning) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -64,9 +64,7 @@
       }
     };
 
-    return _temp = _class =
-    /*#__PURE__*/
-    function () {
+    return _temp = _class = /*#__PURE__*/function () {
       function _class() {
         _classCallCheck(this, _class);
 

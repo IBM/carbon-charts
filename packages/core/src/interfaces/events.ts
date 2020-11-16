@@ -142,6 +142,14 @@ export enum Tooltip {
 }
 
 /**
+ * enum of all events related to the overlay modal
+ */
+export enum Modal {
+	SHOW = "show-modal",
+	HIDE = "hide-modal"
+}
+
+/**
  * enum of all threshold events
  */
 export enum Threshold {

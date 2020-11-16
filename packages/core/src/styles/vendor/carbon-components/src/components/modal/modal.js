@@ -165,7 +165,7 @@ class Modal extends mixin(
 
   _hookCloseActions() {
     this.manage(
-      on(this.element, 'click', evt => {
+      on(this.element, 'click', (evt) => {
         const closeButton = eventMatches(evt, this.options.selectorModalClose);
         if (closeButton) {
           evt.delegateTarget = closeButton; // eslint-disable-line no-param-reassign
@@ -183,7 +183,7 @@ class Modal extends mixin(
     }
 
     this._handleKeydownListener = this.manage(
-      on(this.element.ownerDocument.body, 'keydown', evt => {
+      on(this.element.ownerDocument.body, 'keydown', (evt) => {
         // Avoid running `evt.stopPropagation()` only when modal is shown
         if (evt.which === 27 && this.shouldStateBeChanged('hidden')) {
           evt.stopPropagation();
@@ -198,12 +198,15 @@ class Modal extends mixin(
    * @param {Event} evt The event.
    * @private
    */
-  _handleFocusin = evt => {
+  _handleFocusin = (evt) => {
+    const focusWrapNode =
+      this.element.querySelector(this.options.selectorModalContainer) ||
+      this.element;
     if (
       this.element.classList.contains(this.options.classVisible) &&
-      !this.element.contains(evt.target) &&
+      !focusWrapNode.contains(evt.target) &&
       this.options.selectorsFloatingMenus.every(
-        selector => !eventMatches(evt, selector)
+        (selector) => !eventMatches(evt, selector)
       )
     ) {
       this.element.querySelector(settings.selectorTabbable).focus();
@@ -228,6 +231,7 @@ class Modal extends mixin(
    * @property {string} [selectorPrimaryFocus] The CSS selector to determine the element to put focus when modal gets open.
    * @property {string} [selectorFocusOnClose] The CSS selector to determine the element to put focus when modal closes.
    *   If undefined, focus returns to the previously focused element prior to the modal opening.
+   * @property {string} [selectorModalContainer] The CSS selector for the content container of the modal for focus wrap feature.
    * @property {string} attribInitTarget The attribute name in the launcher buttons to find target modal dialogs.
    * @property {string[]} [selectorsFloatingMenu]
    *   The CSS selectors of floating menus.
@@ -259,6 +263,7 @@ class Modal extends mixin(
         `.${prefix}--tooltip`,
         '.flatpickr-calendar',
       ],
+      selectorModalContainer: `.${prefix}--modal-container`,
       classVisible: 'is-visible',
       classBody: `${prefix}--body--with-modal-open`,
       attribInitTarget: 'data-modal-target',

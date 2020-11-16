@@ -1,4 +1,6 @@
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
       return typeof obj;
@@ -13,14 +15,34 @@ function _typeof(obj) {
 }
 
 function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
 function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
 }
 
 function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
   var _n = true;
   var _d = false;
@@ -72,29 +94,6 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function");
@@ -118,6 +117,61 @@ function _setPrototypeOf(o, p) {
 
   return _setPrototypeOf(o, p);
 }
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+        result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 /**
  * Copyright IBM Corp. 2016, 2018
  *
@@ -134,9 +188,7 @@ import on from '../../globals/js/misc/on';
 import settings from '../../globals/js/settings';
 import eventMatches from '../../globals/js/misc/event-matches';
 
-var forEach =
-/* #__PURE__ */
-function () {
+var forEach = /* #__PURE__ */function () {
   return Array.prototype.forEach;
 }();
 
@@ -144,17 +196,29 @@ var toArray = function toArray(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 };
 
-var HeaderSubmenu =
-/*#__PURE__*/
-function (_mixin) {
+var HeaderSubmenu = /*#__PURE__*/function (_mixin) {
   _inherits(HeaderSubmenu, _mixin);
+
+  var _super = _createSuper(HeaderSubmenu);
+  /**
+   * Sub menus in header nav.
+   * @extends CreateComponent
+   * @extends InitComponentBySearch
+   * @extends Handles
+   * @param {HTMLElement} element The element working as a submenu in header nav.
+   * @param {object} [options] The component options.
+   * @param {string} [options.selectorTrigger] The CSS selector to find the trigger button.
+   * @param {string} [options.selectorItem] The CSS selector to find the menu items.
+   * @param {string} [options.attribExpanded] The attribute that represents the expanded/collapsed state.
+   */
+
 
   function HeaderSubmenu(element, options) {
     var _this;
 
     _classCallCheck(this, HeaderSubmenu);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderSubmenu).call(this, element, options));
+    _this = _super.call(this, element, options);
 
     _this._getAction = function (event) {
       var isFlyoutMenu = eventMatches(event, _this.options.selectorFlyoutMenu);
@@ -390,7 +454,7 @@ function (_mixin) {
       }
     };
 
-    var hasFocusOut = 'onfocusout' in window;
+    var hasFocusOut = ('onfocusout' in window);
 
     _this.manage(on(_this.element, hasFocusOut ? 'focusout' : 'blur', _this._handleEvent, !hasFocusOut));
 
@@ -424,6 +488,9 @@ function (_mixin) {
      * @member HeaderSubmenu.options
      * @type {object}
      * @property {string} selectorInit The data attribute to find side navs.
+     * @property {string} [selectorTrigger] The CSS selector to find the trigger button.
+     * @property {string} [selectorItem] The CSS selector to find the menu items.
+     * @property {string} [attribExpanded] The attribute that represents the expanded/collapsed state.
      */
     get: function get() {
       var prefix = settings.prefix;
@@ -438,7 +505,7 @@ function (_mixin) {
      * Enum for navigating backward/forward.
      * @readonly
      * @member HeaderSubmenu.NAVIGATE
-     * @type {Object}
+     * @type {object}
      * @property {number} BACKWARD Navigating backward.
      * @property {number} FORWARD Navigating forward.
      */
@@ -459,4 +526,4 @@ function (_mixin) {
   return HeaderSubmenu;
 }(mixin(createComponent, initComponentBySearch, handles));
 
-export { HeaderSubmenu as default };
+export default HeaderSubmenu;

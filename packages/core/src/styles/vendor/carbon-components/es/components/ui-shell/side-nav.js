@@ -1,4 +1,6 @@
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function _typeof(obj) {
       return typeof obj;
@@ -13,25 +15,38 @@ function _typeof(obj) {
 }
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 
 function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
 
 function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
 
-    return arr2;
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
   }
+
+  return arr2;
 }
 
 function _classCallCheck(instance, Constructor) {
@@ -54,29 +69,6 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (protoProps) _defineProperties(Constructor.prototype, protoProps);
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
 }
 
 function _inherits(subClass, superClass) {
@@ -102,6 +94,61 @@ function _setPrototypeOf(o, p) {
 
   return _setPrototypeOf(o, p);
 }
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+        result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 /**
  * Copyright IBM Corp. 2016, 2018
  *
@@ -119,14 +166,35 @@ import on from '../../globals/js/misc/on';
 import eventMatches from '../../globals/js/misc/event-matches';
 var prefix = settings.prefix;
 
-var SideNav =
-/*#__PURE__*/
-function (_mixin) {
+var SideNav = /*#__PURE__*/function (_mixin) {
   _inherits(SideNav, _mixin);
+
+  var _super = _createSuper(SideNav);
   /**
    * The map associating DOM element and copy button UI instance.
    * @member SideNav.components
    * @type {WeakMap}
+   */
+
+  /**
+   * Side nav.
+   * @extends CreateComponent
+   * @extends InitComponentBySearch
+   * @extends Handles
+   * @param {HTMLElement} element The element working as a side nav.
+   * @param {object} [options] The component options.
+   * @param {string} [options.selectorSideNavToggle]
+   *   The CSS selector to find the toggle button.
+   * @param {string} [options.selectorSideNavSubmenu] The CSS selector to find the trigger buttons for sub nav items.
+   * @param {string} [options.selectorSideNavItem] The CSS selector to find the nav items.
+   * @param {string} [options.selectorSideNavLink] The CSS selector to find the interactive potions in non-nested nav items.
+   * @param {string} [options.selectorSideNavLinkCurrent]
+   *   The CSS selector to find the interactive potion in active non-nested nav item.
+   * @param {string} [options.classSideNavExpanded] The CSS class for the expanded state.
+   * @param {string} [options.classSideNavItemActive]
+   *   The CSS class for the active/inactive state for nav items.
+   * @param {string} [options.classSideNavLinkCurrent]
+   *   The CSS class for the active/inactive state of the interactive potion in non-nested nav items.
    */
 
 
@@ -135,7 +203,7 @@ function (_mixin) {
 
     _classCallCheck(this, SideNav);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SideNav).call(this, element, options));
+    _this = _super.call(this, element, options);
 
     _this._handleClick = function (evt) {
       var matchesToggle = eventMatches(evt, _this.options.selectorSideNavToggle);
@@ -181,7 +249,7 @@ function (_mixin) {
    * Enum for toggling side nav visibility
    * @readonly
    * @member SideNav.state
-   * @type {Object}
+   * @type {object}
    * @property {string} EXPANDED Opening/visible
    * @property {string} COLLAPSED Closing/hidden
    */
@@ -226,4 +294,4 @@ function (_mixin) {
   return SideNav;
 }(mixin(createComponent, initComponentBySearch, handles));
 
-export { SideNav as default };
+export default SideNav;

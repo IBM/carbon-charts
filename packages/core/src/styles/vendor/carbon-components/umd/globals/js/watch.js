@@ -1,3 +1,19 @@
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "./components"], factory);
@@ -10,7 +26,7 @@
     factory(mod.exports, global.components);
     global.watch = mod.exports;
   }
-})(this, function (_exports, components) {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function (_exports, components) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -19,29 +35,56 @@
   _exports.default = _default;
   components = _interopRequireWildcard(components);
 
+  function _getRequireWildcardCache() {
+    if (typeof WeakMap !== "function") return null;
+    var cache = new WeakMap();
+
+    _getRequireWildcardCache = function _getRequireWildcardCache() {
+      return cache;
+    };
+
+    return cache;
+  }
+
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
       return obj;
-    } else {
-      var newObj = {};
+    }
 
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+      return {
+        default: obj
+      };
+    }
 
-            if (desc.get || desc.set) {
-              Object.defineProperty(newObj, key, desc);
-            } else {
-              newObj[key] = obj[key];
-            }
-          }
+    var cache = _getRequireWildcardCache();
+
+    if (cache && cache.has(obj)) {
+      return cache.get(obj);
+    }
+
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+        if (desc && (desc.get || desc.set)) {
+          Object.defineProperty(newObj, key, desc);
+        } else {
+          newObj[key] = obj[key];
         }
       }
-
-      newObj.default = obj;
-      return newObj;
     }
+
+    newObj.default = obj;
+
+    if (cache) {
+      cache.set(obj, newObj);
+    }
+
+    return newObj;
   }
   /**
    * Copyright IBM Corp. 2016, 2018
