@@ -4,6 +4,7 @@ export * from "./bar-simple";
 export * from "./bar-grouped";
 export * from "./bar-stacked";
 export * from "./bubble";
+export * from "./custom";
 export * from "./line";
 export * from "./lollipop";
 export * from "./scatter";
