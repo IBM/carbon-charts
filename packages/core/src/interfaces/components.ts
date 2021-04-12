@@ -182,6 +182,11 @@ export interface ZoomBarsOptions {
 	 * whether keep updating range axis in real time while zoom domain is changing
 	 */
 	updateRangeAxis?: boolean;
+	/**
+	 * whether to use the canvas option 
+	 * currently only works for graph view
+	 */
+	canvas?: boolean;
 }
 
 /**

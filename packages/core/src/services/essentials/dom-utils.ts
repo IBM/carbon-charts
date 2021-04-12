@@ -183,6 +183,35 @@ export class DOMUtils extends Service {
 		return alignmentOffset;
 	}
 
+	static appendOrSelectCanvas(parent, attributes, query) {
+		const selection = parent.select("canvas." + `${query}`);
+
+		if (selection.empty()) {
+			// creates a new canvas if one is not there already
+			const canvas = document.createElement("canvas");
+			Object.keys(attributes).forEach((key) => {
+				canvas.setAttribute(key, attributes[key]);
+
+			});
+			canvas.setAttribute("class", query);
+			parent.node().appendChild(canvas);
+
+			return canvas.getContext("2d");;
+		}
+
+		Object.keys(attributes).forEach((key) => {
+			selection.attr(key, attributes[key]);
+		});
+		return selection.node().getContext("2d");
+	}
+
+	static getComponentStyle(component, style) {
+		const styledComponent = select(component);
+		if(!styledComponent.empty()){
+			return styledComponent.style(style);
+		}
+	}
+
 	protected svg: Element;
 	protected width: string;
 	protected height: string;

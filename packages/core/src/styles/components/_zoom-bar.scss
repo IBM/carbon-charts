@@ -56,3 +56,27 @@ g.#{$prefix}--#{$charts-prefix}--zoom-bar {
 		}
 	}
 }
+div.#{$prefix}--#{$charts-prefix}--canvas-container {
+	position: relative;
+	left: 0;
+	top: 0;
+	z-index: 0;
+	pointer-events: none;
+
+	canvas.zoom-graph-area-canvas {	
+		left: 0;
+		position: absolute;
+		top: 0;
+		z-index: 2;
+		fill: $ui-03;
+		stroke: $ui-04;
+	}
+
+	canvas.zoom-graph-area-unselected-canvas {
+		left: 0;
+		position: absolute;
+		top: 0;
+		z-index: 1;
+		fill: $ui-01;
+	}
+} 

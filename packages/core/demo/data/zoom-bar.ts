@@ -59,6 +59,31 @@ export const addZoomBarToOptions = (
 	return options;
 };
 
+export const addCanvasZoomBar = (
+	options,
+	configs: any = { includeDefinedZoomBarData: false }
+) => {
+	options['experimental'] = true;
+	options.title += ' - Canvas zoom bar enabled';
+		options.zoomBar = {
+			canvas: true,
+			top: {
+				enabled: true,
+				...(configs.sliderView
+					? {
+							type: 'slider_view',
+					  }
+					: null),
+			},
+		};
+	return options;
+};
+
+export const zoomBarAreaCanvasData = areaChart.areaTimeSeriesCurvedData;
+export const zoomBarAreaCanvasOptions = addCanvasZoomBar(
+	Object.assign({}, areaChart.areaTimeSeriesCurvedOptions)
+);
+
 export const zoomBarStackedAreaTimeSeriesData =
 	areaChart.stackedAreaTimeSeriesData;
 export const zoomBarStackedAreaTimeSeriesOptions = addZoomBarToOptions(
