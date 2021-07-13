@@ -449,9 +449,10 @@ const donutChart: DonutChartOptions = Tools.merge({}, pieChart, {
 const meterChart: MeterChartOptions = Tools.merge({}, chart, {
 	legend: {
 		enabled: false,
+		clickable: false,
 	},
 	meter: {
-		height: 8,
+		proportional: null,
 		statusBar: {
 			percentageIndicator: {
 				enabled: true,

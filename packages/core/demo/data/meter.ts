@@ -47,3 +47,40 @@ export const meterOptionsNoStatus = {
 	},
 	height: '100px',
 };
+
+export const propMeterData = [
+	{ group: 'emails', value: 202 },
+	{ group: 'photos', value: 654 },
+	{ group: 'text messages', value: 723 },
+	{ group: 'other', value: 120 },
+];
+
+export const propMeterOptions = {
+	title: 'Proportional Meter Chart',
+	height: '110px',
+	meter: {
+		proportional: {
+			total: 2000,
+			unit: 'GB',
+		},
+	},
+	color: {
+		pairing: {
+			option: 2,
+		},
+	},
+};
+
+export const propMeterTruncationOptions = {
+	title: 'Proportional Meter Chart (truncated)',
+	height: '110px',
+	meter: {
+		proportional: {
+			total: 2000,
+			unit: 'MB',
+			totalFormatter: (total) => `custom total string for: ${total}`,
+			breakdownFormatter: (x) =>
+				`You are using ${x.datasetsTotal} GB of the space this label is really long will need to be truncated with a tooltip Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+		},
+	},
+};

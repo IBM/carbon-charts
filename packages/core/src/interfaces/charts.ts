@@ -360,6 +360,10 @@ export interface DonutChartOptions extends PieChartOptions {
 
 export interface MeterChartOptions extends BaseChartOptions {
 	meter?: {
+		proportional?: {
+			total?: number,
+			unit?: string
+		};
 		peak?: number;
 		status?: {
 			ranges: Array<{

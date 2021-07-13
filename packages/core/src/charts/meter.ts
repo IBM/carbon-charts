@@ -28,13 +28,20 @@ export class MeterChart extends Chart {
 	constructor(holder: Element, chartConfigs: ChartConfig<MeterChartOptions>) {
 		super(holder, chartConfigs);
 
+		let options = chartConfigs.options;
+		// check if user has added proportional options
+		if (chartConfigs.options.meter.proportional) {
+			options = Tools.merge(
+				Tools.clone(Configuration.options.meterChart),
+				{ legend: { enabled: true } },
+				chartConfigs.options
+			);
+		}
+
 		// Merge the default options for this chart
 		// With the user provided options
 		this.model.setOptions(
-			Tools.merge(
-				Tools.clone(Configuration.options.meterChart),
-				chartConfigs.options
-			)
+			Tools.merge(Tools.clone(Configuration.options.meterChart), options)
 		);
 
 		// Initialize data, services, components etc.

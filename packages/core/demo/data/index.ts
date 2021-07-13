@@ -865,6 +865,21 @@ const simpleChartDemos = [
 		],
 	},
 	{
+		title: 'Meter (proportional)',
+		demos: [
+			{
+				options: meterDemos.propMeterOptions,
+				data: meterDemos.propMeterData,
+				chartType: chartTypes.MeterChart,
+			},
+			{
+				options: meterDemos.propMeterTruncationOptions,
+				data: meterDemos.propMeterData,
+				chartType: chartTypes.MeterChart,
+			},
+		],
+	},
+	{
 		title: 'Radar',
 		demos: [
 			{

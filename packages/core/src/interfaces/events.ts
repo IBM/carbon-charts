@@ -200,3 +200,13 @@ export enum CirclePack {
 	CIRCLE_MOUSEOUT = 'circle-leaf-mouseout',
 	CIRCLE_MOUSEMOVE = 'circle-leaf-mousemove',
 }
+
+/**
+ * enum of all meter related events
+ */
+export enum Meter {
+	METER_MOUSEOVER = 'meter-mouseover',
+	METER_CLICK = 'meter-click',
+	METER_MOUSEOUT = 'meter-mouseout',
+	METER_MOUSEMOVE = 'meter-mousemove',
+}
