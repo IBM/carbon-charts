@@ -3,6 +3,7 @@ import {
 	Statuses,
 	ArrowDirections,
 	Alignments,
+	AggregationTypes,
 	ChartTypes,
 } from './enums';
 import {
@@ -229,6 +230,24 @@ export interface BulletChartOptions extends AxisChartOptions {
 	bullet?: {
 		performanceAreaTitles?: string[];
 	};
+}
+
+/**
+ * options specific to histogram charts
+ */
+export interface HistogramChartOptions extends AxisChartOptions {
+	/**
+	 * Bins to display (Histogram)
+	 * bins: 20
+	 * bins: [0, 20, 40, 60]
+	 * bins: [new Date(...), new Date(...), ...]
+	 */
+	bins?: number | any[];
+	/**
+	 * Aggregation types on bins
+	 * aggregation: "count" (default) | "sum" | "avg"
+	 */
+	aggregation?: AggregationTypes;
 }
 
 /**

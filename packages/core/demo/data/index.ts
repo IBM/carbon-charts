@@ -6,6 +6,7 @@ import * as bulletDemos from './bullet';
 import * as comboDemos from './combo';
 import * as donutDemos from './donut';
 import * as gaugeDemos from './gauge';
+import * as histogramDemos from './histogram';
 import * as lineDemos from './line';
 import * as lollipopDemos from './lollipop';
 import * as meterDemos from './meter';
@@ -29,6 +30,7 @@ export * from './bullet';
 export * from './combo';
 export * from './donut';
 export * from './gauge';
+export * from './histogram';
 export * from './line';
 export * from './lollipop';
 export * from './meter';
@@ -760,6 +762,36 @@ const simpleChartDemos = [
 				options: gaugeDemos.gaugeOptionsCircularNoDelta,
 				data: gaugeDemos.gaugeDataNoDelta,
 				chartType: chartTypes.GaugeChart,
+			},
+		],
+	},
+	{
+		title: 'Histogram',
+		demos: [
+			{
+				options: histogramDemos.histogramContinueOptions,
+				data: histogramDemos.histogramContinueData,
+				chartType: chartTypes.HistogramChart,
+			},
+			{
+				options: histogramDemos.histogramTimeSeriesSumOptions,
+				data: histogramDemos.histogramTimeSeriesData,
+				chartType: chartTypes.HistogramChart,
+			},
+			{
+				options: histogramDemos.histogramTimeSeriesAvgOptions,
+				data: histogramDemos.histogramTimeSeriesData,
+				chartType: chartTypes.HistogramChart,
+			},
+			{
+				options: histogramDemos.histogramContinueWithBinsNumberOptions,
+				data: histogramDemos.histogramContinueWithBinsNumberData,
+				chartType: chartTypes.HistogramChart,
+			},
+			{
+				options: histogramDemos.histogramContinueWithBinsOptions,
+				data: histogramDemos.histogramContinueData,
+				chartType: chartTypes.HistogramChart,
 			},
 		],
 	},

@@ -1,27 +1,201 @@
 // simple radar
 export const radarData = [
-	{ product: 'Product 1', feature: 'Price', score: 60 },
-	{ product: 'Product 1', feature: 'Usability', score: 92 },
-	{ product: 'Product 1', feature: 'Availability', score: 5 },
-	{ product: 'Product 1', feature: 'Performance', score: 85 },
-	{ product: 'Product 1', feature: 'Quality', score: 60 },
-	{ product: 'Product 2', feature: 'Price', score: 70 },
-	{ product: 'Product 2', feature: 'Usability', score: 63 },
-	{ product: 'Product 2', feature: 'Availability', score: 78 },
-	{ product: 'Product 2', feature: 'Performance', score: 50 },
-	{ product: 'Product 2', feature: 'Quality', score: 30 },
+	{
+		product: 'Band D',
+		feature: 'Ownership & responsibility',
+		score: 40,
+	},
+	{
+		product: 'Band D',
+		feature: 'Tooling & foundation',
+		score: 100,
+	},
+	{
+		product: 'Band D',
+		feature: 'Soft skills',
+		score: 100,
+	},
+	{
+		product: 'Band D',
+		feature: 'Internal eminence',
+		score: 100,
+	},
+	{
+		product: 'Band D',
+		feature: 'External eminence',
+		score: 100,
+	},
+	{
+		product: 'Band D',
+		feature: 'Mentoring',
+		score: 100,
+	},
+	{
+		product: 'Band 10',
+		feature: 'Ownership & responsibility',
+		score: 90,
+	},
+	{
+		product: 'Band 10',
+		feature: 'Tooling & foundation',
+		score: 90,
+	},
+	{
+		product: 'Band 10',
+		feature: 'Soft skills',
+		score: 90,
+	},
+	{
+		product: 'Band 10',
+		feature: 'Internal eminence',
+		score: 90,
+	},
+	{
+		product: 'Band 10',
+		feature: 'External eminence',
+		score: 90,
+	},
+	{
+		product: 'Band 10',
+		feature: 'Mentoring',
+		score: 90,
+	},
+	{
+		product: 'Band 9',
+		feature: 'Ownership & responsibility',
+		score: 70,
+	},
+	{
+		product: 'Band 9',
+		feature: 'Tooling & foundation',
+		score: 70,
+	},
+	{
+		product: 'Band 9',
+		feature: 'Soft skills',
+		score: 70,
+	},
+	{
+		product: 'Band 9',
+		feature: 'Internal eminence',
+		score: 70,
+	},
+	{
+		product: 'Band 9',
+		feature: 'External eminence',
+		score: 70,
+	},
+	{
+		product: 'Band 9',
+		feature: 'Mentoring',
+		score: 70,
+	},
+	{
+		product: 'Band 8',
+		feature: 'Ownership & responsibility',
+		score: 50,
+	},
+	{
+		product: 'Band 8',
+		feature: 'Tooling & foundation',
+		score: 50,
+	},
+	{
+		product: 'Band 8',
+		feature: 'Soft skills',
+		score: 50,
+	},
+	{
+		product: 'Band 8',
+		feature: 'Internal eminence',
+		score: 50,
+	},
+	{
+		product: 'Band 8',
+		feature: 'External eminence',
+		score: 50,
+	},
+	{
+		product: 'Band 8',
+		feature: 'Mentoring',
+		score: 50,
+	},
+	{
+		product: 'Band 7',
+		feature: 'Ownership & responsibility',
+		score: 40,
+	},
+	{
+		product: 'Band 7',
+		feature: 'Tooling & foundation',
+		score: 40,
+	},
+	{
+		product: 'Band 7',
+		feature: 'Soft skills',
+		score: 40,
+	},
+	{
+		product: 'Band 7',
+		feature: 'Internal eminence',
+		score: 40,
+	},
+	{
+		product: 'Band 7',
+		feature: 'External eminence',
+		score: 40,
+	},
+	{
+		product: 'Band 7',
+		feature: 'Mentoring',
+		score: 40,
+	},
+	{
+		product: 'Band 6',
+		feature: 'Ownership & responsibility',
+		score: 25,
+	},
+	{
+		product: 'Band 6',
+		feature: 'Tooling & foundation',
+		score: 25,
+	},
+	{
+		product: 'Band 6',
+		feature: 'Soft skills',
+		score: 25,
+	},
+	{
+		product: 'Band 6',
+		feature: 'Internal eminence',
+		score: 25,
+	},
+	{
+		product: 'Band 6',
+		feature: 'External eminence',
+		score: 25,
+	},
+	{
+		product: 'Band 6',
+		feature: 'Mentoring',
+		score: 25,
+	},
 ];
 export const radarOptions = {
-	title: 'Radar',
+	title: 'Yo',
 	radar: {
 		axes: {
 			angle: 'feature',
 			value: 'score',
 		},
+		alignment: 'center',
 	},
+	resizeable: false,
 	data: {
 		groupMapsTo: 'product',
 	},
+	animations: true,
+	height: '400px',
 };
 
 export const radarCenteredData = radarData;

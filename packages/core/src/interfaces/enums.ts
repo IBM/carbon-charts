@@ -21,6 +21,15 @@ export enum ColorClassNameTypes {
 }
 
 /**
+ * enum of all possible data aggregation types
+ */
+export enum AggregationTypes {
+	COUNT = 'count',
+	AVG = 'avg',
+	SUM = 'sum',
+}
+
+/**
  * enum of all possible axis positions
  */
 export enum AxisPositions {

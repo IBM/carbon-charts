@@ -171,13 +171,15 @@ export class DOMUtils extends Service {
 		const svgDimensions = DOMUtils.getSVGElementSize(svg, {
 			useBBox: true,
 		});
-		const { width } = DOMUtils.getSVGElementSize(parent, { useAttr: true });
+		const { width: parentWidth } = DOMUtils.getSVGElementSize(parent, {
+			useAttr: true,
+		});
 
 		let alignmentOffset = 0;
 		if (alignment === Alignments.CENTER) {
-			alignmentOffset = Math.floor((width - svgDimensions.width) / 2);
+			alignmentOffset = Math.floor((parentWidth - svgDimensions.width) / 2);
 		} else if (alignment === Alignments.RIGHT) {
-			alignmentOffset = width - svgDimensions.width;
+			alignmentOffset = parentWidth - svgDimensions.width;
 		}
 
 		return alignmentOffset;

@@ -44,6 +44,11 @@ export default {
 		angular: 'ibm-grouped-bar-chart',
 		vue: 'ccv-grouped-bar-chart',
 	},
+	HistogramChart: {
+		vanilla: 'HistogramChart',
+		angular: 'ibm-histogram-chart',
+		vue: 'ccv-histogram-chart',
+	},
 	LineChart: {
 		vanilla: 'LineChart',
 		angular: 'ibm-line-chart',

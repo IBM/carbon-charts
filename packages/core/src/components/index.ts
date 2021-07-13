@@ -7,6 +7,7 @@ export * from './essentials/title';
 export * from './essentials/title-meter';
 export * from './essentials/tooltip';
 export * from './essentials/tooltip-axis';
+export * from "./essentials/tooltip-histogram";
 export * from './essentials/canvas-chart-clip';
 
 // GRAPHS
@@ -18,6 +19,7 @@ export * from './graphs/bar-stacked';
 export * from './graphs/boxplot';
 export * from './graphs/bubble';
 export * from './graphs/bullet';
+export * from './graphs/histogram';
 export * from './graphs/line';
 export * from './graphs/lollipop';
 export * from './graphs/scatter';

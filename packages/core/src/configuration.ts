@@ -14,6 +14,7 @@ import {
 	DonutChartOptions,
 	BubbleChartOptions,
 	BulletChartOptions,
+	HistogramChartOptions,
 	RadarChartOptions,
 	ComboChartOptions,
 	TreemapChartOptions,
@@ -365,6 +366,15 @@ const bulletChart: BulletChartOptions = Tools.merge({}, axisChart, {
 	}
 } as BulletChartOptions);
 
+/**
+ * options specific to stacked bar charts
+ */
+const histogramChart: HistogramChartOptions = Tools.merge({}, baseBarChart, {
+	timeScale: Tools.merge(timeScale, {
+		addSpaceOnEdges: 0,
+	} as TimeScaleOptions),
+} as BarChartOptions);
+
 /*
  * options specific to word cloud charts
  */
@@ -519,6 +529,7 @@ export const options = {
 	boxplotChart,
 	bubbleChart,
 	bulletChart,
+	histogramChart,
 	lineChart,
 	areaChart,
 	stackedAreaChart,
@@ -534,5 +545,7 @@ export const options = {
 	circlePackChart,
 	wordCloudChart,
 };
+
+export const defaultBins = 10;
 
 export * from './configuration-non-customizable';

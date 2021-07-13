@@ -247,6 +247,7 @@ export class ChartModel {
 					);
 					return (
 						datum[groupMapsTo] === dataGroupName &&
+						datum.hasOwnProperty(domainIdentifier) &&
 						datum[domainIdentifier].toString() === key
 					);
 				});

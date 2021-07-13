@@ -32,6 +32,7 @@ export class Tooltip extends Component {
 
 	handleShowTooltip = (e) => {
 		const data = e.detail.data || e.detail.items;
+		// console.log("data", data)
 		const defaultHTML = this.getTooltipHTML(e);
 
 		const tooltipTextContainer = DOMUtils.appendOrSelect(

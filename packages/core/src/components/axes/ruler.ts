@@ -181,6 +181,8 @@ export class Ruler extends Component {
 			// set current hovered elements
 			this.elementsToHighlight = elementsToHighlight;
 
+			console.log("tooltipData", tooltipData)
+
 			this.services.events.dispatchEvent(Events.Tooltip.SHOW, {
 				mousePosition: [x, y],
 				hoveredElement: rulerLine,

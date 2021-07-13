@@ -17,6 +17,7 @@ import {
 	uniq as lodashUnique,
 	clamp as lodashClamp,
 	flatten as lodashFlatten,
+	groupBy as lodashGroupBy,
 	camelCase as lodashCamelCase,
 	isEmpty as lodashIsEmpty,
 	isEqual as lodashIsEqual,
@@ -42,6 +43,7 @@ export namespace Tools {
 	export const removeArrayDuplicates = lodashUnique;
 	export const clamp = lodashClamp;
 	export const flatten = lodashFlatten;
+	export const groupBy = lodashGroupBy;
 	export const camelCase = lodashCamelCase;
 	export const isEmpty = lodashIsEmpty;
 	export const isEqual = lodashIsEqual;
