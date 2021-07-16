@@ -11,10 +11,11 @@
    * LICENSE file in the root directory of this source tree.
    */
   var unstable_tokens = [// Spacing
-  'spacing01', 'spacing02', 'spacing03', 'spacing04', 'spacing05', 'spacing06', 'spacing07', 'spacing08', 'spacing09', 'spacing10', 'spacing11', 'spacing12', // Fluid spacing
+  'spacing01', 'spacing02', 'spacing03', 'spacing04', 'spacing05', 'spacing06', 'spacing07', 'spacing08', 'spacing09', 'spacing10', 'spacing11', 'spacing12', 'spacing13', // Fluid spacing
   'fluidSpacing01', 'fluidSpacing02', 'fluidSpacing03', 'fluidSpacing04', // Layout
+  // Deprecated -- Remove in v11
   'layout01', 'layout02', 'layout03', 'layout04', 'layout05', 'layout06', 'layout07', // Containers
-  'container01', 'container02', 'container03', 'container04', 'container05', // Icon sizes
+  'container01', 'container02', 'container03', 'container04', 'container05', 'sizeXSmall', 'sizeSmall', 'sizeMedium', 'sizeLarge', 'sizeXLarge', 'size2XLarge', // Icon sizes
   'iconSize01', 'iconSize02'];
 
   /**
@@ -109,13 +110,15 @@
   var spacing10 = miniUnits(8);
   var spacing11 = miniUnits(10);
   var spacing12 = miniUnits(12);
-  var spacing = [spacing01, spacing02, spacing03, spacing04, spacing05, spacing06, spacing07, spacing08, spacing09, spacing10, spacing11, spacing12]; // Fluid spacing
+  var spacing13 = miniUnits(20);
+  var spacing = [spacing01, spacing02, spacing03, spacing04, spacing05, spacing06, spacing07, spacing08, spacing09, spacing10, spacing11, spacing12, spacing13]; // Fluid spacing
 
   var fluidSpacing01 = 0;
   var fluidSpacing02 = '2vw';
   var fluidSpacing03 = '5vw';
   var fluidSpacing04 = '10vw';
   var fluidSpacing = [fluidSpacing01, fluidSpacing02, fluidSpacing03, fluidSpacing04]; // Layout
+  // Deprecated -- Remove in v11
 
   var layout01 = miniUnits(2);
   var layout02 = miniUnits(3);
@@ -131,7 +134,21 @@
   var container03 = miniUnits(5);
   var container04 = miniUnits(6);
   var container05 = miniUnits(8);
-  var container = [container01, container02, container03, container04, container05]; // Icon
+  var container = [container01, container02, container03, container04, container05];
+  var sizeXSmall = rem(24);
+  var sizeSmall = rem(32);
+  var sizeMedium = rem(40);
+  var sizeLarge = rem(48);
+  var sizeXLarge = rem(64);
+  var size2XLarge = rem(80);
+  var sizes = {
+    XSmall: sizeXSmall,
+    Small: sizeSmall,
+    Medium: sizeMedium,
+    Large: sizeLarge,
+    XLarge: sizeXLarge,
+    '2XLarge': size2XLarge
+  }; // Icon
 
   var iconSize01 = '1rem';
   var iconSize02 = '1.25rem';
@@ -169,6 +186,13 @@
   exports.miniUnits = miniUnits;
   exports.px = px;
   exports.rem = rem;
+  exports.size2XLarge = size2XLarge;
+  exports.sizeLarge = sizeLarge;
+  exports.sizeMedium = sizeMedium;
+  exports.sizeSmall = sizeSmall;
+  exports.sizeXLarge = sizeXLarge;
+  exports.sizeXSmall = sizeXSmall;
+  exports.sizes = sizes;
   exports.spacing = spacing;
   exports.spacing01 = spacing01;
   exports.spacing02 = spacing02;
@@ -182,6 +206,7 @@
   exports.spacing10 = spacing10;
   exports.spacing11 = spacing11;
   exports.spacing12 = spacing12;
+  exports.spacing13 = spacing13;
   exports.unstable_tokens = unstable_tokens;
 
   Object.defineProperty(exports, '__esModule', { value: true });

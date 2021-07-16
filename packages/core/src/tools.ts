@@ -29,7 +29,7 @@ import {
 	DebounceSettings,
 } from 'lodash-es';
 
-import { mouse } from 'd3-selection';
+import pointer from 'd3-selection/src/pointer';
 import { Numeric } from 'd3';
 
 // Functions
@@ -55,9 +55,10 @@ export namespace Tools {
 		return function () {
 			const context = this;
 			const args = arguments;
+			const event = args[0];
 
 			//we get the D3 event here
-			context.mousePosition = mouse(element);
+			context.mousePosition = pointer(event, element);
 
 			clearTimeout(timer);
 

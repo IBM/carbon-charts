@@ -59,7 +59,7 @@
 		"resize-observer-polyfill": "1.5.0"
 	},
 	"peerDependencies": {
-		"d3": ">=5.0.0 <=5.14.2"
+		"d3": "6.x"
 	},
 	"devDependencies": {
 		"@carbon/elements": "10.30.0",
@@ -73,7 +73,7 @@
 		"@storybook/addon-options": "5.3.12",
 		"@storybook/html": "5.3.12",
 		"@storybook/preset-typescript": "1.1.0",
-		"@types/d3": "4.11.0",
+		"@types/d3": "6.7.0",
 		"@types/jasmine": "2.8.7",
 		"@types/karma": "3.0.2",
 		"@types/node": "12.11.7",
@@ -84,7 +84,7 @@
 		"concurrently": "5.1.0",
 		"copy-webpack-plugin": "4.5.2",
 		"css-loader": "0.28.7",
-		"d3": "5.14.2",
+		"d3": "6.7.0",
 		"extract-text-webpack-plugin": "3.0.2",
 		"file-loader": "1.1.5",
 		"fork-ts-checker-webpack-plugin": "^4.0.5",

@@ -10,7 +10,6 @@ import {
 } from '../../interfaces';
 
 // D3 Imports
-import { map } from 'd3-collection';
 import { select } from 'd3-selection';
 import { ScaleBand, scaleBand } from 'd3-scale';
 
@@ -50,12 +49,14 @@ export class GroupedBar extends Bar {
 		// Grab container SVG
 		const svg = this.getComponentContainer({ withinChartClip: true });
 
-		const allDataLabels = map(displayData, (datum) => {
-			const domainIdentifier = this.services.cartesianScales.getDomainIdentifier(
-				datum
-			);
-			return datum[domainIdentifier];
-		}).keys();
+		const allDataLabels = Tools.removeArrayDuplicates(
+			displayData.map((datum) => {
+				const domainIdentifier = this.services.cartesianScales.getDomainIdentifier(
+					datum
+				);
+				return datum[domainIdentifier];
+			})
+		);
 
 		// Update data on bar groups
 		const barGroups = svg
@@ -203,7 +204,7 @@ export class GroupedBar extends Bar {
 
 		this.parent
 			.selectAll('path.bar')
-			.on('mouseover', function (datum) {
+			.on('mouseover', function (event, datum) {
 				const hoveredElement = select(this);
 				hoveredElement.classed('hovered', true);
 
@@ -225,7 +226,7 @@ export class GroupedBar extends Bar {
 					data: [datum],
 				});
 			})
-			.on('mousemove', function (datum) {
+			.on('mousemove', function (event, datum) {
 				const hoveredElement = select(this);
 
 				// Dispatch mouse event
@@ -236,14 +237,14 @@ export class GroupedBar extends Bar {
 
 				self.services.events.dispatchEvent(Events.Tooltip.MOVE);
 			})
-			.on('click', function (datum) {
+			.on('click', function (event, datum) {
 				// Dispatch mouse event
 				self.services.events.dispatchEvent(Events.Bar.BAR_CLICK, {
 					element: select(this),
 					datum,
 				});
 			})
-			.on('mouseout', function (datum) {
+			.on('mouseout', function (event, datum) {
 				const hoveredElement = select(this);
 				hoveredElement.classed('hovered', false);
 

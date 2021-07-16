@@ -66,6 +66,11 @@ $spacing-11: 5rem !default;
 /// @group @carbon/layout
 $spacing-12: 6rem !default;
 
+/// @type Number
+/// @access public
+/// @group @carbon/layout
+$spacing-13: 10rem !default;
+
 /// @type Map
 /// @access public
 /// @group @carbon/layout
@@ -82,4 +87,5 @@ $spacing: (
   spacing-10: $spacing-10,
   spacing-11: $spacing-11,
   spacing-12: $spacing-12,
+  spacing-13: $spacing-13,
 );

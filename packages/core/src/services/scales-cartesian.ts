@@ -12,7 +12,6 @@ import { Tools } from '../tools';
 // D3 Imports
 import { scaleBand, scaleLinear, scaleTime, scaleLog } from 'd3-scale';
 import { extent, sum } from 'd3-array';
-import { map, values } from 'd3-collection';
 
 // Misc
 import {
@@ -560,7 +559,9 @@ export class CartesianScales extends Service {
 		// If scale is a LABELS scale, return some labels as the domain
 		if (axisOptions && scaleType === ScaleTypes.LABELS) {
 			// Get unique values
-			return map(displayData, (d) => d[mapsTo]).keys();
+			return Tools.removeArrayDuplicates(
+				displayData.map((d) => d[mapsTo])
+			);
 		}
 
 		// Get the extent of the domain
@@ -603,7 +604,12 @@ export class CartesianScales extends Service {
 			);
 			const stackedValues = dataValuesGroupedByKeys.map((dataValues) => {
 				const { sharedStackKey, ...numericalValues } = dataValues;
-				return sum(values(numericalValues) as number[]);
+				return sum(
+					Object.keys(numericalValues).map(
+						(numericalValueKey) =>
+							numericalValues[numericalValueKey]
+					) as number[]
+				);
 			});
 
 			allDataValues = [

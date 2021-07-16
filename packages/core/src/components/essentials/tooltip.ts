@@ -12,7 +12,8 @@ import Position, { PLACEMENTS } from '@carbon/utils-position';
 import settings from 'carbon-components/es/globals/js/settings';
 
 // D3 Imports
-import { select, mouse } from 'd3-selection';
+import { select } from 'd3-selection';
+import pointer from 'd3-selection/src/pointer';
 
 import { format } from 'date-fns';
 
@@ -294,7 +295,7 @@ export class Tooltip extends Component {
 
 		let mouseRelativePos = Tools.getProperty(e, 'detail', 'mousePosition');
 		if (!mouseRelativePos) {
-			mouseRelativePos = mouse(holder);
+			mouseRelativePos = pointer(holder);
 		} else {
 			const zoombarType = Tools.getProperty(
 				options,

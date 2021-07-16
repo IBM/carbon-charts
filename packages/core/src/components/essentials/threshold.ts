@@ -2,8 +2,14 @@ import { Component } from '../component';
 import { Tools } from '../../tools';
 import { DOMUtils } from '../../services';
 import { ChartModel } from '../../model';
-import { AxisPositions, Events, RenderTypes, ScaleTypes } from '../../interfaces';
-import { select, mouse } from 'd3-selection';
+import {
+	AxisPositions,
+	Events,
+	RenderTypes,
+	ScaleTypes,
+} from '../../interfaces';
+import { select } from 'd3-selection';
+import pointer from 'd3-selection/src/pointer';
 
 // Carbon position service
 import Position, { PLACEMENTS } from '@carbon/utils-position';
@@ -260,7 +266,8 @@ export class Threshold extends Component {
 
 	setThresholdLabelPosition(datum) {
 		const holder = this.services.domUtils.getHolder();
-		const mouseRelativePos = mouse(holder);
+		const target = this.label.node();
+		const mouseRelativePos = pointer(holder);
 
 		// Format the threshold value using valueFormatter if defined in user-provided options
 		const formattedValue = datum.valueFormatter
@@ -271,7 +278,6 @@ export class Threshold extends Component {
 			.html(`${datum.label || 'Threshold'}: ${formattedValue}`)
 			.style('background-color', datum.fillColor);
 
-		const target = this.label.node();
 		// Find out whether threshold label should be shown on the left or right side
 		const bestPlacementOption = this.positionService.findBestPlacementAt(
 			{

@@ -142,6 +142,44 @@ function getTypeSize(step) {
 
 var scale = [12, 14, 16, 18, 20, 24, 28, 32, 36, 42, 48, 54, 60, 68, 76, 84, 92, 102, 112, 122, 132, 144, 156];
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -171,40 +209,6 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
 }
 
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -243,112 +247,129 @@ function _objectWithoutProperties(source, excluded) {
   return target;
 }
 
-var caption01 = {
+var caption01$1 = {
   fontSize: rem(scale[0]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.34,
   letterSpacing: px(0.32)
 };
-var label01 = {
+var caption02$1 = {
+  fontSize: rem(scale[1]),
+  fontWeight: fontWeights.regular,
+  lineHeight: 1.29,
+  letterSpacing: px(0.32)
+};
+var label01$1 = {
   fontSize: rem(scale[0]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.34,
   letterSpacing: px(0.32)
 };
-var helperText01 = {
+var label02$1 = {
+  fontSize: rem(scale[1]),
+  fontWeight: fontWeights.regular,
+  lineHeight: 1.29,
+  letterSpacing: px(0.32)
+};
+var helperText01$1 = {
   fontSize: rem(scale[0]),
   lineHeight: 1.34,
   letterSpacing: px(0.32)
 };
-var bodyShort01 = {
+var helperText02$1 = {
+  fontSize: rem(scale[1]),
+  lineHeight: 1.29,
+  letterSpacing: px(0.32)
+};
+var bodyShort01$1 = {
   fontSize: rem(scale[1]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.29,
   letterSpacing: px(0.16)
 };
-var bodyLong01 = {
+var bodyLong01$1 = {
   fontSize: rem(scale[1]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.43,
   letterSpacing: px(0.16)
 };
-var bodyShort02 = {
+var bodyShort02$1 = {
   fontSize: rem(scale[2]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.375,
   letterSpacing: 0
 };
-var bodyLong02 = {
+var bodyLong02$1 = {
   fontSize: rem(scale[2]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.5,
   letterSpacing: 0
 };
-var code01 = {
+var code01$1 = {
   fontFamily: fontFamilies.mono,
   fontSize: rem(scale[0]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.34,
   letterSpacing: px(0.32)
 };
-var code02 = {
+var code02$1 = {
   fontFamily: fontFamilies.mono,
   fontSize: rem(scale[1]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.43,
   letterSpacing: px(0.32)
 };
-var heading01 = {
+var heading01$1 = {
   fontSize: rem(scale[1]),
   fontWeight: fontWeights.semibold,
   lineHeight: 1.29,
   letterSpacing: px(0.16)
 };
-var productiveHeading01 = heading01;
-var heading02 = {
+var productiveHeading01$1 = heading01$1;
+var heading02$1 = {
   fontSize: rem(scale[2]),
   fontWeight: fontWeights.semibold,
   lineHeight: 1.375,
   letterSpacing: 0
 };
-var productiveHeading02 = heading02;
-var productiveHeading03 = {
+var productiveHeading02$1 = heading02$1;
+var productiveHeading03$1 = {
   fontSize: rem(scale[4]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.4,
   letterSpacing: 0
 };
-var productiveHeading04 = {
+var productiveHeading04$1 = {
   fontSize: rem(scale[6]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.29,
   letterSpacing: 0
 };
-var productiveHeading05 = {
+var productiveHeading05$1 = {
   fontSize: rem(scale[7]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.25,
   letterSpacing: 0
 };
-var productiveHeading06 = {
+var productiveHeading06$1 = {
   fontSize: rem(scale[9]),
   fontWeight: fontWeights.light,
   lineHeight: 1.199,
   letterSpacing: 0
 };
-var productiveHeading07 = {
+var productiveHeading07$1 = {
   fontSize: rem(scale[11]),
   fontWeight: fontWeights.light,
   lineHeight: 1.19,
   letterSpacing: 0
 };
-var expressiveHeading01 = _objectSpread2(_objectSpread2({}, heading01), {}, {
+var expressiveHeading01$1 = _objectSpread2(_objectSpread2({}, heading01$1), {}, {
   lineHeight: 1.25
 });
-var expressiveHeading02 = _objectSpread2(_objectSpread2({}, heading02), {}, {
+var expressiveHeading02$1 = _objectSpread2(_objectSpread2({}, heading02$1), {}, {
   lineHeight: 1.5
 });
-var expressiveHeading03 = {
+var expressiveHeading03$1 = {
   fontSize: rem(scale[4]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.4,
@@ -364,7 +385,7 @@ var expressiveHeading03 = {
     }
   }
 };
-var expressiveHeading04 = {
+var expressiveHeading04$1 = {
   fontSize: rem(scale[6]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.29,
@@ -379,7 +400,7 @@ var expressiveHeading04 = {
     }
   }
 };
-var expressiveHeading05 = {
+var expressiveHeading05$1 = {
   fontSize: rem(scale[7]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.25,
@@ -410,7 +431,7 @@ var expressiveHeading05 = {
     }
   }
 };
-var expressiveHeading06 = {
+var expressiveHeading06$1 = {
   fontSize: rem(scale[7]),
   fontWeight: fontWeights.semibold,
   lineHeight: 1.25,
@@ -441,7 +462,7 @@ var expressiveHeading06 = {
     }
   }
 };
-var expressiveParagraph01 = {
+var expressiveParagraph01$1 = {
   fontSize: rem(scale[5]),
   fontWeight: fontWeights.light,
   lineHeight: 1.334,
@@ -457,7 +478,7 @@ var expressiveParagraph01 = {
     }
   }
 };
-var quotation01 = {
+var quotation01$1 = {
   fontSize: rem(scale[4]),
   fontWeight: fontWeights.regular,
   lineHeight: 1.3,
@@ -488,7 +509,7 @@ var quotation01 = {
     }
   }
 };
-var quotation02 = {
+var quotation02$1 = {
   fontSize: rem(scale[7]),
   fontWeight: fontWeights.light,
   lineHeight: 1.25,
@@ -511,7 +532,7 @@ var quotation02 = {
     }
   }
 };
-var display01 = {
+var display01$1 = {
   fontSize: rem(scale[9]),
   fontWeight: fontWeights.light,
   lineHeight: 1.19,
@@ -533,7 +554,7 @@ var display01 = {
     }
   }
 };
-var display02 = {
+var display02$1 = {
   fontSize: rem(scale[9]),
   fontWeight: fontWeights.semibold,
   lineHeight: 1.19,
@@ -555,7 +576,7 @@ var display02 = {
     }
   }
 };
-var display03 = {
+var display03$1 = {
   fontSize: rem(scale[9]),
   fontWeight: fontWeights.light,
   lineHeight: 1.19,
@@ -581,7 +602,7 @@ var display03 = {
     }
   }
 };
-var display04 = {
+var display04$1 = {
   fontSize: rem(scale[9]),
   fontWeight: fontWeights.semibold,
   lineHeight: 1.19,
@@ -611,39 +632,43 @@ var display04 = {
 
 var styles = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  caption01: caption01,
-  label01: label01,
-  helperText01: helperText01,
-  bodyShort01: bodyShort01,
-  bodyLong01: bodyLong01,
-  bodyShort02: bodyShort02,
-  bodyLong02: bodyLong02,
-  code01: code01,
-  code02: code02,
-  heading01: heading01,
-  productiveHeading01: productiveHeading01,
-  heading02: heading02,
-  productiveHeading02: productiveHeading02,
-  productiveHeading03: productiveHeading03,
-  productiveHeading04: productiveHeading04,
-  productiveHeading05: productiveHeading05,
-  productiveHeading06: productiveHeading06,
-  productiveHeading07: productiveHeading07,
-  expressiveHeading01: expressiveHeading01,
-  expressiveHeading02: expressiveHeading02,
-  expressiveHeading03: expressiveHeading03,
-  expressiveHeading04: expressiveHeading04,
-  expressiveHeading05: expressiveHeading05,
-  expressiveHeading06: expressiveHeading06,
-  expressiveParagraph01: expressiveParagraph01,
-  quotation01: quotation01,
-  quotation02: quotation02,
-  display01: display01,
-  display02: display02,
-  display03: display03,
-  display04: display04
+  caption01: caption01$1,
+  caption02: caption02$1,
+  label01: label01$1,
+  label02: label02$1,
+  helperText01: helperText01$1,
+  helperText02: helperText02$1,
+  bodyShort01: bodyShort01$1,
+  bodyLong01: bodyLong01$1,
+  bodyShort02: bodyShort02$1,
+  bodyLong02: bodyLong02$1,
+  code01: code01$1,
+  code02: code02$1,
+  heading01: heading01$1,
+  productiveHeading01: productiveHeading01$1,
+  heading02: heading02$1,
+  productiveHeading02: productiveHeading02$1,
+  productiveHeading03: productiveHeading03$1,
+  productiveHeading04: productiveHeading04$1,
+  productiveHeading05: productiveHeading05$1,
+  productiveHeading06: productiveHeading06$1,
+  productiveHeading07: productiveHeading07$1,
+  expressiveHeading01: expressiveHeading01$1,
+  expressiveHeading02: expressiveHeading02$1,
+  expressiveHeading03: expressiveHeading03$1,
+  expressiveHeading04: expressiveHeading04$1,
+  expressiveHeading05: expressiveHeading05$1,
+  expressiveHeading06: expressiveHeading06$1,
+  expressiveParagraph01: expressiveParagraph01$1,
+  quotation01: quotation01$1,
+  quotation02: quotation02$1,
+  display01: display01$1,
+  display02: display02$1,
+  display03: display03$1,
+  display04: display04$1
 });
 
+var _excluded = ["breakpoints"];
 var breakpointNames = Object.keys(breakpoints);
 
 function next(name) {
@@ -652,7 +677,7 @@ function next(name) {
 
 function fluid(selector) {
   var fluidBreakpoints = selector.breakpoints,
-      styles = _objectWithoutProperties(selector, ["breakpoints"]);
+      styles = _objectWithoutProperties(selector, _excluded);
 
   if (_typeof(fluidBreakpoints) !== 'object') {
     return styles;
@@ -718,37 +743,40 @@ function subtract(a, b) {
  * LICENSE file in the root directory of this source tree.
  */
 // Unstable tokens
-var caption01$1 = 'caption01';
-var label01$1 = 'label01';
-var helperText01$1 = 'helperText01';
-var bodyShort01$1 = 'bodyShort01';
-var bodyLong01$1 = 'bodyLong01';
-var bodyShort02$1 = 'bodyShort02';
-var bodyLong02$1 = 'bodyLong02';
-var code01$1 = 'code01';
-var code02$1 = 'code02';
-var heading01$1 = 'heading01';
-var productiveHeading01$1 = 'productiveHeading01';
-var heading02$1 = 'heading02';
-var productiveHeading02$1 = 'productiveHeading02';
-var productiveHeading03$1 = 'productiveHeading03';
-var productiveHeading04$1 = 'productiveHeading04';
-var productiveHeading05$1 = 'productiveHeading05';
-var productiveHeading06$1 = 'productiveHeading06';
-var productiveHeading07$1 = 'productiveHeading07';
-var expressiveHeading01$1 = 'expressiveHeading01';
-var expressiveHeading02$1 = 'expressiveHeading02';
-var expressiveHeading03$1 = 'expressiveHeading03';
-var expressiveHeading04$1 = 'expressiveHeading04';
-var expressiveHeading05$1 = 'expressiveHeading05';
-var expressiveHeading06$1 = 'expressiveHeading06';
-var expressiveParagraph01$1 = 'expressiveParagraph01';
-var quotation01$1 = 'quotation01';
-var quotation02$1 = 'quotation02';
-var display01$1 = 'display01';
-var display02$1 = 'display02';
-var display03$1 = 'display03';
-var display04$1 = 'display04';
-var unstable_tokens = [caption01$1, label01$1, helperText01$1, bodyShort01$1, bodyLong01$1, bodyShort02$1, bodyLong02$1, code01$1, code02$1, heading01$1, productiveHeading01$1, heading02$1, productiveHeading02$1, productiveHeading03$1, productiveHeading04$1, productiveHeading05$1, productiveHeading06$1, productiveHeading07$1, expressiveHeading01$1, expressiveHeading02$1, expressiveHeading03$1, expressiveHeading04$1, expressiveHeading05$1, expressiveHeading06$1, expressiveParagraph01$1, quotation01$1, quotation02$1, display01$1, display02$1, display03$1, display04$1];
+var caption01 = 'caption01';
+var caption02 = 'caption02';
+var label01 = 'label01';
+var label02 = 'label02';
+var helperText01 = 'helperText01';
+var helperText02 = 'helperText02';
+var bodyShort01 = 'bodyShort01';
+var bodyLong01 = 'bodyLong01';
+var bodyShort02 = 'bodyShort02';
+var bodyLong02 = 'bodyLong02';
+var code01 = 'code01';
+var code02 = 'code02';
+var heading01 = 'heading01';
+var productiveHeading01 = 'productiveHeading01';
+var heading02 = 'heading02';
+var productiveHeading02 = 'productiveHeading02';
+var productiveHeading03 = 'productiveHeading03';
+var productiveHeading04 = 'productiveHeading04';
+var productiveHeading05 = 'productiveHeading05';
+var productiveHeading06 = 'productiveHeading06';
+var productiveHeading07 = 'productiveHeading07';
+var expressiveHeading01 = 'expressiveHeading01';
+var expressiveHeading02 = 'expressiveHeading02';
+var expressiveHeading03 = 'expressiveHeading03';
+var expressiveHeading04 = 'expressiveHeading04';
+var expressiveHeading05 = 'expressiveHeading05';
+var expressiveHeading06 = 'expressiveHeading06';
+var expressiveParagraph01 = 'expressiveParagraph01';
+var quotation01 = 'quotation01';
+var quotation02 = 'quotation02';
+var display01 = 'display01';
+var display02 = 'display02';
+var display03 = 'display03';
+var display04 = 'display04';
+var unstable_tokens = [caption01, caption02, label01, label02, helperText01, helperText02, bodyShort01, bodyLong01, bodyShort02, bodyLong02, code01, code02, heading01, productiveHeading01, heading02, productiveHeading02, productiveHeading03, productiveHeading04, productiveHeading05, productiveHeading06, productiveHeading07, expressiveHeading01, expressiveHeading02, expressiveHeading03, expressiveHeading04, expressiveHeading05, expressiveHeading06, expressiveParagraph01, quotation01, quotation02, display01, display02, display03, display04];
 
-export { bodyLong01, bodyLong02, bodyShort01, bodyShort02, caption01, code01, code02, display01, display02, display03, display04, expressiveHeading01, expressiveHeading02, expressiveHeading03, expressiveHeading04, expressiveHeading05, expressiveHeading06, expressiveParagraph01, fluid, fontFamilies, fontFamily, fontWeight, fontWeights, getTypeSize, heading01, heading02, helperText01, label01, print, productiveHeading01, productiveHeading02, productiveHeading03, productiveHeading04, productiveHeading05, productiveHeading06, productiveHeading07, quotation01, quotation02, reset, scale, styles, unstable_tokens };
+export { bodyLong01$1 as bodyLong01, bodyLong02$1 as bodyLong02, bodyShort01$1 as bodyShort01, bodyShort02$1 as bodyShort02, caption01$1 as caption01, caption02$1 as caption02, code01$1 as code01, code02$1 as code02, display01$1 as display01, display02$1 as display02, display03$1 as display03, display04$1 as display04, expressiveHeading01$1 as expressiveHeading01, expressiveHeading02$1 as expressiveHeading02, expressiveHeading03$1 as expressiveHeading03, expressiveHeading04$1 as expressiveHeading04, expressiveHeading05$1 as expressiveHeading05, expressiveHeading06$1 as expressiveHeading06, expressiveParagraph01$1 as expressiveParagraph01, fluid, fontFamilies, fontFamily, fontWeight, fontWeights, getTypeSize, heading01$1 as heading01, heading02$1 as heading02, helperText01$1 as helperText01, helperText02$1 as helperText02, label01$1 as label01, label02$1 as label02, print, productiveHeading01$1 as productiveHeading01, productiveHeading02$1 as productiveHeading02, productiveHeading03$1 as productiveHeading03, productiveHeading04$1 as productiveHeading04, productiveHeading05$1 as productiveHeading05, productiveHeading06$1 as productiveHeading06, productiveHeading07$1 as productiveHeading07, quotation01$1 as quotation01, quotation02$1 as quotation02, reset, scale, styles, unstable_tokens };

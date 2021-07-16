@@ -21,32 +21,11 @@ export class Transitions extends Service {
 		name?: string,
 		animate?: boolean
 	): Transition<any, any, any, any> {
-		if (this.model.getOptions().animations === false || animate === false) {
-			return this.getInstantTransition(name);
-		}
-
-		const t: any = transition(name).duration(
-			Tools.getProperty(Configuration.transitions, name, 'duration') ||
-				Configuration.transitions.default.duration
-		);
-
-		this.pendingTransitions[t._id] = t;
-		t.on('end interrupt cancel', () => {
-			delete this.pendingTransitions[t._id];
-		});
-
-		return t;
+		return null;
 	}
 
 	getInstantTransition(name?: string): Transition<any, any, any, any> {
-		const t: any = transition(name).duration(0);
-
-		this.pendingTransitions[t._id] = t;
-		t.on('end interrupt cancel', () => {
-			delete this.pendingTransitions[t._id];
-		});
-
-		return t;
+		return null;
 	}
 
 	getPendingTransitions() {

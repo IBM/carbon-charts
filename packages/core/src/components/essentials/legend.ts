@@ -13,7 +13,7 @@ import {
 import * as Configuration from '../../configuration';
 
 // D3 Imports
-import { select, event } from 'd3-selection';
+import { select } from 'd3-selection';
 
 export class Legend extends Component {
 	type = 'legend';
@@ -464,7 +464,7 @@ export class Legend extends Component {
 				);
 			});
 
-		svg.selectAll('div.legend-item div.checkbox').on('keyup', function (d) {
+		svg.selectAll('div.legend-item div.checkbox').on('keyup', function (event, d) {
 			if (event.key && (event.key === 'Enter' || event.key === ' ')) {
 				event.preventDefault();
 
