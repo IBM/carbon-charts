@@ -1,3 +1,5 @@
+import { addZoomBarToOptions } from './zoom-bar';
+
 export const areaTimeSeriesData = [
 	{ group: 'Dataset 1', date: new Date(2019, 0, 1), value: 0 },
 	{ group: 'Dataset 1', date: new Date(2019, 0, 6), value: 57312 },
@@ -306,6 +308,50 @@ export const boundedAreaTimeSeriesOptions = {
 	},
 	curve: 'curveNatural',
 };
+
+export const boundedAreaTimeSeriesWithHighlightsOptions = {
+	title: 'Bounded area (time series - natural curve)',
+	legend: {
+		enabled: false,
+	},
+	bounds: {
+		upperBoundMapsTo: 'max',
+		lowerBoundMapsTo: 'min',
+	},
+	axes: {
+		bottom: {
+			title: '2019 Annual Sales Figures',
+			mapsTo: 'date',
+			scaleType: 'time',
+			highlights: {
+				highlightStartMapsTo: 'startHighlight',
+				highlightEndMapsTo: 'endHighlight',
+				labelMapsTo: 'label',
+				data: [
+					{
+						startHighlight: new Date(2019, 0, 7),
+						label: 'Custom formatter',
+						endHighlight: new Date(2019, 0, 8),
+					},
+					{
+						startHighlight: new Date(2019, 0, 13),
+						label: 'Custom formatter',
+						endHighlight: new Date(2019, 0, 14),
+					},
+				],
+			},
+		},
+		left: {
+			mapsTo: 'value',
+			scaleType: 'linear',
+		},
+	},
+	curve: 'curveNatural',
+};
+
+export const boundedAreaTimeSeriesWithHighlightsZoomOptions = addZoomBarToOptions(
+	Object.assign({}, boundedAreaTimeSeriesWithHighlightsOptions)
+);
 
 // area - empty state
 export const areaEmptyData = [];

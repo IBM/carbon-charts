@@ -9,6 +9,7 @@ export * from './essentials/title-meter';
 export * from './essentials/tooltip';
 export * from './essentials/tooltip-axis';
 export * from './essentials/canvas-chart-clip';
+export * from './essentials/highlights';
 
 // GRAPHS
 export * from './graphs/area';
